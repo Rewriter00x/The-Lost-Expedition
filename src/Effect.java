@@ -1,18 +1,20 @@
 public class Effect {
-    public Effect(int thing, boolean mode) {
+    public Effect(int thing, int mode) {
         this.thing=thing;
         this.mode=mode;
     }
 
     public void doEffect() {
-        if (mode) {
+        if (mode==0) {
             //Add effect
         }
-        else {
+        else if (mode==1){
             //Remove effect
+        }
+        else {
+            //Effect with cards
         }
     }
 
-    private int thing;
-    private boolean mode;
+    private int thing, mode;
 }
