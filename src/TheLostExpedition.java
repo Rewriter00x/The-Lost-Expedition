@@ -20,8 +20,22 @@ public class TheLostExpedition {
     }
 
     private static ArrayList<Card> makeCards() {
-        ArrayList<Card> endDeck = new ArrayList<>();
         // Making cards here
+        ArrayList<Card> endDeck = new ArrayList<>();
+        ArrayList<Effect> yellowEffects;
+        ArrayList<ArrayList<Effect>> redEffects,blueEffects;
+
+        // Card 1
+        yellowEffects=null;
+        redEffects=null;
+        blueEffects=null;
+        endDeck.add(new Card(1,yellowEffects,redEffects,blueEffects));
+
+        // Card 2
+        yellowEffects=null;
+        redEffects=null;
+        blueEffects=null;
+        endDeck.add(new Card(2,yellowEffects,redEffects,blueEffects));
 
         return endDeck;
     }

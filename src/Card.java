@@ -10,12 +10,17 @@ public class Card {
     }
 
     public void playCard() {
-        if (yellowEffects.size()>0) for (Effect e : yellowEffects) e.doEffect();
+        if (yellowEffects!=null) for (Effect e : yellowEffects) e.doEffect();
         int n=0;// get number of red line
-        if (redEffects.size()>0) for (Effect e: redEffects.get(0)) e.doEffect();
-        n=0; // get number of blue line (n==-1 is no blue effect)
-        if (n!=-1 && blueEffects.size()>0) for (Effect e: blueEffects.get(0)) e.doEffect();
+        if (redEffects!=null) for (Effect e: redEffects.get(0)) e.doEffect();
+        if (blueEffects!=null) {
+            n=0; // get number of blue line (n==-1 is no blue effect)
+            if (n!=-1) for (Effect e: blueEffects.get(0)) e.doEffect();
+        }
+
     }
+
+    public int getNumber() { return number; }
 
     private final int number;
     private final ArrayList<Effect> yellowEffects;
