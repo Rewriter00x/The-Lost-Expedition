@@ -25,4 +25,10 @@ public class Effect {
     private static final int FOOD = 2;
 
     private static final int AMMO = 3;
+
+    private static final int LEAF = 4;
+
+    private static final int TENT = 5;
+
+    private static final int COMPASS = 6;
 }
