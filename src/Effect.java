@@ -1,6 +1,6 @@
 public class Effect {
-    public Effect(int thing, int mode) {
-        this.thing=thing;
+    public Effect(int effect, int mode) {
+        this.effect=effect;
         this.mode=mode;
     }
 
@@ -16,5 +16,13 @@ public class Effect {
         }
     }
 
-    private int thing, mode;
+    private int effect, mode;
+
+    private static final int MOVE = 0;
+
+    private static final int HEALTH = 1;
+
+    private static final int FOOD = 2;
+
+    private static final int AMMO = 3;
 }
