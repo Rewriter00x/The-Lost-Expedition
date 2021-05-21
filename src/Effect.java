@@ -21,27 +21,31 @@ public class Effect {
     private int effect;
     private boolean mode;
 
-    private static final int KILL = -1;
+    public static final int KILL = -1;
 
-    private static final int MOVE = 0;
+    public static final int MOVE = 0;
 
-    private static final int HEALTH = 1;
+    public static final int HEALTH = 1;
 
-    private static final int FOOD = 2;
+    public static final int FOOD = 2;
 
-    private static final int AMMO = 3;
+    public static final int AMMO = 3;
 
-    private static final int LEAF = 4;
+    public static final int LEAF = 4;
 
-    private static final int TENT = 5;
+    public static final int TENT = 5;
 
-    private static final int COMPASS = 6;
+    public static final int COMPASS = 6;
 
-    private static final int SKIP = 7;
+    public static final int SKIP = 7;
 
-    private static final int SWAP = 8;
+    public static final int SWAP = 8;
 
-    private static final int REMOVE = 9;
+    public static final int REMOVE_CARD = 9;
 
-    private static final int ADD = 10;
+    public static final int ADD_CARD = 10;
+
+    public static final boolean ADD = true;
+
+    public static final boolean REMOVE = false;
 }
