@@ -34,7 +34,7 @@ public class Effect {
 
     public static final int FOOD = 2;
 
-    public static final int AMMO = 3;
+    public static final int BULLET = 3;
 
     public static final int LEAF = 4;
 
