@@ -27,7 +27,14 @@ public class TheLostExpedition {
 
         // Card 1
         yellowEffects=null;
-        redEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.COMPASS,Effect.ADD));
+        redEffects.get(0).add(new Effect(Effect.LEAF,Effect.ADD));
+        redEffects.get(0).add(new Effect(Effect.TENT,Effect.ADD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.BULLET,Effect.ADD));
+        redEffects.get(1).add(new Effect(Effect.BULLET,Effect.ADD));
         blueEffects=null;
         endDeck.add(new Card(1,yellowEffects,redEffects,blueEffects));
 
@@ -36,6 +43,30 @@ public class TheLostExpedition {
         redEffects=null;
         blueEffects=null;
         endDeck.add(new Card(2,yellowEffects,redEffects,blueEffects));
+
+        // Card 6
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(0).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(0).add(new Effect(Effect.SKIP_CARD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        redEffects.get(1).add(new Effect(Effect.LEAF,Effect.ADD));
+        blueEffects=null;
+        endDeck.add(new Card(6,yellowEffects,redEffects,blueEffects));
+
+        // Card 16
+        yellowEffects=new ArrayList<>();
+        yellowEffects.add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        yellowEffects.add(new Effect(Effect.SKIP_CARD));
+        redEffects=null;
+        blueEffects=new ArrayList<>();
+        blueEffects.add(new ArrayList<>());
+        blueEffects.get(0).add(new Effect(Effect.COMPASS,Effect.REMOVE));
+        blueEffects.get(0).add(new Effect(Effect.LEAF,Effect.ADD));
+        endDeck.add(new Card(16,yellowEffects,redEffects,blueEffects));
 
         return endDeck;
     }
