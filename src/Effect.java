@@ -1,11 +1,16 @@
 public class Effect {
+
+    public Effect(int effect) {
+        this.effect=effect;
+    }
+
     public Effect(int effect, boolean mode) {
         this.effect=effect;
         this.mode=mode;
     }
 
     public void doEffect() {
-        if (effect>0 && effect<7) {
+        if (effect>=1 && effect<=6) {
             if (mode) {
                 // Add effect
             }
@@ -37,9 +42,9 @@ public class Effect {
 
     public static final int COMPASS = 6;
 
-    public static final int SKIP = 7;
+    public static final int SKIP_CARD = 7;
 
-    public static final int SWAP = 8;
+    public static final int SWAP_CARD = 8;
 
     public static final int REMOVE_CARD = 9;
 
