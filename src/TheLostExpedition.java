@@ -68,6 +68,16 @@ public class TheLostExpedition {
         blueEffects.get(0).add(new Effect(Effect.LEAF,Effect.ADD));
         endDeck.add(new Card(16,yellowEffects,redEffects,blueEffects));
 
+        // Card 23
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.TENT,Effect.REMOVE));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        blueEffects=null;
+        endDeck.add(new Card(23,yellowEffects,redEffects,blueEffects));
+
         return endDeck;
     }
 
