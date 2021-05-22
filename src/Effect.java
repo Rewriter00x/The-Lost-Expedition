@@ -9,7 +9,7 @@ public class Effect {
         this.mode=mode;
     }
 
-    public Effect(Token token, boolean mode) {
+    public Effect(Token token, boolean mode) { // for tokens
         this.token=token;
         this.mode=mode;
     }
