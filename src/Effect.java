@@ -2,9 +2,9 @@ public class Effect {
 
     public Effect(int effect) {
         this.effect=effect;
-    }
+    } // Card actions move or die
 
-    public Effect(int effect, boolean mode) {
+    public Effect(int effect, boolean mode) { // effect 1 2 3
         this.effect=effect;
         this.mode=mode;
     }
