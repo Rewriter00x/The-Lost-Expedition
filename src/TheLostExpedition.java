@@ -62,6 +62,17 @@ public class TheLostExpedition {
         blueEffects=null;
         endDeck.add(new Card(6,yellowEffects,redEffects,blueEffects));
 
+        // Card 7
+        yellowEffects=new ArrayList<>();
+        tokens = new ArrayList<>();
+        tokens.add(Token.COMPASS);
+        yellowEffects.add(new Effect(new Token(tokens),Effect.REMOVE));
+        yellowEffects.add(new Effect(Effect.SWAP_CARD));
+        yellowEffects.add(new Effect(Effect.SKIP_CARD));
+        redEffects=null;
+        blueEffects=null;
+        endDeck.add(new Card(7,yellowEffects,redEffects,blueEffects));
+
         // Card 16
         yellowEffects=new ArrayList<>();
         yellowEffects.add(new Effect(Effect.HEALTH,Effect.REMOVE));
