@@ -9,22 +9,36 @@ public class Effect {
         this.mode=mode;
     }
 
+    public Effect(Token token, boolean mode) {
+        this.token=token;
+        this.mode=mode;
+    }
+
     public void doEffect() {
-        if (effect>=1 && effect<=6) {
-            if (mode) {
-                // Add effect
-            }
-            else {
-                // Remove effect
+        if (token==null) {
+            if (effect >= 1 && effect <= 3) {
+                if (mode) {
+                    // Add effect
+                } else {
+                    // Remove effect
+                }
+            } else {
+                // Effects with cards, move or die
             }
         }
         else {
-            // Effects with cards, move or die
+            if (mode) {
+                // Give token
+            }
+            else {
+                // Remove token
+            }
         }
     }
 
-    private int effect;
+    private int effect=-2;
     private boolean mode;
+    private Token token=null;
 
     public static final int KILL = -1;
 
@@ -36,19 +50,13 @@ public class Effect {
 
     public static final int BULLET = 3;
 
-    public static final int LEAF = 4;
+    public static final int SKIP_CARD = 4;
 
-    public static final int TENT = 5;
+    public static final int SWAP_CARD = 5;
 
-    public static final int COMPASS = 6;
+    public static final int REMOVE_CARD = 6;
 
-    public static final int SKIP_CARD = 7;
-
-    public static final int SWAP_CARD = 8;
-
-    public static final int REMOVE_CARD = 9;
-
-    public static final int ADD_CARD = 10;
+    public static final int ADD_CARD = 7;
 
     public static final boolean ADD = true;
 
