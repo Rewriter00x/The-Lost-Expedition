@@ -24,21 +24,24 @@ public class TheLostExpedition {
         ArrayList<Card> endDeck = new ArrayList<>();
         ArrayList<Effect> yellowEffects;
         ArrayList<ArrayList<Effect>> redEffects,blueEffects;
+        ArrayList<Integer> tokens;
 
         // Card 1
         yellowEffects=null;
         redEffects=new ArrayList<>();
         redEffects.add(new ArrayList<>());
-        redEffects.get(0).add(new Effect(Effect.COMPASS,Effect.ADD));
-        redEffects.get(0).add(new Effect(Effect.LEAF,Effect.ADD));
-        redEffects.get(0).add(new Effect(Effect.TENT,Effect.ADD));
+        tokens = new ArrayList<>();
+        tokens.add(Token.LEAF);
+        tokens.add(Token.TENT);
+        tokens.add(Token.COMPASS);
+        redEffects.get(0).add(new Effect(new Token(tokens),Effect.ADD));
         redEffects.add(new ArrayList<>());
         redEffects.get(1).add(new Effect(Effect.BULLET,Effect.ADD));
         redEffects.get(1).add(new Effect(Effect.BULLET,Effect.ADD));
         blueEffects=null;
         endDeck.add(new Card(1,yellowEffects,redEffects,blueEffects));
 
-        // Card 2
+        // Card 2 (example, add last)
         yellowEffects=null;
         redEffects=null;
         blueEffects=null;
@@ -53,7 +56,9 @@ public class TheLostExpedition {
         redEffects.get(0).add(new Effect(Effect.SKIP_CARD));
         redEffects.add(new ArrayList<>());
         redEffects.get(1).add(new Effect(Effect.BULLET,Effect.REMOVE));
-        redEffects.get(1).add(new Effect(Effect.LEAF,Effect.ADD));
+        tokens = new ArrayList<>();
+        tokens.add(Token.LEAF);
+        redEffects.get(1).add(new Effect(new Token(tokens),Effect.ADD));
         blueEffects=null;
         endDeck.add(new Card(6,yellowEffects,redEffects,blueEffects));
 
@@ -64,15 +69,21 @@ public class TheLostExpedition {
         redEffects=null;
         blueEffects=new ArrayList<>();
         blueEffects.add(new ArrayList<>());
-        blueEffects.get(0).add(new Effect(Effect.COMPASS,Effect.REMOVE));
-        blueEffects.get(0).add(new Effect(Effect.LEAF,Effect.ADD));
+        tokens = new ArrayList<>();
+        tokens.add(Token.COMPASS);
+        blueEffects.get(0).add(new Effect(new Token(tokens),Effect.REMOVE));
+        tokens = new ArrayList<>();
+        tokens.add(Token.LEAF);
+        blueEffects.get(0).add(new Effect(new Token(tokens),Effect.ADD));
         endDeck.add(new Card(16,yellowEffects,redEffects,blueEffects));
 
         // Card 23
         yellowEffects=null;
         redEffects=new ArrayList<>();
         redEffects.add(new ArrayList<>());
-        redEffects.get(0).add(new Effect(Effect.TENT,Effect.REMOVE));
+        tokens = new ArrayList<>();
+        tokens.add(Token.TENT);
+        redEffects.get(0).add(new Effect(new Token(tokens),Effect.REMOVE));
         redEffects.add(new ArrayList<>());
         redEffects.get(1).add(new Effect(Effect.HEALTH,Effect.REMOVE));
         blueEffects=null;
@@ -80,7 +91,9 @@ public class TheLostExpedition {
 
         // Card 26
         yellowEffects=new ArrayList<>();
-        yellowEffects.add(new Effect(Effect.TENT,Effect.REMOVE));
+        tokens = new ArrayList<>();
+        tokens.add(Token.TENT);
+        yellowEffects.add(new Effect(new Token(tokens),Effect.REMOVE));
         yellowEffects.add(new Effect(Effect.FOOD,Effect.REMOVE));
         yellowEffects.add(new Effect(Effect.SWAP_CARD));
         yellowEffects.add(new Effect(Effect.SKIP_CARD));
