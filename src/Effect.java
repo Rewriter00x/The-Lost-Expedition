@@ -14,7 +14,7 @@ public class Effect {
         this.mode=mode;
     }
 
-    public void doEffect() {
+    public void doEffect() { //TODO doing effects
         if (token==null) {
             if (effect >= 1 && effect <= 3) {
                 if (mode) {
