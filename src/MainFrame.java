@@ -50,6 +50,13 @@ public class MainFrame extends JFrame{
         HELP.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
         this.add(HELP);
 
+        EXIT.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/4-20,WIDTH/4,HEIGHT/8);
+        EXIT.setText("EXIT");
+        EXIT.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        EXIT.setBackground(new Color(130, 204, 217));
+        EXIT.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        this.add(EXIT);
+
         name.setBounds(WIDTH/2-WIDTH/4+10,20,WIDTH/2-20,HEIGHT/11);
         name.setText("THE LOST EXPEDITION");
         name.setOpaque(true);
@@ -98,12 +105,14 @@ public class MainFrame extends JFrame{
                 }
             }
         });
+      
     }
     protected JLabel name=new javax.swing.JLabel();
     protected JLabel authors=new javax.swing.JLabel();
     protected JButton SINGLE=new javax.swing.JButton();
     protected JButton MULTI=new javax.swing.JButton();
     protected JButton HELP=new javax.swing.JButton();
+    protected JButton EXIT=new javax.swing.JButton();
     private int WIDTH=750;
     private int HEIGHT=450;
 }
