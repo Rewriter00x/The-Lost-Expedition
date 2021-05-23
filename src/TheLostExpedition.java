@@ -41,11 +41,67 @@ public class TheLostExpedition {
         blueEffects=null;
         endDeck.add(new Card(1,yellowEffects,redEffects,blueEffects));
 
-        // Card 2 (example, add last)
+        /* Card 2 (example, add last)
         yellowEffects=null;
         redEffects=null;
         blueEffects=null;
+        endDeck.add(new Card(2,yellowEffects,redEffects,blueEffects));*/
+
+        //card 2
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        redEffects.get(0).add(new Effect(new Token(Token.TENT),Effect.ADD));
+        redEffects.get(0).add(new Effect(Effect.SWAP_CARD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(1).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(1).add(new Effect(Effect.MOVE));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(2).add(new Effect(Effect.KILL));
+        blueEffects=null;
         endDeck.add(new Card(2,yellowEffects,redEffects,blueEffects));
+
+        //card 3
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.FOOD,Effect.ADD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.SKIP_CARD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(2).add(new Effect(new Token(Token.COMPASS),Effect.ADD));
+        redEffects.get(2).add(new Effect(new Token(Token.LEAF),Effect.ADD));
+        blueEffects=null;
+        endDeck.add(new Card(3,yellowEffects,redEffects,blueEffects));
+
+        //card 4
+        yellowEffects=null;
+        redEffects=null;
+        blueEffects=new ArrayList<>();
+        blueEffects.add(new ArrayList<>());
+        blueEffects.get(0).add(new Effect(new Token(Token.TENT),Effect.REMOVE));
+        blueEffects.get(0).add(new Effect(Effect.FOOD,Effect.ADD));
+        blueEffects.get(0).add(new Effect(Effect.FOOD,Effect.ADD));
+        blueEffects.add(new ArrayList<>());
+        blueEffects.get(1).add(new Effect(new Token(Token.TENT),Effect.REMOVE));
+        blueEffects.get(1).add(new Effect(Effect.HEALTH,Effect.ADD));
+        endDeck.add(new Card(4,yellowEffects,redEffects,blueEffects));
+
+        //card 5
+        yellowEffects=new ArrayList<>();
+        yellowEffects.add(new Effect(Effect.ADD_CARD));
+        redEffects=null;
+        blueEffects=new ArrayList<>();
+        blueEffects.add(new ArrayList<>());
+        blueEffects.get(0).add(new Effect(new Token(Token.COMPASS),Effect.REMOVE));
+        blueEffects.get(0).add(new Effect(Effect.MOVE));
+        blueEffects.add(new ArrayList<>());
+        blueEffects.get(1).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        blueEffects.get(1).add(new Effect(Effect.FOOD,Effect.ADD));
+        endDeck.add(new Card(5,yellowEffects,redEffects,blueEffects));
+
 
         // Card 6
         yellowEffects=null;
@@ -68,6 +124,85 @@ public class TheLostExpedition {
         redEffects=null;
         blueEffects=null;
         endDeck.add(new Card(7,yellowEffects,redEffects,blueEffects));
+
+        //card 8
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.SKIP_CARD));
+        redEffects.get(0).add(new Effect(Effect.MOVE));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.FOOD,Effect.ADD));
+        redEffects.get(1).add(new Effect(Effect.FOOD,Effect.ADD));
+        redEffects.get(1).add(new Effect(Effect.FOOD,Effect.ADD));
+        blueEffects=null;
+        endDeck.add(new Card(8,yellowEffects,redEffects,blueEffects));
+
+        //card 9
+        yellowEffects=new ArrayList<>();
+        yellowEffects.add(new Effect(Effect.FOOD,Effect.ADD));
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(new Token(Token.TENT),Effect.REMOVE));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(1).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        blueEffects=null;
+        endDeck.add(new Card(9,yellowEffects,redEffects,blueEffects));
+
+        //card 10
+        yellowEffects=new ArrayList<>();
+        yellowEffects.add(new Effect(Effect.SKIP_CARD));
+        redEffects=null;
+        blueEffects=new ArrayList<>();
+        blueEffects.add(new ArrayList<>());
+        blueEffects.get(0).add(new Effect(new Token(Token.LEAF),Effect.REMOVE));
+        blueEffects.get(0).add(new Effect(Effect.HEALTH,Effect.ADD));
+        blueEffects.get(0).add(new Effect(Effect.HEALTH,Effect.ADD));
+        blueEffects.get(0).add(new Effect(Effect.ADD_CARD));
+        endDeck.add(new Card(10,yellowEffects,redEffects,blueEffects));
+
+        //card 11
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.MOVE));
+        redEffects.get(0).add(new Effect(Effect.ADD_CARD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(new Token(Token.LEAF),Effect.ADD));
+        redEffects.get(1).add(new Effect(new Token(Token.TENT),Effect.ADD));
+        blueEffects=null;
+        endDeck.add(new Card(11,yellowEffects,redEffects,blueEffects));
+
+        //card 12
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        redEffects.get(0).add(new Effect(Effect.FOOD,Effect.ADD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        redEffects.get(1).add(new Effect(new Token(Token.COMPASS),Effect.ADD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        blueEffects=null;
+        endDeck.add(new Card(12,yellowEffects,redEffects,blueEffects));
+
+        //card 13
+        yellowEffects=null;
+        redEffects=new ArrayList<>();
+        redEffects.add(new ArrayList<>());
+        redEffects.get(0).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        redEffects.get(0).add(new Effect(Effect.FOOD,Effect.ADD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(1).add(new Effect(Effect.BULLET,Effect.REMOVE));
+        redEffects.get(1).add(new Effect(new Token(Token.COMPASS),Effect.ADD));
+        redEffects.add(new ArrayList<>());
+        redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        blueEffects=null;
+        endDeck.add(new Card(13,yellowEffects,redEffects,blueEffects));
 
         // Card 16
         yellowEffects=new ArrayList<>();
