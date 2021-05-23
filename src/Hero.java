@@ -1,7 +1,8 @@
 public class Hero {
-    public Hero(int EXPERIENCE,int HP){
+    public Hero(int EXPERIENCE,String NAME){
         this.EXPERIENCE=EXPERIENCE;
-        this.HP=HP;
+        this.NAME=NAME;
+        this.HP=4;
     }
     public boolean isAlive(){
         if (HP!=0) return true;
@@ -27,6 +28,7 @@ public class Hero {
 
     public int getEXPERIENCE(){return EXPERIENCE;}
     public int getHP(){return HP;}
+    private final String NAME;
     private final int EXPERIENCE;
     private int HP;
 }

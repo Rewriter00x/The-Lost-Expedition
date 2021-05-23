@@ -97,7 +97,24 @@ public class TheLostExpedition {
 
         return endDeck;
     }
+    private static ArrayList<Hero> makeHeroes() {
+        ArrayList<Hero> heroes =new ArrayList<>();
 
+        Hero YNES = new Hero(1,"YNES");
+        heroes.add(YNES);
+        Hero ROY = new Hero(1,"ROY");
+        heroes.add(ROY);
+        Hero BESSIE = new Hero(2,"BESSIE");
+        heroes.add(BESSIE);
+        Hero TEDDY = new Hero(2,"TEDDY");
+        heroes.add(TEDDY);
+        Hero CANDIDO = new Hero (3,"CANDIDO");
+        heroes.add(CANDIDO);
+        Hero ISABELLE = new Hero(3,"ISABELLE");
+        heroes.add(ISABELLE);
+
+        return heroes;
+    }
     private static ArrayList<Card> deck;
 
     private static final ArrayList<Card> allCards = makeCards();

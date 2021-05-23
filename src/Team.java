@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 public class Team {
-    public Team(int FOOD,Hero one,Hero two,Hero three){
-        this.FOOD =FOOD;
+    public Team(Hero one,Hero two,Hero three){
         this.TEAM=new ArrayList<>();
         TEAM.add(one);TEAM.add(two);TEAM.add(three);
-        this.BULLETS = 4;
+        this.FOOD =4;
+        this.BULLETS = 3;
     }
     public void addFood(int n){
         FOOD=FOOD+n;
