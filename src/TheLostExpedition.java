@@ -200,7 +200,8 @@ public class TheLostExpedition {
         redEffects.get(1).add(new Effect(new Token(Token.COMPASS),Effect.ADD));
         redEffects.add(new ArrayList<>());
         redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.REMOVE));
-        redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.REMOVE));
+        redEffects.get(2).add(new Effect(Effect.HEALTH,Effect.
+                REMOVE));
         blueEffects=null;
         endDeck.add(new Card(13,yellowEffects,redEffects,blueEffects));
 
