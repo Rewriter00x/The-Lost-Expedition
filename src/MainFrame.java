@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 public class MainFrame extends JFrame{
     public MainFrame(){
         super();
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(WIDTH, HEIGHT);
         try {
             BufferedImage img = ImageIO.read(new File("background.png"));
@@ -59,10 +60,11 @@ public class MainFrame extends JFrame{
 
         authors.setBounds(WIDTH/2-WIDTH/4,HEIGHT-60,WIDTH/2,HEIGHT/18);
         authors.setText("by Burliai Danylo and Khoroshun Oleksandra");
-       authors.setOpaque(true);
+        authors.setOpaque(true);
         authors.setBackground(new Color(3, 87, 30));
         authors.setForeground(new Color(245, 205, 76));
         authors.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        authors.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(authors);
 
         this.setTitle("The Lost Expedition");
