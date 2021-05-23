@@ -4,7 +4,7 @@ public class Team {
     public Team(Hero one,Hero two,Hero three){
         this.TEAM=new ArrayList<>();
         TEAM.add(one);TEAM.add(two);TEAM.add(three);
-        this.FOOD =4;
+        this.FOOD = 3;
         this.BULLETS = 3;
     }
     public void addFood(int n){
