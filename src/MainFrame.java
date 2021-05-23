@@ -108,7 +108,7 @@ public class MainFrame extends JFrame{
         EXIT.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==EXIT) {
-                    dispose();
+                    System.exit(0);
                 }
             }
         });
