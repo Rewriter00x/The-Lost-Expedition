@@ -56,6 +56,7 @@ public class MainFrame extends JFrame{
         name.setBackground(new Color(3, 87, 30));
         name.setForeground(new Color(245, 205, 76));
         name.setFont(new Font("OCR A Extended", Font.PLAIN, 30));
+        name.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(name);
 
         authors.setBounds(WIDTH/2-WIDTH/4,HEIGHT-60,WIDTH/2,HEIGHT/18);
