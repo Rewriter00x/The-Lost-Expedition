@@ -2,8 +2,19 @@ import java.util.ArrayList;
 
 public class Token {
 
-    public Token(ArrayList<Integer> tokens) {
-        this.tokens=tokens;
+    public Token(int token) {
+        tokens.add(token);
+    }
+
+    public Token(int token1, int token2) {
+        tokens.add(token1);
+        tokens.add(token2);
+    }
+
+    public Token(int token1, int token2, int token3) {
+        tokens.add(token1);
+        tokens.add(token2);
+        tokens.add(token3);
     }
 
     public boolean checkToken(int n) {
@@ -11,7 +22,7 @@ public class Token {
         return false;
     }
 
-    private ArrayList<Integer> tokens;
+    private ArrayList<Integer> tokens = new ArrayList<>();
 
     public static final int LEAF = 1;
 
