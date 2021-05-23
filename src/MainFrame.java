@@ -105,6 +105,13 @@ public class MainFrame extends JFrame{
                 }
             }
         });
+        EXIT.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                if(ae.getSource()==EXIT) {
+                    dispose();
+                }
+            }
+        });
       
     }
     protected JLabel name=new javax.swing.JLabel();
