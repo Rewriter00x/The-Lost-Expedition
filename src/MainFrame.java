@@ -99,7 +99,7 @@ public class MainFrame extends JFrame{
                             File myFile = new File( "rules.pdf");
                             Desktop.getDesktop().open(myFile);
                         } catch (IOException ex) {
-
+                            new AnnounceDialog(MainFrame.this,true,"Error","File \"rules.pdf\" not found").setVisible(true);
                         }
                     }
                 }
@@ -108,7 +108,7 @@ public class MainFrame extends JFrame{
         EXIT.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==EXIT) {
-                    dispose();
+                    System.exit(0);
                 }
             }
         });
