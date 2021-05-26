@@ -1,12 +1,16 @@
-import java.util.ArrayList;
+import javax.imageio.*;
+import java.awt.image.*;
+import java.io.*;
+import java.util.*;
 
 public class Card {
 
-    public Card(int number, ArrayList<Effect> yellowEffects, ArrayList<ArrayList<Effect>> redEffects, ArrayList<ArrayList<Effect>> blueEffects) {
+    public Card(int number, ArrayList<Effect> yellowEffects, ArrayList<ArrayList<Effect>> redEffects, ArrayList<ArrayList<Effect>> blueEffects) throws IOException {
         this.number=number;
         this.yellowEffects=yellowEffects;
         this.redEffects=redEffects;
         this.blueEffects=blueEffects;
+        cardImage = ImageIO.read(new File("Cards/card"+number+".png"));
     }
 
     public void playCard() {
@@ -24,4 +28,5 @@ public class Card {
     private final int number;
     private final ArrayList<Effect> yellowEffects;
     private final ArrayList<ArrayList<Effect>> redEffects,blueEffects;
+    private final BufferedImage cardImage;
 }

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Team {
     public Team(Hero one,Hero two,Hero three){
