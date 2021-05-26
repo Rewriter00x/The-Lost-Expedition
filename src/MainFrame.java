@@ -1,11 +1,9 @@
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
 
 import javax.swing.BorderFactory;
 
@@ -15,6 +13,7 @@ public class MainFrame extends JFrame{
         super();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(WIDTH, HEIGHT);
+
         try {
             BufferedImage img = ImageIO.read(new File("background.png"));
             this.setContentPane(new JLabel(new ImageIcon(img)));
@@ -28,34 +27,6 @@ public class MainFrame extends JFrame{
             new AnnounceDialog(MainFrame.this,true,"Error","File \"glass.png\" not found").setVisible(true);
         }
         this.getContentPane().setLayout(null);
-
-        SINGLE.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-2*(HEIGHT/8)-20,WIDTH/4,HEIGHT/8);
-        SINGLE.setText("SINGLEPLAYER");
-        SINGLE.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
-        SINGLE.setBackground(new Color(130, 204, 217));
-        SINGLE.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
-        this.add(SINGLE);
-
-        MULTI.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
-        MULTI.setText("MULTIPLAYER");
-        MULTI.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
-        MULTI.setBackground(new Color(130, 204, 217));
-        MULTI.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
-        this.add(MULTI);
-
-        HELP.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+20,WIDTH/4,HEIGHT/8);
-        HELP.setText("HELP");
-        HELP.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
-        HELP.setBackground(new Color(130, 204, 217));
-        HELP.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
-        this.add(HELP);
-
-        EXIT.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/4-20,WIDTH/4,HEIGHT/8);
-        EXIT.setText("EXIT");
-        EXIT.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
-        EXIT.setBackground(new Color(130, 204, 217));
-        EXIT.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
-        this.add(EXIT);
 
         name.setBounds(WIDTH/2-WIDTH/4+10,20,WIDTH/2-20,HEIGHT/11);
         name.setText("THE LOST EXPEDITION");
@@ -75,19 +46,67 @@ public class MainFrame extends JFrame{
         authors.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(authors);
 
+        PANEL = MAINPANEL();
+        this.add(PANEL);
+
         this.setTitle("The Lost Expedition");
+
+    }
+    public JPanel MAINPANEL(){
+        PANEL = new JPanel();
+        PANEL.setSize(WIDTH,HEIGHT);
+        PANEL.setLayout(null);
+        PANEL.setOpaque(false);
+
+        SINGLE.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-2*(HEIGHT/8)-20,WIDTH/4,HEIGHT/8);
+        SINGLE.setText("SINGLEPLAYER");
+        SINGLE.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        SINGLE.setBackground(new Color(130, 204, 217));
+        SINGLE.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(SINGLE);
+
+        MULTI.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
+        MULTI.setText("MULTIPLAYER");
+        MULTI.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        MULTI.setBackground(new Color(130, 204, 217));
+        MULTI.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(MULTI);
+
+        HELP.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+20,WIDTH/4,HEIGHT/8);
+        HELP.setText("HELP");
+        HELP.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        HELP.setBackground(new Color(130, 204, 217));
+        HELP.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(HELP);
+
+        EXIT.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/4-20,WIDTH/4,HEIGHT/8);
+        EXIT.setText("EXIT");
+        EXIT.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        EXIT.setBackground(new Color(130, 204, 217));
+        EXIT.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(EXIT);
 
         SINGLE.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==SINGLE) {
+                    MainFrame.this.remove(PANEL);
+                    PANEL = MODEPANEL();
+                    MainFrame.this.add(PANEL);
 
+                    MainFrame.this.revalidate();
+                    MainFrame.this.repaint();
                 }
             }
         });
         MULTI.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==MULTI) {
+                    MainFrame.this.remove(PANEL);
+                    PANEL = MODEPANEL();
+                    MainFrame.this.add(PANEL);
 
+                    MainFrame.this.revalidate();
+                    MainFrame.this.repaint();
                 }
             }
         });
@@ -112,14 +131,56 @@ public class MainFrame extends JFrame{
                 }
             }
         });
-      
+
+        return PANEL;
+
     }
+
+    public JPanel MODEPANEL(){
+        PANEL = new JPanel();
+        PANEL.setSize(WIDTH,HEIGHT);
+        PANEL.setLayout(null);
+        PANEL.setOpaque(false);
+
+        EASY.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
+        EASY.setText("EASY");
+        EASY.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        EASY.setBackground(new Color(130, 204, 217));
+        EASY.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(EASY);
+
+        MEDIUM.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+10,WIDTH/4,HEIGHT/8);
+        MEDIUM.setText("MEDIUM");
+        MEDIUM.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        MEDIUM.setBackground(new Color(130, 204, 217));
+        MEDIUM.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(MEDIUM);
+
+        HARD.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/8+20,WIDTH/4,HEIGHT/8);
+        HARD.setText("HARD");
+        HARD.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        HARD.setBackground(new Color(130, 204, 217));
+        HARD.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        PANEL.add(HARD);
+
+        BACK.setBounds(5,5,30,20);
+        BACK.setText("<-");
+        PANEL.add(BACK);
+        return PANEL;
+
+    }
+
     protected JLabel name=new javax.swing.JLabel();
     protected JLabel authors=new javax.swing.JLabel();
     protected JButton SINGLE=new javax.swing.JButton();
     protected JButton MULTI=new javax.swing.JButton();
     protected JButton HELP=new javax.swing.JButton();
     protected JButton EXIT=new javax.swing.JButton();
+    protected JPanel PANEL;
+    protected JButton EASY=new javax.swing.JButton();
+    protected JButton MEDIUM=new javax.swing.JButton();
+    protected JButton HARD=new javax.swing.JButton();
+    protected JButton BACK=new javax.swing.JButton();
     private final int WIDTH=750;
     private final int HEIGHT=450;
 }
