@@ -17,7 +17,6 @@ public class Card {
             n=0; // get number of blue line (n==-1 is no blue effect)
             if (n!=-1) for (Effect e: blueEffects.get(0)) e.doEffect();
         }
-
     }
 
     public int getNumber() { return number; }
