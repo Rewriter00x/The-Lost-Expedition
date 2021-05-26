@@ -31,4 +31,8 @@ public class Hero {
     private final String NAME;
     private final int EXPERIENCE;
     private int HP;
+
+    public static final int LEAF = 1;
+    public static final int TENT = 2;
+    public static final int COMPASS = 3;
 }
