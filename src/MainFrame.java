@@ -142,30 +142,68 @@ public class MainFrame extends JFrame{
         PANEL.setLayout(null);
         PANEL.setOpaque(false);
 
-        EASY.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
+        EASY.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-2*(HEIGHT/8)-20,WIDTH/4,HEIGHT/8);
         EASY.setText("EASY");
         EASY.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         EASY.setBackground(new Color(130, 204, 217));
         EASY.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
         PANEL.add(EASY);
 
-        MEDIUM.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+10,WIDTH/4,HEIGHT/8);
+        MEDIUM.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
         MEDIUM.setText("MEDIUM");
         MEDIUM.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         MEDIUM.setBackground(new Color(130, 204, 217));
         MEDIUM.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
         PANEL.add(MEDIUM);
 
-        HARD.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/8+20,WIDTH/4,HEIGHT/8);
+        HARD.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+20,WIDTH/4,HEIGHT/8);
         HARD.setText("HARD");
         HARD.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         HARD.setBackground(new Color(130, 204, 217));
         HARD.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
         PANEL.add(HARD);
 
-        BACK.setBounds(5,5,30,20);
-        BACK.setText("<-");
+        BACK.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/4-20,WIDTH/4,HEIGHT/8);
+        BACK.setText("BACK");
+        BACK.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
+        BACK.setBackground(new Color(130, 204, 217));
+        BACK.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
         PANEL.add(BACK);
+
+        EASY.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                if(ae.getSource()==EASY) {
+
+                }
+            }
+        });
+        MEDIUM.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                if(ae.getSource()==MEDIUM) {
+
+                }
+            }
+        });
+        HARD.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                if(ae.getSource()==HARD) {
+
+                }
+            }
+        });
+        BACK.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                if(ae.getSource()==BACK) {
+                    MainFrame.this.remove(PANEL);
+                    PANEL = MAINPANEL();
+                    MainFrame.this.add(PANEL);
+
+                    MainFrame.this.revalidate();
+                    MainFrame.this.repaint();
+                }
+            }
+        });
+
         return PANEL;
 
     }
