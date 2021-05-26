@@ -19,13 +19,13 @@ public class MainFrame extends JFrame{
             BufferedImage img = ImageIO.read(new File("background.png"));
             this.setContentPane(new JLabel(new ImageIcon(img)));
         } catch (IOException e) {
-            e.printStackTrace();
+            new AnnounceDialog(MainFrame.this,true,"Error","File \"background.png\" not found").setVisible(true);
         }
         try {
             BufferedImage img = ImageIO.read(new File("glass.png"));
             this.setIconImage(img);
         } catch (IOException e) {
-            e.printStackTrace();
+            new AnnounceDialog(MainFrame.this,true,"Error","File \"glass.png\" not found").setVisible(true);
         }
         this.getContentPane().setLayout(null);
 
