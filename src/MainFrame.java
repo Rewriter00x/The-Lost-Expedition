@@ -120,6 +120,6 @@ public class MainFrame extends JFrame{
     protected JButton MULTI=new javax.swing.JButton();
     protected JButton HELP=new javax.swing.JButton();
     protected JButton EXIT=new javax.swing.JButton();
-    private int WIDTH=750;
-    private int HEIGHT=450;
+    private final int WIDTH=750;
+    private final int HEIGHT=450;
 }
