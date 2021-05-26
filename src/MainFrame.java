@@ -19,13 +19,13 @@ public class MainFrame extends JFrame{
             BufferedImage img = ImageIO.read(new File("background.png"));
             this.setContentPane(new JLabel(new ImageIcon(img)));
         } catch (IOException e) {
-            e.printStackTrace();
+            new AnnounceDialog(MainFrame.this,true,"Error","File \"background.png\" not found").setVisible(true);
         }
         try {
             BufferedImage img = ImageIO.read(new File("glass.png"));
             this.setIconImage(img);
         } catch (IOException e) {
-            e.printStackTrace();
+            new AnnounceDialog(MainFrame.this,true,"Error","File \"glass.png\" not found").setVisible(true);
         }
         this.getContentPane().setLayout(null);
 
@@ -120,6 +120,6 @@ public class MainFrame extends JFrame{
     protected JButton MULTI=new javax.swing.JButton();
     protected JButton HELP=new javax.swing.JButton();
     protected JButton EXIT=new javax.swing.JButton();
-    private int WIDTH=750;
-    private int HEIGHT=450;
+    private final int WIDTH=750;
+    private final int HEIGHT=450;
 }
