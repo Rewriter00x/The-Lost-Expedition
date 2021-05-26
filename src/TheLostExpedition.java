@@ -243,11 +243,13 @@ public class TheLostExpedition {
         yellowEffects.add(new Effect(Effect.HEALTH,Effect.REMOVE));
         yellowEffects.add(new Effect(Effect.ADD_CARD));
         yellowEffects.add(new Effect(Effect.SKIP_CARD));
+        redEffects = new ArrayList<>();
         redEffects.add(new ArrayList<>());
         redEffects.get(0).add(new Effect(Effect.HEALTH,Effect.REMOVE));
         redEffects.add(new ArrayList<>());
         redEffects.get(1).add(new Effect(new Token(Token.LEAF),Effect.REMOVE));
         redEffects.get(1).add(new Effect(new Token(Token.LEAF),Effect.REMOVE));
+        blueEffects=null;
         endDeck.add(new Card(17,yellowEffects,redEffects,blueEffects));
 
         // Card 18
