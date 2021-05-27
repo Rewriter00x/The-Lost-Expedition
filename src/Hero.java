@@ -26,7 +26,7 @@ public class Hero {
     }
     public void die(){HP=0;}
 
-    public void setMaxHP(int maxHP) {this.maxHP=maxHP;}
+    public static void setMaxHP(int maxHP) {Hero.maxHP =maxHP;}
 
     public int getEXPERIENCE(){return EXPERIENCE;}
     public int getHP(){return HP;}
