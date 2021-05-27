@@ -29,7 +29,7 @@ public class Team {
     public int getBullets(){return BULLETS;}
     public int getFood(){return FOOD;}
 
-    public Hero getHero(int n) {return TEAM.get(0);}
+    public Hero getHero(int n) {return TEAM.get(n);}
 
     private int BULLETS;
     private int FOOD;
