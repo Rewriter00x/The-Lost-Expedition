@@ -29,6 +29,8 @@ public class Team {
     public int getBullets(){return BULLETS;}
     public int getFood(){return FOOD;}
 
+    public Hero getHero(int n) {return TEAM.get(0);}
+
     private int BULLETS;
     private int FOOD;
     private final ArrayList<Hero> TEAM;
