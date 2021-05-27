@@ -1,14 +1,74 @@
+import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.*;
 
 public class GameFrame extends JFrame {
     public GameFrame(int mode, int difficulty) {
         super();
         fillCards();
+        if (difficulty==3) Hero.setMaxHP(3);
+        team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));
         setSize(width,height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
+        panel.setSize(width,height);
+        panel.setLayout(null);
+        add(panel);
+
+        int heroCardWidth = 150;
+        int heroCardHeight = 225;
+
+        heroLeafImage=null;
+        try {
+            heroLeafImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Heroes/"+team.getHero(0).getNAME()+".png")).getScaledInstance(heroCardWidth,heroCardHeight, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        heroLeafImage.setBounds(0,0,heroCardWidth,heroCardHeight);
+        panel.add(heroLeafImage);
+
+        heroLeafHP = new JLabel(team.getHero(0).getHP()+"/"+((difficulty==3)?3:4));
+        heroLeafHP.setFont(new Font("Arial",Font.PLAIN,30));
+        heroLeafHP.setBounds(0,heroLeafImage.getHeight(),45,30);
+        heroLeafHP.setOpaque(true);
+        heroLeafHP.setBackground(new Color(3, 87, 30));
+        heroLeafHP.setForeground(new Color(245, 205, 76));
+        panel.add(heroLeafHP);
+
+        heroTentImage=null;
+        try {
+            heroTentImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Heroes/"+team.getHero(1).getNAME()+".png")).getScaledInstance(heroCardWidth,heroCardHeight, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        heroTentImage.setBounds(heroLeafImage.getWidth()+20,0,heroCardWidth,heroCardHeight);
+        panel.add(heroTentImage);
+
+        heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+((difficulty==3)?3:4));
+        heroTentHP.setFont(new Font("Arial",Font.PLAIN,30));
+        heroTentHP.setBounds(heroLeafImage.getWidth()+20,heroLeafImage.getHeight(),45,30);
+        heroTentHP.setOpaque(true);
+        heroTentHP.setBackground(new Color(3, 87, 30));
+        heroTentHP.setForeground(new Color(245, 205, 76));
+        panel.add(heroTentHP);
+
+        heroCompassImage=null;
+        try {
+            heroCompassImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Heroes/"+team.getHero(2).getNAME()+".png")).getScaledInstance(heroCardWidth,heroCardHeight, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        heroCompassImage.setBounds(0,heroLeafImage.getHeight()+50,heroCardWidth,heroCardHeight);
+        panel.add(heroCompassImage);
+
+        heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+((difficulty==3)?3:4));
+        heroCompassHP.setFont(new Font("Arial",Font.PLAIN,30));
+        heroCompassHP.setBounds(0,heroLeafImage.getHeight()*2+50,45,30);
+        heroCompassHP.setOpaque(true);
+        heroCompassHP.setBackground(new Color(3, 87, 30));
+        heroCompassHP.setForeground(new Color(245, 205, 76));
+        panel.add(heroCompassHP);
     }
 
     private void fillCards() {
@@ -431,17 +491,17 @@ public class GameFrame extends JFrame {
     private ArrayList<Hero> makeHeroes() {
         ArrayList<Hero> heroes =new ArrayList<>();
 
-        Hero YNES = new Hero(Hero.LEAF,"YNES");
+        Hero YNES = new Hero(Hero.LEAF,"ynes");
         heroes.add(YNES);
-        Hero ROY = new Hero(Hero.LEAF,"ROY");
+        Hero ROY = new Hero(Hero.LEAF,"roy");
         heroes.add(ROY);
-        Hero BESSIE = new Hero(Hero.TENT,"BESSIE");
+        Hero BESSIE = new Hero(Hero.TENT,"bessie");
         heroes.add(BESSIE);
-        Hero TEDDY = new Hero(Hero.TENT,"TEDDY");
+        Hero TEDDY = new Hero(Hero.TENT,"teddy");
         heroes.add(TEDDY);
-        Hero CANDIDO = new Hero (Hero.COMPASS,"CANDIDO");
+        Hero CANDIDO = new Hero (Hero.COMPASS,"candido");
         heroes.add(CANDIDO);
-        Hero ISABELLE = new Hero(Hero.COMPASS,"ISABELLE");
+        Hero ISABELLE = new Hero(Hero.COMPASS,"isabelle");
         heroes.add(ISABELLE);
 
         return heroes;
@@ -452,7 +512,13 @@ public class GameFrame extends JFrame {
 
     private final Random rand = new Random();
 
-    private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+    private final int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
-    private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private final int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+    private JPanel panel = new JPanel();
+
+    private Team team;
+
+    private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP;
 }
