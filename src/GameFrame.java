@@ -520,5 +520,6 @@ public class GameFrame extends JFrame {
 
     private Team team;
 
-    private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP;
+    private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP,
+            foodImage,foodLabel,bulletImage,bulletLabel,hpLabel;
 }
