@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 
-import javax.swing.BorderFactory;
-
 
 public class MainFrame extends JFrame{
     public MainFrame(){
@@ -89,6 +87,7 @@ public class MainFrame extends JFrame{
         SINGLE.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==SINGLE) {
+                    mode = 1;
                     MainFrame.this.remove(PANEL);
                     PANEL = MODEPANEL();
                     MainFrame.this.add(PANEL);
@@ -101,6 +100,7 @@ public class MainFrame extends JFrame{
         MULTI.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==MULTI) {
+                    mode = 2;
                     MainFrame.this.remove(PANEL);
                     PANEL = MODEPANEL();
                     MainFrame.this.add(PANEL);
@@ -173,21 +173,24 @@ public class MainFrame extends JFrame{
         EASY.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==EASY) {
-
+                    new GameFrame(mode,1).setVisible(true);
+                    dispose();
                 }
             }
         });
         MEDIUM.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==MEDIUM) {
-
+                    new GameFrame(mode,2).setVisible(true);
+                    dispose();
                 }
             }
         });
         HARD.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==HARD) {
-
+                    new GameFrame(mode,3).setVisible(true);
+                    //dispose();
                 }
             }
         });
@@ -221,4 +224,6 @@ public class MainFrame extends JFrame{
     protected JButton BACK=new javax.swing.JButton();
     private final int WIDTH=750;
     private final int HEIGHT=450;
+
+    private int mode=0;
 }
