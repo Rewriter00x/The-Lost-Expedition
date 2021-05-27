@@ -12,16 +12,16 @@ public class Hero {
         if (HP==4) return true;
         return false;
     }
-    public void heal(int n){
+    public void heal(){
         if(isAlive()) {
-            int x = HP + n;
-            if (x <= 4) HP = HP + n;
+            int x = HP+1;
+            if (x <= 4) HP++;
             else HP = 4;
         }
     }
-    public void damage(int n){
-        int x =HP-n;
-        if(x>=0) HP=HP-n;
+    public void damage(){
+        int x =HP-1;
+        if(x>=0) HP--;
         else HP=0;
     }
     public void die(){HP=0;}
