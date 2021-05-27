@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 import java.util.*;
 
 public class GameFrame extends JFrame {
@@ -17,7 +16,7 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        ArrayList<Card> tempDeck = allCards, endDeck = new ArrayList<>();
+        ArrayList<Card> tempDeck = (ArrayList<Card>) allCards.clone(), endDeck = new ArrayList<>();
         int n;
         for (int i = 0; i<allCards.size(); i++) {
             n = rand.nextInt(allCards.size()-i);
