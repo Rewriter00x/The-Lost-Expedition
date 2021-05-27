@@ -30,6 +30,8 @@ public class Hero {
 
     public int getEXPERIENCE(){return EXPERIENCE;}
     public int getHP(){return HP;}
+    private String getNAME() {return NAME;}
+
     private final String NAME;
     private final int EXPERIENCE;
     private int HP;
