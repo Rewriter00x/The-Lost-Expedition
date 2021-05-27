@@ -24,6 +24,10 @@ public class Card {
 
     public int getNumber() { return number; }
 
+    public String toString() {
+        return "Card "+number;
+    }
+
     private final int number;
     private final ArrayList<Effect> yellowEffects;
     private final ArrayList<ArrayList<Effect>> redEffects,blueEffects;
