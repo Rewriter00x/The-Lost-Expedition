@@ -190,7 +190,7 @@ public class MainFrame extends JFrame{
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==HARD) {
                     new GameFrame(mode,3).setVisible(true);
-                    //dispose();
+                    dispose();
                 }
             }
         });
