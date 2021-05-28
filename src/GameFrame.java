@@ -16,8 +16,11 @@ public class GameFrame extends JFrame {
         panel.setLayout(null);
         add(panel);
 
-        int heroCardWidth = 150;
-        int heroCardHeight = 225;
+        System.out.println(width);
+        System.out.println(height);
+
+        int heroCardHeight = height/4;
+        int heroCardWidth = heroCardHeight*2/3;
 
         heroLeafImage=null;
         try {
@@ -28,7 +31,7 @@ public class GameFrame extends JFrame {
         heroLeafImage.setBounds(0,0,heroCardWidth,heroCardHeight);
         panel.add(heroLeafImage);
 
-        heroLeafHP = new JLabel(team.getHero(0).getHP()+"/"+((difficulty==3)?3:4));
+        heroLeafHP = new JLabel(team.getHero(0).getHP()+"/"+Hero.getMaxHP());
         heroLeafHP.setFont(new Font("Arial",Font.PLAIN,30));
         heroLeafHP.setBounds(0,heroLeafImage.getHeight(),45,30);
         heroLeafHP.setOpaque(true);
@@ -45,7 +48,7 @@ public class GameFrame extends JFrame {
         heroTentImage.setBounds(heroLeafImage.getWidth()+20,0,heroCardWidth,heroCardHeight);
         panel.add(heroTentImage);
 
-        heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+((difficulty==3)?3:4));
+        heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+Hero.getMaxHP());
         heroTentHP.setFont(new Font("Arial",Font.PLAIN,30));
         heroTentHP.setBounds(heroLeafImage.getWidth()+20,heroLeafImage.getHeight(),45,30);
         heroTentHP.setOpaque(true);
@@ -62,13 +65,25 @@ public class GameFrame extends JFrame {
         heroCompassImage.setBounds(0,heroLeafImage.getHeight()+50,heroCardWidth,heroCardHeight);
         panel.add(heroCompassImage);
 
-        heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+((difficulty==3)?3:4));
+        heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+Hero.getMaxHP());
         heroCompassHP.setFont(new Font("Arial",Font.PLAIN,30));
-        heroCompassHP.setBounds(0,heroLeafImage.getHeight()*2+50,45,30);
+        heroCompassHP.setBounds(0,heroCardHeight*2+50,45,30);
         heroCompassHP.setOpaque(true);
         heroCompassHP.setBackground(new Color(3, 87, 30));
         heroCompassHP.setForeground(new Color(245, 205, 76));
         panel.add(heroCompassHP);
+
+
+
+        //-------------------------
+
+        cardsPanel.setBounds((heroCardWidth+20)*2,0,width-(heroCardWidth+20)*4,height);
+        cardsPanel.setLayout(null);
+        JButton t = new JButton("123");
+        t.setBounds(heroCardWidth*2,0,width-(heroCardWidth+20)*4,height);
+        cardsPanel.add(t);
+
+        panel.add(cardsPanel);
     }
 
     private void fillCards() {
@@ -484,7 +499,7 @@ public class GameFrame extends JFrame {
         yellowEffects = null;
         redEffects = null;
         blueEffects = null;
-        //endDeck.add(new Card(0, yellowEffects, redEffects, blueEffects));
+        endDeck.add(new Card(0, yellowEffects, redEffects, blueEffects));
 
         return endDeck;
     }
@@ -516,7 +531,7 @@ public class GameFrame extends JFrame {
 
     private final int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-    private JPanel panel = new JPanel();
+    private JPanel panel = new JPanel(),cardsPanel=new JPanel();
 
     private Team team;
 
