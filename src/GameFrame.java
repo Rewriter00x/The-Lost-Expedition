@@ -16,9 +16,6 @@ public class GameFrame extends JFrame {
         panel.setLayout(null);
         add(panel);
 
-        System.out.println(width);
-        System.out.println(height);
-
         int heroCardHeight = height/4;
         int heroCardWidth = heroCardHeight*2/3;
 
@@ -33,7 +30,7 @@ public class GameFrame extends JFrame {
 
         heroLeafHP = new JLabel(team.getHero(0).getHP()+"/"+Hero.getMaxHP());
         heroLeafHP.setFont(new Font("Arial",Font.PLAIN,30));
-        heroLeafHP.setBounds(0,heroLeafImage.getHeight(),45,30);
+        heroLeafHP.setBounds(0,heroCardHeight,45,30);
         heroLeafHP.setOpaque(true);
         heroLeafHP.setBackground(new Color(3, 87, 30));
         heroLeafHP.setForeground(new Color(245, 205, 76));
@@ -45,12 +42,12 @@ public class GameFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        heroTentImage.setBounds(heroLeafImage.getWidth()+20,0,heroCardWidth,heroCardHeight);
+        heroTentImage.setBounds(heroCardWidth+20,0,heroCardWidth,heroCardHeight);
         panel.add(heroTentImage);
 
         heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+Hero.getMaxHP());
         heroTentHP.setFont(new Font("Arial",Font.PLAIN,30));
-        heroTentHP.setBounds(heroLeafImage.getWidth()+20,heroLeafImage.getHeight(),45,30);
+        heroTentHP.setBounds(heroCardWidth+20,heroCardHeight,45,30);
         heroTentHP.setOpaque(true);
         heroTentHP.setBackground(new Color(3, 87, 30));
         heroTentHP.setForeground(new Color(245, 205, 76));
@@ -62,7 +59,7 @@ public class GameFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        heroCompassImage.setBounds(0,heroLeafImage.getHeight()+50,heroCardWidth,heroCardHeight);
+        heroCompassImage.setBounds(0,heroCardHeight+50,heroCardWidth,heroCardHeight);
         panel.add(heroCompassImage);
 
         heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+Hero.getMaxHP());
@@ -79,10 +76,6 @@ public class GameFrame extends JFrame {
 
         cardsPanel.setBounds((heroCardWidth+20)*2,0,width-(heroCardWidth+20)*4,height);
         cardsPanel.setLayout(null);
-        JButton t = new JButton("123");
-        t.setBounds(heroCardWidth*2,0,width-(heroCardWidth+20)*4,height);
-        cardsPanel.add(t);
-
         panel.add(cardsPanel);
     }
 
