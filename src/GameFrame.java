@@ -1,12 +1,19 @@
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
 public class GameFrame extends JFrame {
     public GameFrame(int mode, int difficulty) {
         super();
+        try {
+            Image img = ImageIO.read(new File("jungle.png")).getScaledInstance(width,height, Image.SCALE_SMOOTH);
+            this.setContentPane(new JLabel(new ImageIcon(img)));
+        } catch (IOException e) {
+            new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+        }
         fillCards();
         if (difficulty==3) Hero.setMaxHP(3);
         team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));
@@ -14,10 +21,13 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel.setSize(width,height);
         panel.setLayout(null);
+        panel.setOpaque(false);
         add(panel);
 
         int heroCardHeight = height/4;
         int heroCardWidth = heroCardHeight*2/3;
+
+        int fontSize=20;
 
         heroLeafImage=null;
         try {
@@ -28,13 +38,24 @@ public class GameFrame extends JFrame {
         heroLeafImage.setBounds(0,0,heroCardWidth,heroCardHeight);
         panel.add(heroLeafImage);
 
-        heroLeafHP = new JLabel(team.getHero(0).getHP()+"/"+Hero.getMaxHP());
-        heroLeafHP.setFont(new Font("Arial",Font.PLAIN,30));
-        heroLeafHP.setBounds(0,heroCardHeight,45,30);
+        int smallTokenSize=40;
+
+        heroLeafHP = new JLabel(":"+team.getHero(0).getHP()+"/"+Hero.getMaxHP());
+        heroLeafHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
+        heroLeafHP.setBounds(smallTokenSize+20,heroCardHeight+10,fontSize*2,fontSize);
         heroLeafHP.setOpaque(true);
         heroLeafHP.setBackground(new Color(3, 87, 30));
         heroLeafHP.setForeground(new Color(245, 205, 76));
         panel.add(heroLeafHP);
+
+        try {
+            hpImage1 = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/health.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        hpImage1.setBounds(10,heroCardHeight,smallTokenSize,smallTokenSize);
+        panel.add(hpImage1);
 
         heroTentImage=null;
         try {
@@ -45,13 +66,22 @@ public class GameFrame extends JFrame {
         heroTentImage.setBounds(heroCardWidth+20,0,heroCardWidth,heroCardHeight);
         panel.add(heroTentImage);
 
-        heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+Hero.getMaxHP());
-        heroTentHP.setFont(new Font("Arial",Font.PLAIN,30));
-        heroTentHP.setBounds(heroCardWidth+20,heroCardHeight,45,30);
+        heroTentHP = new JLabel(":"+team.getHero(1).getHP()+"/"+Hero.getMaxHP());
+        heroTentHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
+        heroTentHP.setBounds(heroCardWidth+smallTokenSize+20,heroCardHeight+10,fontSize*2,fontSize);
         heroTentHP.setOpaque(true);
         heroTentHP.setBackground(new Color(3, 87, 30));
         heroTentHP.setForeground(new Color(245, 205, 76));
         panel.add(heroTentHP);
+
+        try {
+            hpImage2 = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/health.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        hpImage2.setBounds(heroCardWidth+10,heroCardHeight,smallTokenSize,smallTokenSize);
+        panel.add(hpImage2);
 
         heroCompassImage=null;
         try {
@@ -62,13 +92,73 @@ public class GameFrame extends JFrame {
         heroCompassImage.setBounds(0,heroCardHeight+50,heroCardWidth,heroCardHeight);
         panel.add(heroCompassImage);
 
-        heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+Hero.getMaxHP());
-        heroCompassHP.setFont(new Font("Arial",Font.PLAIN,30));
-        heroCompassHP.setBounds(0,heroCardHeight*2+50,45,30);
+        heroCompassHP = new JLabel(":"+team.getHero(2).getHP()+"/"+Hero.getMaxHP());
+        heroCompassHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
+        heroCompassHP.setBounds(smallTokenSize+20,heroCardHeight*2+60,fontSize*2,fontSize);
         heroCompassHP.setOpaque(true);
         heroCompassHP.setBackground(new Color(3, 87, 30));
         heroCompassHP.setForeground(new Color(245, 205, 76));
         panel.add(heroCompassHP);
+
+        try {
+            hpImage3 = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/health.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        hpImage3.setBounds(10,heroCardHeight*2+50,smallTokenSize,smallTokenSize);
+        panel.add(hpImage3);
+
+        smallTokenSize=60;
+
+        try {
+            foodImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/food.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        foodImage.setBounds(heroCardWidth*3/2-smallTokenSize*2/3,heroCardHeight*3/2-smallTokenSize/2,smallTokenSize,smallTokenSize);
+        panel.add(foodImage);
+
+        foodLabel = new JLabel(": "+team.getFood()+"/"+"3");
+        foodLabel.setFont(new Font("Arial",Font.PLAIN,fontSize));
+        foodLabel.setBounds(heroCardWidth*3/2+smallTokenSize*1/3,heroCardHeight*3/2-10,fontSize*2,fontSize);
+        foodLabel.setOpaque(true);
+        foodLabel.setBackground(new Color(3, 87, 30));
+        foodLabel.setForeground(new Color(245, 205, 76));
+        panel.add(foodLabel);
+
+        try {
+            bulletImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/bullet.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        bulletImage.setBounds(heroCardWidth*3/2-smallTokenSize*2/3,heroCardHeight*3/2+smallTokenSize,smallTokenSize,smallTokenSize);
+        panel.add(bulletImage);
+
+        bulletLabel = new JLabel(": "+team.getBullets()+"/"+"3");
+        bulletLabel.setFont(new Font("Arial",Font.PLAIN,fontSize));
+        bulletLabel.setBounds(heroCardWidth*3/2+smallTokenSize*1/3,heroCardHeight*3/2+smallTokenSize+20,fontSize*2,fontSize);
+        bulletLabel.setOpaque(true);
+        bulletLabel.setBackground(new Color(3, 87, 30));
+        bulletLabel.setForeground(new Color(245, 205, 76));
+        panel.add(bulletLabel);
+
+        int bigTokenSize=80;
+        try {
+            morningImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/morning.png")).getScaledInstance(bigTokenSize,bigTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        morningImage.setBounds(bigTokenSize/2,heroCardHeight*2+bigTokenSize+10,bigTokenSize,bigTokenSize);
+        panel.add(morningImage);
+
+        try {
+            leaderImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/leader.png")).getScaledInstance(bigTokenSize,bigTokenSize, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        leaderImage.setBounds(bigTokenSize*2+bigTokenSize/2,heroCardHeight*2+bigTokenSize+10,bigTokenSize,bigTokenSize);
+        panel.add(leaderImage);
 
 
 
@@ -514,6 +604,7 @@ public class GameFrame extends JFrame {
 
         return heroes;
     }
+
     private ArrayList<Card> deck;
 
     private final ArrayList<Card> allCards = makeCards();
@@ -529,5 +620,5 @@ public class GameFrame extends JFrame {
     private Team team;
 
     private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP,
-            foodImage,foodLabel,bulletImage,bulletLabel,hpLabel;
+            foodImage,foodLabel,bulletImage,bulletLabel,hpImage1,hpImage2,hpImage3,leaderImage,morningImage;
 }
