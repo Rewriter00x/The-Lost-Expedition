@@ -163,6 +163,17 @@ public class GameFrame extends JFrame {
 
         //-------------------------
 
+        cardsPanel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("table.png")).getScaledInstance(cardsPanel.getWidth(),cardsPanel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
         cardsPanel.setBounds((heroCardWidth+20)*2,0,width-(heroCardWidth+20)*4,height);
         cardsPanel.setLayout(null);
         panel.add(cardsPanel);
@@ -178,7 +189,7 @@ public class GameFrame extends JFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                path.setBounds(pathCardWidth*(i+1), 0, pathCardWidth, pathCardHeight);
+                path.setBounds((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*(i+1), 0, pathCardWidth, pathCardHeight);
                 cardsPanel.add(path);
             }
         }
@@ -189,7 +200,7 @@ public class GameFrame extends JFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                path.setBounds(pathCardWidth*i, 0, pathCardWidth, pathCardHeight);
+                path.setBounds((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*i, 0, pathCardWidth, pathCardHeight);
                 cardsPanel.add(path);
             }
         }
@@ -641,7 +652,7 @@ public class GameFrame extends JFrame {
 
     private final int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-    private JPanel panel = new JPanel(),cardsPanel=new JPanel();
+    private JPanel panel = new JPanel(),cardsPanel;
 
     private Team team;
 
