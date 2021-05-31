@@ -39,7 +39,7 @@ public class GameFrame extends JFrame {
 
         int smallTokenSize=40;
 
-        heroLeafHP = new JLabel(":"+team.getHero(0).getHP()+"/"+Hero.getMaxHP());
+        heroLeafHP = new JLabel(team.getHero(0).getHP()+"/"+Hero.getMaxHP());
         heroLeafHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
         heroLeafHP.setBounds(smallTokenSize+20,heroCardHeight+10,fontSize*2,fontSize);
         heroLeafHP.setOpaque(true);
@@ -65,7 +65,7 @@ public class GameFrame extends JFrame {
         heroTentImage.setBounds(heroCardWidth+20,0,heroCardWidth,heroCardHeight);
         panel.add(heroTentImage);
 
-        heroTentHP = new JLabel(":"+team.getHero(1).getHP()+"/"+Hero.getMaxHP());
+        heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+Hero.getMaxHP());
         heroTentHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
         heroTentHP.setBounds(heroCardWidth+smallTokenSize+20,heroCardHeight+10,fontSize*2,fontSize);
         heroTentHP.setOpaque(true);
@@ -91,7 +91,7 @@ public class GameFrame extends JFrame {
         heroCompassImage.setBounds(0,heroCardHeight+50,heroCardWidth,heroCardHeight);
         panel.add(heroCompassImage);
 
-        heroCompassHP = new JLabel(":"+team.getHero(2).getHP()+"/"+Hero.getMaxHP());
+        heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+Hero.getMaxHP());
         heroCompassHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
         heroCompassHP.setBounds(smallTokenSize+20,heroCardHeight*2+60,fontSize*2,fontSize);
         heroCompassHP.setOpaque(true);
@@ -118,9 +118,9 @@ public class GameFrame extends JFrame {
         foodImage.setBounds(heroCardWidth*3/2-smallTokenSize*2/3,heroCardHeight*3/2-smallTokenSize/2,smallTokenSize,smallTokenSize);
         panel.add(foodImage);
 
-        foodLabel = new JLabel(": "+team.getFood()+"/"+"3");
+        foodLabel = new JLabel(team.getFood()+"");
         foodLabel.setFont(new Font("Arial",Font.PLAIN,fontSize));
-        foodLabel.setBounds(heroCardWidth*3/2+smallTokenSize*1/3,heroCardHeight*3/2-10,fontSize*2,fontSize);
+        foodLabel.setBounds(heroCardWidth*3/2+smallTokenSize*1/3,heroCardHeight*3/2-10,fontSize,fontSize);
         foodLabel.setOpaque(true);
         foodLabel.setBackground(new Color(3, 87, 30));
         foodLabel.setForeground(new Color(245, 205, 76));
@@ -134,9 +134,9 @@ public class GameFrame extends JFrame {
         bulletImage.setBounds(heroCardWidth*3/2-smallTokenSize*2/3,heroCardHeight*3/2+smallTokenSize,smallTokenSize,smallTokenSize);
         panel.add(bulletImage);
 
-        bulletLabel = new JLabel(": "+team.getBullets()+"/"+"3");
+        bulletLabel = new JLabel(team.getBullets()+"");
         bulletLabel.setFont(new Font("Arial",Font.PLAIN,fontSize));
-        bulletLabel.setBounds(heroCardWidth*3/2+smallTokenSize*1/3,heroCardHeight*3/2+smallTokenSize+20,fontSize*2,fontSize);
+        bulletLabel.setBounds(heroCardWidth*3/2+smallTokenSize*1/3,heroCardHeight*3/2+smallTokenSize+20,fontSize,fontSize);
         bulletLabel.setOpaque(true);
         bulletLabel.setBackground(new Color(3, 87, 30));
         bulletLabel.setForeground(new Color(245, 205, 76));
