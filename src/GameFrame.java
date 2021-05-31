@@ -189,7 +189,7 @@ public class GameFrame extends JFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                path.setBounds((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*(i+1), 0, pathCardWidth, pathCardHeight);
+                path.setBounds((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*(i+1), 5, pathCardWidth, pathCardHeight);
                 cardsPanel.add(path);
             }
         }
@@ -200,7 +200,7 @@ public class GameFrame extends JFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                path.setBounds((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*i, 0, pathCardWidth, pathCardHeight);
+                path.setBounds((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*i, 5, pathCardWidth, pathCardHeight);
                 cardsPanel.add(path);
             }
         }
