@@ -1,12 +1,11 @@
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
 public class GameFrame extends JFrame {
-    public GameFrame(int mode, int difficulty) {
+    public GameFrame(int difficulty) {
         super();
         try {
             Image img = ImageIO.read(new File("jungle.png")).getScaledInstance(width,height, Image.SCALE_SMOOTH);
@@ -167,6 +166,33 @@ public class GameFrame extends JFrame {
         cardsPanel.setBounds((heroCardWidth+20)*2,0,width-(heroCardWidth+20)*4,height);
         cardsPanel.setLayout(null);
         panel.add(cardsPanel);
+
+        int pathCardWidth = cardsPanel.getWidth()/9;
+        int pathCardHeight = pathCardWidth*3/2;
+        JLabel path = null;
+        if (difficulty==1) {
+            for (int i = 0; i < 7; i++) {
+                try {
+                    if (i!=6) path = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Path/path" + (i+1) + ".png")).getScaledInstance(pathCardWidth, pathCardHeight, Image.SCALE_SMOOTH)));
+                    else path = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Path/path9.png")).getScaledInstance(pathCardWidth, pathCardHeight, Image.SCALE_SMOOTH)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                path.setBounds(pathCardWidth*(i+1), 0, pathCardWidth, pathCardHeight);
+                cardsPanel.add(path);
+            }
+        }
+        else {
+            for (int i = 0; i < 9; i++) {
+                try {
+                    path = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Path/path" + (i+1) + ".png")).getScaledInstance(pathCardWidth, pathCardHeight, Image.SCALE_SMOOTH)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                path.setBounds(pathCardWidth*i, 0, pathCardWidth, pathCardHeight);
+                cardsPanel.add(path);
+            }
+        }
     }
 
     private void fillCards() {

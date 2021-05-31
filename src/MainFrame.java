@@ -173,7 +173,12 @@ public class MainFrame extends JFrame{
         EASY.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==EASY) {
-                    new GameFrame(mode,1).setVisible(true);
+                    if (mode==1) {
+                        new GameFrame(1).setVisible(true);
+                    }
+                    else {
+                        new GameFrameMultiplayer(1).setVisible(true);
+                    }
                     dispose();
                 }
             }
@@ -181,7 +186,12 @@ public class MainFrame extends JFrame{
         MEDIUM.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==MEDIUM) {
-                    new GameFrame(mode,2).setVisible(true);
+                    if (mode==1) {
+                        new GameFrame(2).setVisible(true);
+                    }
+                    else {
+                        new GameFrameMultiplayer(2).setVisible(true);
+                    }
                     dispose();
                 }
             }
@@ -189,7 +199,12 @@ public class MainFrame extends JFrame{
         HARD.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 if(ae.getSource()==HARD) {
-                    new GameFrame(mode,3).setVisible(true);
+                    if (mode==1) {
+                        new GameFrame(3).setVisible(true);
+                    }
+                    else {
+                        new GameFrameMultiplayer(3).setVisible(true);
+                    }
                     dispose();
                 }
             }
