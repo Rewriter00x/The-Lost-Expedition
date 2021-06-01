@@ -245,7 +245,7 @@ public class GameFrame extends JFrame {
             }
         };
         eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
-        panel.setOpaque(false);
+        eventPanel.setLayout(null);
         panel.add(eventPanel);
     }
 
