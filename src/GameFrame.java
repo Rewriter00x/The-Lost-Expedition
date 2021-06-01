@@ -15,6 +15,7 @@ public class GameFrame extends JFrame {
         }
         fillCards();
         if (difficulty==3) Hero.setMaxHP(3);
+        if (difficulty==1) pathLength=7;
         team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));
         setSize(width,height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -225,11 +226,10 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        ArrayList<Card> tempDeck = (ArrayList<Card>) allCards.clone(), endDeck = new ArrayList<>();
-        int n;
-        for (int i = 0; i<allCards.size(); i++) {
-            n = rand.nextInt(allCards.size()-i);
-            endDeck.add(tempDeck.remove(n));
+        ArrayList<Card> endDeck = new ArrayList<>();
+        while (playable.size()>0) {
+            int n = rand.nextInt(playable.size());
+            endDeck.add(playable.remove(n));
         }
         return endDeck;
     }
@@ -697,18 +697,6 @@ public class GameFrame extends JFrame {
         blueEffects = null;
         endDeck.add(new Card(35, yellowEffects, redEffects, blueEffects));
 
-        // Card 35
-        yellowEffects = new ArrayList<>();
-        yellowEffects.add(new Effect(Effect.SKIP_CARD));
-        yellowEffects.add(new Effect(Effect.SKIP_CARD));
-        redEffects = new ArrayList<>();
-        redEffects.add(new ArrayList<>());
-        redEffects.get(0).add(new Effect(Effect.HEALTH, Effect.REMOVE));
-        redEffects.add(new ArrayList<>());
-        redEffects.get(1).add(new Effect(new Token(Token.TENT), Effect.REMOVE));
-        blueEffects = null;
-        endDeck.add(new Card(35, yellowEffects, redEffects, blueEffects));
-
         // Card 36
         yellowEffects = new ArrayList<>();
         yellowEffects.add(new Effect(new Token(Token.COMPASS), Effect.REMOVE));
@@ -973,13 +961,6 @@ public class GameFrame extends JFrame {
         blueEffects = null;
         endDeck.add(new Card(56, yellowEffects, redEffects, blueEffects));
 
-        // Example
-        // Card
-        yellowEffects = null;
-        redEffects = null;
-        blueEffects = null;
-        endDeck.add(new Card(0, yellowEffects, redEffects, blueEffects));
-
         return endDeck;
     }
     private ArrayList<Hero> makeHeroes() {
@@ -1001,11 +982,18 @@ public class GameFrame extends JFrame {
         return heroes;
     }
 
+
     private int experience =0;//the number of experience tokens
 
     private ArrayList<Card> deck;
 
+    private boolean day = true;
+
+    private int pathLength = 9;
+    
     private final ArrayList<Card> allCards = makeCards();
+
+    private ArrayList<Card> hand,path,playable=(ArrayList<Card>)allCards.clone();
 
     private final Random rand = new Random();
 
