@@ -214,7 +214,10 @@ public class GameFrame extends JFrame {
     }
 
     private void drawHand() {
-         if (handLabels.size()>0) for (JLabel card : handLabels) cardsPanel.remove(card);
+         if (handLabels.size()>0) {
+             for (JLabel card : handLabels) cardsPanel.remove(card);
+             handLabels = new ArrayList<>();
+         }
          for (int i = 0; i<hand.size(); i++) {
              JLabel card = null;
              try {
