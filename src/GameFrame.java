@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class GameFrame extends JFrame {
     public GameFrame(int difficulty) {
@@ -205,10 +206,42 @@ public class GameFrame extends JFrame {
                 cardsPanel.add(path);
             }
         }
+
+        handCardWidth = cardsPanel.getWidth()/6;
+        handCardHeight = handCardWidth*3/2;
+        fillHand();
+        drawHand();
+    }
+
+    private void drawHand() {
+         if (handLabels.size()>0) for (JLabel card : handLabels) cardsPanel.remove(card);
+         for (int i = 0; i<hand.size(); i++) {
+             JLabel card = null;
+             try {
+                 card = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/card" + hand.get(i).getNumber() + ".png")).getScaledInstance(handCardWidth,handCardHeight, Image.SCALE_SMOOTH)));
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+             card.setBounds((cardsPanel.getWidth()-(handCardWidth*hand.size()))/2+i*handCardWidth,cardsPanel.getHeight()-handCardHeight*7/5,handCardWidth,handCardHeight);
+             cardsPanel.add(card);
+             handLabels.add(card);
+         }
+    }
+
+    private void fillHand() {
+        hand = new ArrayList<>();
+        if (deck.size()<6) fillDeck();
+        for (int i = 0; i<6; i++) hand.add(deck.remove(0));
+        sortCards(hand);
     }
 
     private void fillCards() {
         deck = fillDeck();
+    }
+
+    private void sortCards(ArrayList<Card> cards) {
+        int n = cards.size();
+        for (int i = 0; i<n-1;i++) for (int j = 0; j < n-i-1; j++) if (cards.get(j).getNumber() > cards.get(j+1).getNumber()) Collections.swap(cards,j,j+1);
     }
 
     private ArrayList<Card> fillDeck() {
@@ -972,6 +1005,8 @@ public class GameFrame extends JFrame {
 
     private int pathLength = 9;
 
+    private int handCardWidth, handCardHeight;
+
     private final ArrayList<Card> allCards = makeCards();
 
     private ArrayList<Card> deck,hand,path,playable=(ArrayList<Card>)allCards.clone();
@@ -988,4 +1023,6 @@ public class GameFrame extends JFrame {
 
     private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP,
             foodImage,foodLabel,bulletImage,bulletLabel,hpImage1,hpImage2,hpImage3,leaderImage,morningImage;
+
+    private ArrayList<JLabel> handLabels = new ArrayList<>(),roadLabels;
 }
