@@ -144,8 +144,12 @@ public class GameFrame extends JFrame {
         panel.add(bulletLabel);
 
         int bigTokenSize=80;
+        String s;
+        if(day) s = "Cards/Tokens/morning.png";
+            else s = "Cards/Tokens/evening.png";
         try {
-            morningImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/morning.png")).getScaledInstance(bigTokenSize,bigTokenSize, Image.SCALE_SMOOTH)));
+                morningImage = new JLabel(new ImageIcon(ImageIO.read(new File(s)).getScaledInstance(bigTokenSize,bigTokenSize, Image.SCALE_SMOOTH)));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,7 +163,6 @@ public class GameFrame extends JFrame {
         }
         leaderImage.setBounds(bigTokenSize*2+bigTokenSize/2,heroCardHeight*2+bigTokenSize+10,bigTokenSize,bigTokenSize);
         panel.add(leaderImage);
-
 
         //-------------------------
 
@@ -204,21 +207,47 @@ public class GameFrame extends JFrame {
                 cardsPanel.add(path);
             }
         }
-        addExpCard("Cards/card1.png",this);
-    }
 
-    private void addExpCard(String path,GameFrame p){
-        experience++;
-        int expWidth = (p.getWidth()- cardsPanel.getWidth())/(2*experience);
-        if(expWidth>height/6 || experience ==0) expWidth=height/6;
-        try {
-           JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth,expWidth*3/2, Image.SCALE_SMOOTH)));
-           card.setBounds(expWidth*(experience-1),(p.getHeight()-(p.getHeight()-(height/4)*2+90)/2)-expWidth*3/2,expWidth,expWidth*3/2);
-           card.setLayout(null);
-           panel.add(card);
-        } catch (IOException e) {
-            e.printStackTrace();
+        expPanel = new JPanel();
+        expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 190));
+        expPanel.setLayout(null);
+        expPanel.setOpaque(false);
+        panel.add(expPanel);
+
+        addExpCard("Cards/card1.png");
+        addExpCard("Cards/card2.png");
+        addExpCard("Cards/card4.png");
+       // removeExpCard("Cards/card1.png");
+      // addExpCard("Cards/card3.png");
+
+    }
+    private void addExpCard(String path){
+        expCards.add(path);
+        drawExpCard();
+    }
+    private void removeExpCard(String path){
+        for(int i=0;i<expCards.size();i++){
+            if(expCards.get(i).equals(path)) expCards.remove(i);
         }
+        drawExpCard();
+    }
+    private void drawExpCard(){
+        expPanel.removeAll();
+        int expWidth = (this.getWidth()- cardsPanel.getWidth())/(2*expCards.size());
+        int expHeight=expWidth*3/2;
+        if(expHeight>this.getHeight()-(height/2+210)){ expHeight=this.getHeight()-(height/2+210);expWidth=expHeight*2/3;}
+        for(int i=0;i<expCards.size();i++){
+            String path=expCards.get(i);
+            try {
+                JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth, expHeight, Image.SCALE_SMOOTH)));
+               card.setBounds(expWidth * (i - 1), 0, expWidth, expHeight);
+                expPanel.add(card);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        expPanel.revalidate();
+        expPanel.repaint();
 
     }
     private void fillCards() {
@@ -983,11 +1012,9 @@ public class GameFrame extends JFrame {
     }
 
 
-    private int experience =0;//the number of experience tokens
-
     private ArrayList<Card> deck;
 
-    private boolean day = true;
+    private boolean day = false;
 
     private int pathLength = 9;
     
@@ -995,13 +1022,15 @@ public class GameFrame extends JFrame {
 
     private ArrayList<Card> hand,path,playable=(ArrayList<Card>)allCards.clone();
 
+    private ArrayList<String> expCards= new ArrayList<>();
+
     private final Random rand = new Random();
 
     private final int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
     private final int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-    private JPanel panel = new JPanel(),cardsPanel;
+    private JPanel panel = new JPanel(),cardsPanel,expPanel;
 
     private Team team;
 
