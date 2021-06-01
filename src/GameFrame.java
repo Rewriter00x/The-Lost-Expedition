@@ -256,9 +256,9 @@ public class GameFrame extends JFrame {
         eventPanel.setLayout(null);
         panel.add(eventPanel);
 
-        addExpCard("Cards/card1.png");
-        addExpCard("Cards/card2.png");
-        addExpCard("Cards/card1.png");
+        //addExpCard("Cards/card1.png");
+        //addExpCard("Cards/card2.png");
+        //addExpCard("Cards/card1.png");
         // removeExpCard("Cards/card1.png");
         // addExpCard("Cards/card3.png");
 
@@ -1106,7 +1106,7 @@ public class GameFrame extends JFrame {
 
     private final Random rand = new Random();
 
-    private boolean day = false;
+    private boolean day = true;
 
     private int pathLength = 9;
 
