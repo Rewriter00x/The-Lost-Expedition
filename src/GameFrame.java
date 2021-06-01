@@ -160,7 +160,6 @@ public class GameFrame extends JFrame {
         panel.add(leaderImage);
 
 
-
         //-------------------------
 
         cardsPanel = new JPanel(){
@@ -204,8 +203,23 @@ public class GameFrame extends JFrame {
                 cardsPanel.add(path);
             }
         }
+        addExpCard("Cards/card1.png",this);
     }
 
+    private void addExpCard(String path,GameFrame p){
+        experience++;
+        int expWidth = (p.getWidth()- cardsPanel.getWidth())/(2*experience);
+        if(expWidth>height/6 || experience ==0) expWidth=height/6;
+        try {
+           JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth,expWidth*3/2, Image.SCALE_SMOOTH)));
+           card.setBounds(expWidth*(experience-1),(p.getHeight()-(p.getHeight()-(height/4)*2+90)/2)-expWidth*3/2,expWidth,expWidth*3/2);
+           card.setLayout(null);
+           panel.add(card);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     private void fillCards() {
         deck = fillDeck();
     }
@@ -986,6 +1000,8 @@ public class GameFrame extends JFrame {
 
         return heroes;
     }
+
+    private int experience =0;//the number of experience tokens
 
     private ArrayList<Card> deck;
 
