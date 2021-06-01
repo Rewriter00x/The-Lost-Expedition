@@ -26,6 +26,20 @@ public class GameFrame extends JFrame {
         int heroCardHeight = height/4;
         int heroCardWidth = heroCardHeight*2/3;
 
+        statsPanel = new JPanel(){
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        statsPanel.setBounds(0,0,(heroCardWidth+20)*2,height);
+        statsPanel.setLayout(null);
+        panel.add(statsPanel);
+
         int fontSize=20;
 
         heroLeafImage=null;
@@ -35,7 +49,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         heroLeafImage.setBounds(0,0,heroCardWidth,heroCardHeight);
-        panel.add(heroLeafImage);
+        statsPanel.add(heroLeafImage);
 
         int smallTokenSize=40;
 
@@ -45,7 +59,7 @@ public class GameFrame extends JFrame {
         heroLeafHP.setOpaque(true);
         heroLeafHP.setBackground(new Color(3, 87, 30));
         heroLeafHP.setForeground(new Color(245, 205, 76));
-        panel.add(heroLeafHP);
+        statsPanel.add(heroLeafHP);
 
         try {
             hpImage1 = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/health.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
@@ -54,7 +68,7 @@ public class GameFrame extends JFrame {
         }
 
         hpImage1.setBounds(10,heroCardHeight,smallTokenSize,smallTokenSize);
-        panel.add(hpImage1);
+        statsPanel.add(hpImage1);
 
         heroTentImage=null;
         try {
@@ -63,7 +77,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         heroTentImage.setBounds(heroCardWidth+20,0,heroCardWidth,heroCardHeight);
-        panel.add(heroTentImage);
+        statsPanel.add(heroTentImage);
 
         heroTentHP = new JLabel(team.getHero(1).getHP()+"/"+Hero.getMaxHP());
         heroTentHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
@@ -71,7 +85,7 @@ public class GameFrame extends JFrame {
         heroTentHP.setOpaque(true);
         heroTentHP.setBackground(new Color(3, 87, 30));
         heroTentHP.setForeground(new Color(245, 205, 76));
-        panel.add(heroTentHP);
+        statsPanel.add(heroTentHP);
 
         try {
             hpImage2 = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/health.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
@@ -80,7 +94,7 @@ public class GameFrame extends JFrame {
         }
 
         hpImage2.setBounds(heroCardWidth+10,heroCardHeight,smallTokenSize,smallTokenSize);
-        panel.add(hpImage2);
+        statsPanel.add(hpImage2);
 
         heroCompassImage=null;
         try {
@@ -89,7 +103,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         heroCompassImage.setBounds(0,heroCardHeight+50,heroCardWidth,heroCardHeight);
-        panel.add(heroCompassImage);
+        statsPanel.add(heroCompassImage);
 
         heroCompassHP = new JLabel(team.getHero(2).getHP()+"/"+Hero.getMaxHP());
         heroCompassHP.setFont(new Font("Arial",Font.PLAIN,fontSize));
@@ -97,7 +111,7 @@ public class GameFrame extends JFrame {
         heroCompassHP.setOpaque(true);
         heroCompassHP.setBackground(new Color(3, 87, 30));
         heroCompassHP.setForeground(new Color(245, 205, 76));
-        panel.add(heroCompassHP);
+        statsPanel.add(heroCompassHP);
 
         try {
             hpImage3 = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/health.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
@@ -106,7 +120,7 @@ public class GameFrame extends JFrame {
         }
 
         hpImage3.setBounds(10,heroCardHeight*2+50,smallTokenSize,smallTokenSize);
-        panel.add(hpImage3);
+        statsPanel.add(hpImage3);
 
         smallTokenSize=60;
 
@@ -116,7 +130,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         foodImage.setBounds(heroCardWidth*3/2-smallTokenSize*2/3,heroCardHeight*3/2-smallTokenSize/2,smallTokenSize,smallTokenSize);
-        panel.add(foodImage);
+        statsPanel.add(foodImage);
 
         foodLabel = new JLabel(team.getFood()+"");
         foodLabel.setFont(new Font("Arial",Font.PLAIN,fontSize));
@@ -124,7 +138,7 @@ public class GameFrame extends JFrame {
         foodLabel.setOpaque(true);
         foodLabel.setBackground(new Color(3, 87, 30));
         foodLabel.setForeground(new Color(245, 205, 76));
-        panel.add(foodLabel);
+        statsPanel.add(foodLabel);
 
         try {
             bulletImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/bullet.png")).getScaledInstance(smallTokenSize,smallTokenSize, Image.SCALE_SMOOTH)));
@@ -132,7 +146,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         bulletImage.setBounds(heroCardWidth*3/2-smallTokenSize*2/3,heroCardHeight*3/2+smallTokenSize,smallTokenSize,smallTokenSize);
-        panel.add(bulletImage);
+        statsPanel.add(bulletImage);
 
         bulletLabel = new JLabel(team.getBullets()+"");
         bulletLabel.setFont(new Font("Arial",Font.PLAIN,fontSize));
@@ -140,7 +154,7 @@ public class GameFrame extends JFrame {
         bulletLabel.setOpaque(true);
         bulletLabel.setBackground(new Color(3, 87, 30));
         bulletLabel.setForeground(new Color(245, 205, 76));
-        panel.add(bulletLabel);
+        statsPanel.add(bulletLabel);
 
         int bigTokenSize=80;
         String s;
@@ -153,7 +167,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         morningImage.setBounds(bigTokenSize/2,heroCardHeight*2+bigTokenSize+10,bigTokenSize,bigTokenSize);
-        panel.add(morningImage);
+        statsPanel.add(morningImage);
 
         try {
             leaderImage = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/Tokens/leader.png")).getScaledInstance(bigTokenSize,bigTokenSize, Image.SCALE_SMOOTH)));
@@ -161,7 +175,7 @@ public class GameFrame extends JFrame {
             e.printStackTrace();
         }
         leaderImage.setBounds(bigTokenSize*2+bigTokenSize/2,heroCardHeight*2+bigTokenSize+10,bigTokenSize,bigTokenSize);
-        panel.add(leaderImage);
+        statsPanel.add(leaderImage);
 
         //-------------------------
 
@@ -228,11 +242,26 @@ public class GameFrame extends JFrame {
         expPanel.setOpaque(false);
         panel.add(expPanel);
 
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+        panel.add(eventPanel);
+
         addExpCard("Cards/card1.png");
         addExpCard("Cards/card2.png");
         addExpCard("Cards/card1.png");
-       // removeExpCard("Cards/card1.png");
-      // addExpCard("Cards/card3.png");
+        // removeExpCard("Cards/card1.png");
+        // addExpCard("Cards/card3.png");
+
 
     }
     private void addExpCard(String path){
@@ -1095,7 +1124,7 @@ public class GameFrame extends JFrame {
 
     private final int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-    private JPanel panel = new JPanel(),cardsPanel,expPanel;
+    private JPanel panel = new JPanel(),statsPanel,cardsPanel, eventPanel,expPanel;
 
     private Team team;
 
