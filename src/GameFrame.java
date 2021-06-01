@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
 public class GameFrame extends JFrame {
     public GameFrame(int difficulty) {
@@ -14,7 +13,6 @@ public class GameFrame extends JFrame {
         } catch (IOException e) {
             new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
         }
-        fillCards();
         if (difficulty==3) Hero.setMaxHP(3);
         if (difficulty==1) pathLength=7;
         team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));
@@ -180,8 +178,8 @@ public class GameFrame extends JFrame {
         cardsPanel.setLayout(null);
         panel.add(cardsPanel);
 
-        int pathCardWidth = cardsPanel.getWidth()/9;
-        int pathCardHeight = pathCardWidth*3/2;
+        pathCardWidth = cardsPanel.getWidth()/9;
+        pathCardHeight = pathCardWidth*3/2;
         JLabel path = null;
         if (difficulty==1) {
             for (int i = 0; i < 7; i++) {
@@ -209,8 +207,36 @@ public class GameFrame extends JFrame {
 
         handCardWidth = cardsPanel.getWidth()/6;
         handCardHeight = handCardWidth*3/2;
+
+        roadCardWidth = cardsPanel.getWidth()/7;
+        roadCardHeight = roadCardWidth*3/2;
+
         fillHand();
         drawHand();
+
+        road = new ArrayList<>();
+        road.add(deck.remove(0));
+        road.add(deck.remove(0));
+        sortCards(road);
+        drawRoad();
+    }
+
+    private void drawRoad() {
+        if (roadLabels.size()>0) {
+            for (JLabel card : roadLabels) cardsPanel.remove(card);
+            roadLabels = new ArrayList<>();
+        }
+        for (int i = 0; i< road.size(); i++) {
+            JLabel card = null;
+            try {
+                card = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/card" + road.get(i).getNumber() + ".png")).getScaledInstance(roadCardWidth,roadCardHeight, Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            card.setBounds((cardsPanel.getWidth()-(roadCardWidth*road.size()))/2+i*roadCardWidth,((cardsPanel.getHeight()-handCardHeight*7/5 + pathCardHeight)-roadCardHeight)/2,roadCardWidth,roadCardHeight);
+            cardsPanel.add(card);
+            roadLabels.add(card);
+        }
     }
 
     private void drawHand() {
@@ -248,6 +274,7 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
+        // playable init
         ArrayList<Card> endDeck = new ArrayList<>();
         while (playable.size()>0) {
             int n = rand.nextInt(playable.size());
@@ -1004,17 +1031,17 @@ public class GameFrame extends JFrame {
         return heroes;
     }
 
+    private final Random rand = new Random();
+
     private boolean day = true;
 
     private int pathLength = 9;
 
-    private int handCardWidth, handCardHeight;
+    private int pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
 
     private final ArrayList<Card> allCards = makeCards();
 
-    private ArrayList<Card> deck,hand,path,playable=(ArrayList<Card>)allCards.clone();
-
-    private final Random rand = new Random();
+    private ArrayList<Card> playable=(ArrayList<Card>)allCards.clone(), deck = fillDeck(),hand,road;
 
     private final int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
@@ -1027,5 +1054,5 @@ public class GameFrame extends JFrame {
     private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP,
             foodImage,foodLabel,bulletImage,bulletLabel,hpImage1,hpImage2,hpImage3,leaderImage,morningImage;
 
-    private ArrayList<JLabel> handLabels = new ArrayList<>(),roadLabels;
+    private ArrayList<JLabel> handLabels = new ArrayList<>(),roadLabels=new ArrayList<>();
 }
