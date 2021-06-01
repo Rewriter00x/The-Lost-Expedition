@@ -207,29 +207,6 @@ public class GameFrame extends JFrame {
             }
         }
 
-        expPanel = new JPanel();
-        expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 190));
-        expPanel.setLayout(null);
-        expPanel.setOpaque(false);
-        panel.add(expPanel);
-
-        addExpCard("Cards/card1.png");
-        addExpCard("Cards/card2.png");
-        addExpCard("Cards/card4.png");
-       // removeExpCard("Cards/card1.png");
-      // addExpCard("Cards/card3.png");
-
-    }
-    private void addExpCard(String path){
-        expCards.add(path);
-        drawExpCard();
-    }
-    private void removeExpCard(String path){
-        for(int i=0;i<expCards.size();i++){
-            if(expCards.get(i).equals(path)) expCards.remove(i);
-        }
-        drawExpCard();
-
         handCardWidth = cardsPanel.getWidth()/6;
         handCardHeight = handCardWidth*3/2;
 
@@ -244,6 +221,29 @@ public class GameFrame extends JFrame {
         road.add(deck.remove(0));
         sortCards(road);
         drawRoad();
+
+        expPanel = new JPanel();
+        expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 185));
+        expPanel.setLayout(null);
+        expPanel.setOpaque(false);
+        panel.add(expPanel);
+
+        addExpCard("Cards/card1.png");
+        addExpCard("Cards/card2.png");
+        addExpCard("Cards/card1.png");
+       // removeExpCard("Cards/card1.png");
+      // addExpCard("Cards/card3.png");
+
+    }
+    private void addExpCard(String path){
+        expCards.add(path);
+        drawExpCard();
+    }
+    private void removeExpCard(String path){
+        for(int i=0;i<expCards.size();i++){
+            if(expCards.get(i).equals(path)) expCards.remove(i);
+        }
+        drawExpCard();
     }
 
     private void drawRoad() {
@@ -298,7 +298,7 @@ public class GameFrame extends JFrame {
             String path=expCards.get(i);
             try {
                 JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth, expHeight, Image.SCALE_SMOOTH)));
-               card.setBounds(expWidth * (i - 1), 0, expWidth, expHeight);
+               card.setBounds(expWidth * i, 0, expWidth, expHeight);
                 expPanel.add(card);
             } catch (IOException e) {
                 e.printStackTrace();
