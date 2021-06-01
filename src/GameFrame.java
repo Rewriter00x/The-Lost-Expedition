@@ -211,11 +211,10 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        ArrayList<Card> tempDeck = (ArrayList<Card>) allCards.clone(), endDeck = new ArrayList<>();
-        int n;
-        for (int i = 0; i<allCards.size(); i++) {
-            n = rand.nextInt(allCards.size()-i);
-            endDeck.add(tempDeck.remove(n));
+        ArrayList<Card> endDeck = new ArrayList<>();
+        while (playable.size()>0) {
+            int n = rand.nextInt(playable.size());
+            endDeck.add(playable.remove(n));
         }
         return endDeck;
     }
@@ -642,9 +641,9 @@ public class GameFrame extends JFrame {
         return heroes;
     }
 
-    private ArrayList<Card> deck;
-
     private final ArrayList<Card> allCards = makeCards();
+
+    private ArrayList<Card> deck,hand,path,playable=allCards;
 
     private final Random rand = new Random();
 
