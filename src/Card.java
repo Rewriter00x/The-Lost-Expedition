@@ -1,6 +1,3 @@
-import javax.imageio.*;
-import java.awt.image.*;
-import java.io.*;
 import java.util.*;
 
 public class Card {
