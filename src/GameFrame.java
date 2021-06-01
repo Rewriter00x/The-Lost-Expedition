@@ -682,18 +682,6 @@ public class GameFrame extends JFrame {
         blueEffects = null;
         endDeck.add(new Card(35, yellowEffects, redEffects, blueEffects));
 
-        // Card 35
-        yellowEffects = new ArrayList<>();
-        yellowEffects.add(new Effect(Effect.SKIP_CARD));
-        yellowEffects.add(new Effect(Effect.SKIP_CARD));
-        redEffects = new ArrayList<>();
-        redEffects.add(new ArrayList<>());
-        redEffects.get(0).add(new Effect(Effect.HEALTH, Effect.REMOVE));
-        redEffects.add(new ArrayList<>());
-        redEffects.get(1).add(new Effect(new Token(Token.TENT), Effect.REMOVE));
-        blueEffects = null;
-        endDeck.add(new Card(35, yellowEffects, redEffects, blueEffects));
-
         // Card 36
         yellowEffects = new ArrayList<>();
         yellowEffects.add(new Effect(new Token(Token.COMPASS), Effect.REMOVE));
@@ -957,13 +945,6 @@ public class GameFrame extends JFrame {
         redEffects.get(1).add(new Effect(Effect.HEALTH, Effect.REMOVE));
         blueEffects = null;
         endDeck.add(new Card(56, yellowEffects, redEffects, blueEffects));
-
-        // Example
-        // Card
-        yellowEffects = null;
-        redEffects = null;
-        blueEffects = null;
-        endDeck.add(new Card(0, yellowEffects, redEffects, blueEffects));
 
         return endDeck;
     }
