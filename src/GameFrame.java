@@ -15,6 +15,7 @@ public class GameFrame extends JFrame {
         }
         fillCards();
         if (difficulty==3) Hero.setMaxHP(3);
+        if (difficulty==1) pathLength=7;
         team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));team = new Team(new Hero(Hero.LEAF,"ynes"),new Hero(Hero.TENT,"teddy"),new Hero(Hero.COMPASS,"isabelle"));
         setSize(width,height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -967,9 +968,13 @@ public class GameFrame extends JFrame {
         return heroes;
     }
 
+    private boolean day = true;
+
+    private int pathLength = 9;
+
     private final ArrayList<Card> allCards = makeCards();
 
-    private ArrayList<Card> deck,hand,path,playable=allCards;
+    private ArrayList<Card> deck,hand,path,playable=(ArrayList<Card>)allCards.clone();
 
     private final Random rand = new Random();
 
