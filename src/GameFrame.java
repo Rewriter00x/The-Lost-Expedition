@@ -1,6 +1,8 @@
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
@@ -256,6 +258,8 @@ public class GameFrame extends JFrame {
         eventPanel.setLayout(null);
         panel.add(eventPanel);
 
+        textPanel("Hello world","Good game");
+
         //addExpCard("Cards/card1.png");
         //addExpCard("Cards/card2.png");
         //addExpCard("Cards/card1.png");
@@ -264,6 +268,113 @@ public class GameFrame extends JFrame {
 
 
     }
+
+    public void textPanel(String text) {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel(text){
+            {
+                setFont(eventFont);
+                setBounds(0,100,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,eventPanel.getHeight()-100-100,eventPanel.getWidth()/2,100);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    public void textPanel (String text1, String text2) {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel text1Label = new JLabel(text1){
+            {
+                setFont(eventFont);
+                setBounds(0,100,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(text1Label);
+
+        JLabel text2Label = new JLabel(text2){
+            {
+                setFont(eventFont);
+                setBounds(0,100+eventFont.getSize()+5,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(text2Label);
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,eventPanel.getHeight()-100-100,eventPanel.getWidth()/2,100);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
     private void addExpCard(String path){
         expCards.add(path);
         drawExpCard();
@@ -1105,6 +1216,8 @@ public class GameFrame extends JFrame {
     }
 
     private final Random rand = new Random();
+
+    private final Font eventFont = new Font("Arial",Font.PLAIN,20);
 
     private boolean day = true;
 
