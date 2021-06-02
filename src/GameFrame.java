@@ -238,13 +238,7 @@ public class GameFrame extends JFrame {
         sortCards(road);
         drawRoad();
 
-        expPanel = new JPanel();
-        expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 185));
-        expPanel.setLayout(null);
-        expPanel.setOpaque(false);
-        panel.add(expPanel);
-
-        eventPanel = new JPanel() {
+       eventPanel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {
@@ -259,13 +253,18 @@ public class GameFrame extends JFrame {
         panel.add(eventPanel);
 
         textPanel("Hello world","Good game");
+        
+        expPanel = new JPanel();
+        expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 185));
+        expPanel.setLayout(null);
+        expPanel.setOpaque(false);
+        statsPanel.add(expPanel);
 
-        //addExpCard("Cards/card1.png");
-        //addExpCard("Cards/card2.png");
-        //addExpCard("Cards/card1.png");
-        // removeExpCard("Cards/card1.png");
-        // addExpCard("Cards/card3.png");
-
+        addExpCard("Cards/card1.png");
+        addExpCard("Cards/card2.png");
+        addExpCard("Cards/card3.png");
+        removeExpCard("Cards/card1.png");
+        addExpCard("Cards/card4.png");
 
     }
 
