@@ -253,7 +253,7 @@ public class GameFrame extends JFrame {
         panel.add(eventPanel);
 
         textPanel("Hello world","Good game");
-        
+
         expPanel = new JPanel();
         expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 185));
         expPanel.setLayout(null);
