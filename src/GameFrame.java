@@ -284,6 +284,7 @@ public class GameFrame extends JFrame {
                         new Hero(Hero.TENT,teddy.isSelected()?"teddy":"bessie"),
                         new Hero(Hero.COMPASS,isabelle.isSelected()?"isabelle":"candido"));
                 drawStats();
+                textPanel("Hello world","It's working");
             }
         });
 
