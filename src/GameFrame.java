@@ -238,7 +238,7 @@ public class GameFrame extends JFrame {
         sortCards(road);
         drawRoad();
 
-       eventPanel = new JPanel() {
+        eventPanel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {
@@ -250,9 +250,125 @@ public class GameFrame extends JFrame {
         };
         eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
         eventPanel.setLayout(null);
-        panel.add(eventPanel);
 
-        textPanel("Hello world","Good game");
+        JLabel textLabel = new JLabel("Select your characters"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        JButton button = new JButton("Start"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,eventPanel.getHeight()*7/9,eventPanel.getWidth()/2,height/9);
+            }
+        };
+        eventPanel.add(button);
+
+        JRadioButton ynes = new JRadioButton("Ynes"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*2/9,eventPanel.getWidth()/2,eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setSelected(true);
+            }
+        };
+        eventPanel.add(ynes);
+
+        JRadioButton roy = new JRadioButton("Roy"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize(),eventPanel.getWidth()/2,eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+            }
+        };
+        eventPanel.add(roy);
+
+        new ButtonGroup(){
+            {
+                add(ynes);
+                add(roy);
+            }
+        };
+
+        JRadioButton teddy = new JRadioButton("Teddy"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*3/9,eventPanel.getWidth()/2,eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setSelected(true);
+            }
+        };
+        eventPanel.add(teddy);
+
+        JRadioButton bessie = new JRadioButton("Bessie"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*3/9+eventFont.getSize(),eventPanel.getWidth()/2,eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+            }
+        };
+        eventPanel.add(bessie);
+
+        new ButtonGroup(){
+            {
+                add(teddy);
+                add(bessie);
+            }
+        };
+
+        JRadioButton isabelle = new JRadioButton("Isabelle"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*4/9,eventPanel.getWidth()/2,eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setSelected(true);
+            }
+        };
+        eventPanel.add(isabelle);
+
+        JRadioButton candido = new JRadioButton("Candido"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*4/9+eventFont.getSize(),eventPanel.getWidth()/2,eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+            }
+        };
+        eventPanel.add(candido);
+
+        new ButtonGroup(){
+            {
+                add(isabelle);
+                add(candido);
+            }
+        };
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        panel.add(eventPanel);
 
         expPanel = new JPanel();
         expPanel.setBounds(0,heroCardHeight*2+bigTokenSize*2+15,((this.getWidth()- cardsPanel.getWidth())/2)+10,this.getHeight() - ((height / 2) + 185));
@@ -287,7 +403,7 @@ public class GameFrame extends JFrame {
         JLabel textLabel = new JLabel(text){
             {
                 setFont(eventFont);
-                setBounds(0,100,eventPanel.getWidth(),eventFont.getSize());
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
                 setOpaque(true);
                 setBackground(new Color(3, 87, 30));
                 setForeground(new Color(245, 205, 76));
@@ -299,7 +415,7 @@ public class GameFrame extends JFrame {
         JButton button = new JButton("OK"){
             {
                 setFont(eventFont);
-                setBounds(eventPanel.getWidth()/4,eventPanel.getHeight()-100-100,eventPanel.getWidth()/2,100);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -334,7 +450,7 @@ public class GameFrame extends JFrame {
         JLabel text1Label = new JLabel(text1){
             {
                 setFont(eventFont);
-                setBounds(0,100,eventPanel.getWidth(),eventFont.getSize());
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
                 setOpaque(true);
                 setBackground(new Color(3, 87, 30));
                 setForeground(new Color(245, 205, 76));
@@ -346,7 +462,7 @@ public class GameFrame extends JFrame {
         JLabel text2Label = new JLabel(text2){
             {
                 setFont(eventFont);
-                setBounds(0,100+eventFont.getSize()+5,eventPanel.getWidth(),eventFont.getSize());
+                setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
                 setOpaque(true);
                 setBackground(new Color(3, 87, 30));
                 setForeground(new Color(245, 205, 76));
@@ -358,7 +474,7 @@ public class GameFrame extends JFrame {
         JButton button = new JButton("OK"){
             {
                 setFont(eventFont);
-                setBounds(eventPanel.getWidth()/4,eventPanel.getHeight()-100-100,eventPanel.getWidth()/2,100);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
