@@ -295,7 +295,7 @@ public class GameFrame extends JFrame {
         addExpCard("Cards/card3.png");
         removeExpCard("Cards/card1.png");
         addExpCard("Cards/card4.png");*/
-
+        Effect.setFrame(this);
     }
 
     public void textPanel(String text) {
@@ -596,6 +596,8 @@ public class GameFrame extends JFrame {
             cardsPanel.add(card);
             roadLabels.add(card);
         }
+        revalidate();
+        repaint();
     }
 
     private void drawHand() {
@@ -614,6 +616,8 @@ public class GameFrame extends JFrame {
              cardsPanel.add(card);
              handLabels.add(card);
          }
+         revalidate();
+         repaint();
     }
 
     private void fillHand() {
@@ -652,7 +656,7 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        // playable init
+        // TODO playable init
         ArrayList<Card> endDeck = new ArrayList<>();
         while (playable.size()>0) {
             int n = rand.nextInt(playable.size());
@@ -1420,8 +1424,6 @@ public class GameFrame extends JFrame {
     private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
 
     private final ArrayList<Card> allCards = makeCards();
-
-    private ArrayList<Card> path=(ArrayList<Card>)allCards.clone();
 
     private ArrayList<String> expCards= new ArrayList<>();
 
