@@ -36,9 +36,13 @@ public class Effect {
         }
     }
 
+    public static void setFrame(GameFrame frame) {Effect.frame=frame;}
+
     private int effect=-2;
     private boolean mode;
     private Token token=null;
+
+    private static GameFrame frame;
 
     public static final int KILL = -1;
 
