@@ -1053,7 +1053,7 @@ public class GameFrame extends JFrame {
         checkEnd();
         if (day) {
             if (cards) {
-                /*switch (status) {
+                switch (status) {
                     case 0:
                         status++;
 
@@ -1064,12 +1064,30 @@ public class GameFrame extends JFrame {
                         putCard();
                         drawRoad();
 
-                        textPanel("Two cards put on deck");
+                        textPanel("Two cards were put on deck");
                         break;
                     case 1:
                         status++;
-                }*/
-                if(road.size()==6) cards=false;
+                        
+                        putCardDayPanel();
+                        break;
+                    case 2:
+                        status++;
+                        
+                        putCardDayPanel();
+                        break;
+                    case 3:
+                        status++;
+
+                        putCard();
+
+                        textPanel("One card was put on desk");
+                        break;
+                    case 4:
+                        putCardDayPanel();
+                        cards=false;
+                        break;
+                }
             }
             else {
 
