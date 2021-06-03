@@ -990,7 +990,6 @@ public class GameFrame extends JFrame {
 
                         putCard();
                         putCard();
-                        sortCards(road);
                         drawRoad();
 
                         textPanel("Two cards put on deck");
@@ -1041,6 +1040,7 @@ public class GameFrame extends JFrame {
     private void putCard() {
         if (deck.size()<1) fillDeck();
         road.add(deck.remove(0));
+        sortCards(road);
     }
 
     private void putCard(boolean left) {
@@ -1294,7 +1294,7 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        // TODO playable init
+        if (playable.size()==0) ;// TODO playable init
         ArrayList<Card> endDeck = new ArrayList<>();
         while (playable.size()>0) {
             int n = rand.nextInt(playable.size());
