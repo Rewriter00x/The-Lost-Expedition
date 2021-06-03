@@ -35,6 +35,11 @@ public class Team {
         return null;
     }
 
+    public boolean allOnMaxHP() {
+        for (Hero hero : TEAM) if (!hero.hpIsMax()) return false;
+        return true;
+    }
+
     private int BULLETS;
     private int FOOD;
     private final ArrayList<Hero> TEAM;
