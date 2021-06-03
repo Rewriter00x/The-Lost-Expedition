@@ -279,7 +279,6 @@ public class GameFrame extends JFrame {
                 fillHand();
                 drawHand();
 
-                road = new ArrayList<>();
                 road.add(deck.remove(0));
                 road.add(deck.remove(0));
                 sortCards(road);
@@ -1730,7 +1729,7 @@ public class GameFrame extends JFrame {
 
     private ArrayList<String> expCards= new ArrayList<>();
 
-    private ArrayList<Card> playable=(ArrayList<Card>)allCards.clone(), deck = fillDeck(),hand,road;
+    private ArrayList<Card> playable=(ArrayList<Card>)allCards.clone(), deck = fillDeck(),hand,road = new ArrayList<>();
 
     private final int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 

@@ -21,9 +21,13 @@ public class Team {
         int x =BULLETS-1;
         if(x>=0) BULLETS--;
     }
+
+    public void addToken(Token token) {TOKENS.add(token);}
+    public ArrayList<Token> getTokens() {return TOKENS;}
+
     public void loseExperience(int n){
-        for(int i=0;i<3;i++){
-            if(TEAM.get(i).getEXPERIENCE()==n) {TEAM.get(i).damage();}
+        for(Hero hero : TEAM){
+            if(hero.getEXPERIENCE()==n) {hero.damage();}
         }
     }
     public int getBullets(){return BULLETS;}
@@ -47,5 +51,6 @@ public class Team {
 
     private int BULLETS;
     private int FOOD;
+    private ArrayList<Token> TOKENS = new ArrayList<>();
     private final ArrayList<Hero> TEAM;
 }
