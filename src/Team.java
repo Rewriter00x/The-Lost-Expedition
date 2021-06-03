@@ -23,6 +23,7 @@ public class Team {
     }
 
     public void addToken(Token token) {TOKENS.add(token);}
+    public Token getToken(int n) {return TOKENS.get(n);}
     public ArrayList<Token> getTokens() {return TOKENS;}
 
     public void loseExperience(int n){
