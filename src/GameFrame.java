@@ -276,14 +276,6 @@ public class GameFrame extends JFrame {
                         new Hero(Hero.COMPASS,isabelle.isSelected()?"isabelle":"candido"));
                 drawStats();
 
-                fillHand();
-                drawHand();
-
-                road.add(deck.remove(0));
-                road.add(deck.remove(0));
-                sortCards(road);
-                drawRoad();
-
 
 
                 nextStep();
@@ -667,6 +659,125 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    public void foodRemovePanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        if (team.getFood()!=0) {
+            JLabel textLabel = new JLabel("Food will be removed"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            team.giveFood();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else {
+            JLabel text1Label = new JLabel("Missing food"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text1Label);
+
+            JLabel text2Label = new JLabel("Choose who looses hp"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text2Label);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i<3; i++) {
+                if (team.getHero(i).isAlive()) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                        {
+                            setFont(eventFont);
+                            setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN ==0) setSelected(true);
+                        }
+                    });
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i< finalN1; i++)  {
+                                if (buttons.get(i).isSelected()) {
+                                    team.getHero(buttons.get(i).getText()).damage();
+                                    break;
+                                }
+                            }
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
     public void tokenRemovePanel(int token) {
         panel.remove(eventPanel);
 
@@ -864,13 +975,29 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
-    private void nextStep() { // TODO finish this
+    private void nextStep() {
         drawStats();
         drawExpCard();
         checkEnd();
         if (day) {
             if (cards) {
+                switch (status) {
+                    case 0:
+                        status++;
 
+                        fillHand();
+                        drawHand();
+
+                        putCard();
+                        putCard();
+                        sortCards(road);
+                        drawRoad();
+
+                        textPanel("Two cards put on deck");
+                        break;
+                    case 1:
+                        status++;
+                }
                 if(road.size()==6) cards=false;
             }
             else {
@@ -909,6 +1036,17 @@ public class GameFrame extends JFrame {
             if(expCards.get(i).equals(path)) expCards.remove(i);
         }
         drawExpCard();
+    }
+
+    private void putCard() {
+        if (deck.size()<1) fillDeck();
+        road.add(deck.remove(0));
+    }
+
+    private void putCard(boolean left) {
+        if (deck.size()<1) fillDeck();
+        if (left) road.add(0,deck.remove(0));
+        else road.add(deck.remove(0));
     }
 
     private void drawStats() {
@@ -1124,23 +1262,27 @@ public class GameFrame extends JFrame {
 
     }
     private void drawExpCard(){
-        expPanel.removeAll();
-        int expWidth = (this.getWidth()- cardsPanel.getWidth())/(2*expCards.size());
-        int expHeight=expWidth*3/2;
-        if(expHeight>this.getHeight()-(height/2+210)){ expHeight=this.getHeight()-(height/2+210);expWidth=expHeight*2/3;}
-        for(int i=0;i<expCards.size();i++){
-            String path=expCards.get(i);
-            try {
-                JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth, expHeight, Image.SCALE_SMOOTH)));
-               card.setBounds(expWidth * i, 0, expWidth, expHeight);
-                expPanel.add(card);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (expCards.size()>0) {
+            expPanel.removeAll();
+            int expWidth = (this.getWidth() - cardsPanel.getWidth()) / (2 * expCards.size());
+            int expHeight = expWidth * 3 / 2;
+            if (expHeight > this.getHeight() - (height / 2 + 210)) {
+                expHeight = this.getHeight() - (height / 2 + 210);
+                expWidth = expHeight * 2 / 3;
             }
+            for (int i = 0; i < expCards.size(); i++) {
+                String path = expCards.get(i);
+                try {
+                    JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth, expHeight, Image.SCALE_SMOOTH)));
+                    card.setBounds(expWidth * i, 0, expWidth, expHeight);
+                    expPanel.add(card);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            expPanel.revalidate();
+            expPanel.repaint();
         }
-        expPanel.revalidate();
-        expPanel.repaint();
-
     }
     private void fillCards() {
         deck = fillDeck();
