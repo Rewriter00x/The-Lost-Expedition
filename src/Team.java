@@ -40,6 +40,11 @@ public class Team {
         return true;
     }
 
+    public boolean allOnMaxHPorDead() {
+        for (Hero hero : TEAM) if (!hero.hpIsMax() && hero.isAlive()) return false;
+        return true;
+    }
+
     private int BULLETS;
     private int FOOD;
     private final ArrayList<Hero> TEAM;
