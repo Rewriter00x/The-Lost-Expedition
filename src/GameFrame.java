@@ -145,15 +145,6 @@ public class GameFrame extends JFrame {
         roadCardWidth = cardsPanel.getWidth()/7;
         roadCardHeight = roadCardWidth*3/2;
 
-        fillHand();
-        drawHand();
-
-        road = new ArrayList<>();
-        road.add(deck.remove(0));
-        road.add(deck.remove(0));
-        sortCards(road);
-        drawRoad();
-
         eventPanel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -284,7 +275,17 @@ public class GameFrame extends JFrame {
                         new Hero(Hero.TENT,teddy.isSelected()?"teddy":"bessie"),
                         new Hero(Hero.COMPASS,isabelle.isSelected()?"isabelle":"candido"));
                 drawStats();
-                textPanel("Hello world","It's working");
+
+                fillHand();
+                drawHand();
+
+                road = new ArrayList<>();
+                road.add(deck.remove(0));
+                road.add(deck.remove(0));
+                sortCards(road);
+                drawRoad();
+
+                nextStep();
             }
         });
 
@@ -333,7 +334,7 @@ public class GameFrame extends JFrame {
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        nextStep();
                     }
                 });
             }
@@ -392,7 +393,7 @@ public class GameFrame extends JFrame {
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        nextStep();
                     }
                 });
             }
@@ -402,6 +403,61 @@ public class GameFrame extends JFrame {
         panel.add(eventPanel);
         revalidate();
         repaint();
+    }
+
+    public void hpPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose who looses hp"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void nextStep() { // TODO finish this
+        if (day) {
+            if (cards) {
+
+                if(road.size()==6) cards=false;
+            }
+            else {
+
+                if (road.size()==0) {cards=true; day = false;}
+            }
+        }
+        else {
+            if (cards) {
+
+                if(road.size()==6) cards=false;
+            }
+            else {
+                if (road.size()==0) {cards=true; day = true;}
+            }
+        }
     }
 
     private void addExpCard(String path){
@@ -1417,7 +1473,9 @@ public class GameFrame extends JFrame {
 
     private final Font eventFont = new Font("Arial",Font.PLAIN,20);
 
-    private boolean day = true;
+    private boolean day = true, cards = true;
+
+    private int status = 0;
 
     private int pathLength = 9;
 
