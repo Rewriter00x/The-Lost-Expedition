@@ -285,6 +285,8 @@ public class GameFrame extends JFrame {
                 sortCards(road);
                 drawRoad();
 
+                hpPanel();
+
                 nextStep();
             }
         });
@@ -433,8 +435,29 @@ public class GameFrame extends JFrame {
         };
         eventPanel.add(textLabel);
 
+        int n = 0;
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<3; i++) {
+            if (team.getHero(i).isAlive()) {
+                int finalN = n;
+                buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalN ==0) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(n));
+                group.add(buttons.get(n));
+                n++;
+            }
+        }
 
-
+        int finalN1 = n;
         JButton button = new JButton("OK"){
             {
                 setFont(eventFont);
@@ -442,6 +465,13 @@ public class GameFrame extends JFrame {
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< finalN1; i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                team.getHero(buttons.get(i).getText()).damage();
+                                break;
+                            }
+                        }
+                        checkDead();
                         nextStep();
                     }
                 });
@@ -455,6 +485,10 @@ public class GameFrame extends JFrame {
     }
 
     private void nextStep() { // TODO finish this
+        drawStats();
+        //drawHand();
+        //drawRoad();
+        checkEnd();
         if (day) {
             if (cards) {
 
@@ -471,9 +505,20 @@ public class GameFrame extends JFrame {
                 if(road.size()==6) cards=false;
             }
             else {
+
                 if (road.size()==0) {cards=true; day = true;}
             }
         }
+    }
+
+    private void checkDead() {
+        for (int i = 0; i<3; i++) if (!team.getHero(i).isAlive() && team.getHero(i).getNAME().charAt(team.getHero(i).getNAME().length()-1)!='d') team.getHero(i).setNAME(team.getHero(i).getNAME()+"_dead");
+    }
+
+    private void checkEnd() {
+        boolean flag = true;
+        for (int i = 0; i<3; i++) if (team.getHero(i).isAlive()) {flag = false; break;}
+        if (flag) new WinDialog(this,true,"Defeat","You've lost!").setVisible(true);
     }
 
     private void addExpCard(String path){
