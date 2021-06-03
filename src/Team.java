@@ -25,6 +25,8 @@ public class Team {
     public void addToken(Token token) {TOKENS.add(token);}
     public Token getToken(int n) {return TOKENS.get(n);}
     public ArrayList<Token> getTokens() {return TOKENS;}
+    public Token removeToken(int n) {return TOKENS.remove(n);}
+    public boolean removeToken(Token t) {return TOKENS.remove(t);}
 
     public void loseExperience(int n){
         for(Hero hero : TEAM){
