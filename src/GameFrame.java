@@ -667,10 +667,206 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    public void tokenRemovePanel(int token) {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        if (team.findToken(token)) {
+            JLabel textLabel = new JLabel("Choose token to give"){
+                {
+                    switch (token) {
+                        case Token.LEAF: setText("Choose token to give for leaf"); break;
+                        case Token.TENT: setText("Choose token to give for tent"); break;
+                        case Token.COMPASS: setText("Choose token to give for token"); break;
+                    }
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ArrayList<Token> ts = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i<team.getTokens().size(); i++) {
+                if (team.getToken(i).checkToken(token)) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getToken(i).toString()){
+                        {
+                            setFont(eventFont);
+                            setBounds(0,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth(),eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN ==0) setSelected(true);
+                        }
+                    });
+                    ts.add(team.getToken(i));
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i< finalN1; i++)  {
+                                if (buttons.get(i).isSelected()) {
+                                    removeExpCard(expCards.get(team.getTokens().indexOf(ts.get(i))));
+                                    team.removeToken(ts.get(i));
+                                    break;
+                                }
+                            }
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else if (team.getHeroByToken(token).isAlive()) {
+            JLabel text1Label = new JLabel("You don't have required tokens"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text1Label);
+
+            JLabel text2Label = new JLabel("HP of the character will be wasted instead"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text2Label);
+
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            team.getHeroByToken(token).damage();
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else {
+            JLabel text1Label = new JLabel("You don't have required tokens or character"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text1Label);
+
+            JLabel text2Label = new JLabel("2 HP of the character will be wasted instead"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text2Label);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i<3; i++) {
+                if (team.getHero(i).isAlive()) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                        {
+                            setFont(eventFont);
+                            setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN ==0) setSelected(true);
+                        }
+                    });
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i< finalN1; i++)  {
+                                if (buttons.get(i).isSelected()) {
+                                    team.getHero(buttons.get(i).getText()).damage();
+                                    team.getHero(buttons.get(i).getText()).damage();
+                                    break;
+                                }
+                            }
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
     private void nextStep() { // TODO finish this
         drawStats();
-        //drawHand();
-        //drawRoad();
+        drawExpCard();
         checkEnd();
         if (day) {
             if (cards) {
