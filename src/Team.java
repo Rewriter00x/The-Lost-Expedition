@@ -39,6 +39,10 @@ public class Team {
         for (Hero hero : TEAM) if (hero.getNAME().equals(name)) return hero;
         return null;
     }
+    public Hero getHeroByToken(int token) {
+        for (Hero hero : TEAM) if (hero.getEXPERIENCE()==token) return hero;
+        return null;
+    }
 
     public boolean allOnMaxHP() {
         for (Hero hero : TEAM) if (!hero.hpIsMax()) return false;
@@ -48,6 +52,11 @@ public class Team {
     public boolean allOnMaxHPorDead() {
         for (Hero hero : TEAM) if (!hero.hpIsMax() && hero.isAlive()) return false;
         return true;
+    }
+
+    public boolean findToken(int token) {
+        for (Token t : TOKENS) if (t.checkToken(token)) return true;
+        return false;
     }
 
     private int BULLETS;
