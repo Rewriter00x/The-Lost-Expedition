@@ -276,8 +276,6 @@ public class GameFrame extends JFrame {
                         new Hero(Hero.COMPASS,isabelle.isSelected()?"isabelle":"candido"));
                 drawStats();
 
-
-
                 nextStep();
             }
         });
@@ -975,13 +973,87 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    public void putCardDayPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose card to put"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<hand.size(); i++) {
+            int finalI = i;
+            buttons.add(new JRadioButton(hand.get(finalI).toString()) {
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    if (finalI == 0) setSelected(true);
+                }
+            });
+            eventPanel.add(buttons.get(i));
+            group.add(buttons.get(i));
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< buttons.size(); i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                road.add(hand.remove(i));
+                                sortCards(road);
+                                break;
+                            }
+                        }
+                        nextStep();
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
     private void nextStep() {
         drawStats();
+        drawHand();
+        drawRoad();
         drawExpCard();
         checkEnd();
         if (day) {
             if (cards) {
-                switch (status) {
+                /*switch (status) {
                     case 0:
                         status++;
 
@@ -996,7 +1068,7 @@ public class GameFrame extends JFrame {
                         break;
                     case 1:
                         status++;
-                }
+                }*/
                 if(road.size()==6) cards=false;
             }
             else {
@@ -2057,7 +2129,7 @@ public class GameFrame extends JFrame {
 
     private boolean day = true, cards = true;
 
-    private int status = 0;
+    private int status = 0, comCards = 0,handCards = 0;
 
     private int pathLength = 9;
 
