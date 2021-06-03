@@ -30,6 +30,10 @@ public class Team {
     public int getFood(){return FOOD;}
 
     public Hero getHero(int n) {return TEAM.get(n);}
+    public Hero getHero(String name) {
+        for (Hero hero : TEAM) if (hero.isAlive() && hero.getNAME().equals(name)) return hero;
+        return null;
+    }
 
     private int BULLETS;
     private int FOOD;
