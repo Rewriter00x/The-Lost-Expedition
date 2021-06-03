@@ -28,12 +28,13 @@ public class Hero {
 
     public static void setMaxHP(int maxHP) {Hero.maxHP =maxHP;}
     public static int getMaxHP() {return maxHP;}
+    public void setNAME(String NAME) {this.NAME=NAME;}
 
     public int getEXPERIENCE(){return EXPERIENCE;}
     public int getHP(){return HP;}
     public String getNAME() {return NAME;}
 
-    private final String NAME;
+    private String NAME;
     private final int EXPERIENCE;
     private int HP;
 
