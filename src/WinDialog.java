@@ -6,6 +6,12 @@ public class WinDialog extends JDialog {
     public WinDialog(Frame frame, boolean modal, String title, String labelText) {
         super(frame, modal);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
         setLayout(new GridLayout(2,1));
         setTitle(title);
         JLabel label = new JLabel(labelText);
