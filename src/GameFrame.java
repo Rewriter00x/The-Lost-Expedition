@@ -1103,6 +1103,7 @@ public class GameFrame extends JFrame {
 
     private void checkEnd() {
         boolean flag = true;
+        if (pathOn==pathLength) new WinDialog(this,true,"Victory","You've won!").setVisible(true);
         for (int i = 0; i<3; i++) if (team.getHero(i).isAlive()) {flag = false; break;}
         if (flag) new WinDialog(this,true,"Defeat","You've lost!").setVisible(true);
     }
@@ -2140,7 +2141,7 @@ public class GameFrame extends JFrame {
 
     private int status = 0, comCards = 0,handCards = 0;
 
-    private int pathLength = 9;
+    private int pathOn = 1, pathLength = 9;
 
     private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
 
