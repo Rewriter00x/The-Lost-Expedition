@@ -433,6 +433,22 @@ public class GameFrame extends JFrame {
         };
         eventPanel.add(textLabel);
 
+
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        nextStep();
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
         panel.add(eventPanel);
         revalidate();
         repaint();
