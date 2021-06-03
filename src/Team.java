@@ -24,6 +24,12 @@ public class Team {
 
     public void addToken(Token token) {TOKENS.add(token);}
     public Token getToken(int n) {return TOKENS.get(n);}
+    public int getTokenNumber(Token token) {
+        for (int i = 0; i < TOKENS.size(); i++) {
+            if (TOKENS.get(i).equals(token)) return i;
+        }
+        return 0;
+    }
     public ArrayList<Token> getTokens() {return TOKENS;}
     public Token removeToken(int n) {return TOKENS.remove(n);}
     public boolean removeToken(Token t) {return TOKENS.remove(t);}
