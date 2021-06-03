@@ -14,7 +14,7 @@ public class WinDialog extends JDialog {
         button.setSize(200,100);
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {dispose();}
+            public void actionPerformed(ActionEvent e) {System.exit(0);}
         });
         add(label);
         add(button);
