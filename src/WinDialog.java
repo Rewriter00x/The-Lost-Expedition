@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class WinDialog extends JDialog {
     public WinDialog(Frame frame, boolean modal, String title, String labelText) {
         super(frame, modal);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(2,1));
         setTitle(title);
         JLabel label = new JLabel(labelText);

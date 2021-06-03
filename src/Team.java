@@ -31,7 +31,7 @@ public class Team {
 
     public Hero getHero(int n) {return TEAM.get(n);}
     public Hero getHero(String name) {
-        for (Hero hero : TEAM) if (hero.isAlive() && hero.getNAME().equals(name)) return hero;
+        for (Hero hero : TEAM) if (hero.getNAME().equals(name)) return hero;
         return null;
     }
 
