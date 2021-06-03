@@ -1047,12 +1047,10 @@ public class GameFrame extends JFrame {
 
     private void nextStep() {
         drawStats();
-        drawHand();
-        drawRoad();
         drawExpCard();
         checkEnd();
-        if (day) {
-            if (cards) {
+        if (cards) {
+            if (day) {
                 switch (status) {
                     case 0:
                         status++;
@@ -1067,15 +1065,12 @@ public class GameFrame extends JFrame {
                         textPanel("Two cards were put on deck");
                         break;
                     case 1:
-                        status++;
-                        
-                        putCardDayPanel();
-                        break;
                     case 2:
                         status++;
-                        
+
                         putCardDayPanel();
                         break;
+
                     case 3:
                         status++;
 
@@ -1084,26 +1079,22 @@ public class GameFrame extends JFrame {
                         textPanel("One card was put on desk");
                         break;
                     case 4:
+                        status=0;
                         putCardDayPanel();
                         cards=false;
                         break;
                 }
             }
             else {
-
-                if (road.size()==0) {cards=true; day = false;}
+                // Night cards
             }
         }
         else {
-            if (cards) {
-
-                if(road.size()==6) cards=false;
-            }
-            else {
-
-                if (road.size()==0) {cards=true; day = true;}
-            }
+            // Going the path
         }
+
+        drawHand();
+        drawRoad();
     }
 
     private void checkDead() {
