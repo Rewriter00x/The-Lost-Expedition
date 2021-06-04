@@ -798,7 +798,7 @@ public class GameFrame extends JFrame {
                     switch (token) {
                         case Token.LEAF: setText("Choose token to give for leaf"); break;
                         case Token.TENT: setText("Choose token to give for tent"); break;
-                        case Token.COMPASS: setText("Choose token to give for token"); break;
+                        case Token.COMPASS: setText("Choose token to give for compass"); break;
                     }
                     setFont(eventFont);
                     setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
@@ -1460,7 +1460,7 @@ public class GameFrame extends JFrame {
         if (flag) new WinDialog(this,true,"Defeat","You've lost!").setVisible(true);
     }
 
-    private void addExpCard(String path){
+    public void addExpCard(String path){
         expCards.add(path);
         drawExpCard();
     }
@@ -2460,23 +2460,17 @@ public class GameFrame extends JFrame {
 
         return endDeck;
     }
-    private ArrayList<Hero> makeHeroes() {
-        ArrayList<Hero> heroes =new ArrayList<>();
 
-        Hero YNES = new Hero(Hero.LEAF,"ynes");
-        heroes.add(YNES);
-        Hero ROY = new Hero(Hero.LEAF,"roy");
-        heroes.add(ROY);
-        Hero BESSIE = new Hero(Hero.TENT,"bessie");
-        heroes.add(BESSIE);
-        Hero TEDDY = new Hero(Hero.TENT,"teddy");
-        heroes.add(TEDDY);
-        Hero CANDIDO = new Hero (Hero.COMPASS,"candido");
-        heroes.add(CANDIDO);
-        Hero ISABELLE = new Hero(Hero.COMPASS,"isabelle");
-        heroes.add(ISABELLE);
+    public void addFood() {
+        team.addFood();
+    }
 
-        return heroes;
+    public void addToken(Token token) {
+        team.addToken(token);
+    }
+
+    public Card getCurrentCard() {
+        return currentCard;
     }
 
     private final Random rand = new Random();
@@ -2492,8 +2486,6 @@ public class GameFrame extends JFrame {
     private Card currentCard;
 
     private ArrayList<Effect> currentYellow = new ArrayList<>(), currentRed = new ArrayList<>(), currentBlue = new ArrayList<>();
-
-    //private ArrayList<ArrayList<Effect>> currentRed, currentBlue;
 
     private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
 
