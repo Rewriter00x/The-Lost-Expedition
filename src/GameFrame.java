@@ -1276,7 +1276,7 @@ public class GameFrame extends JFrame {
                 Card card = null;
                 for (int i = 0; i< buttons.size(); i++)  {
                     if (buttons.get(i).isSelected()) {
-                        if (i==buttons.size()-1) {
+                        if (i==buttons.size()-1 && comCards<3) {
                             if (deck.size()<1) fillDeck();
                             card = deck.remove(0);
                             comCards++;
