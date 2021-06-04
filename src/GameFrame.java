@@ -8,6 +8,7 @@ import java.util.*;
 public class GameFrame extends JFrame {
     public GameFrame(int difficulty) {
         super();
+        this.difficulty=difficulty;
         try {
             Image img = ImageIO.read(new File("jungle.png")).getScaledInstance(width,height, Image.SCALE_SMOOTH);
             this.setContentPane(new JLabel(new ImageIcon(img)));
@@ -308,11 +309,11 @@ public class GameFrame extends JFrame {
         Effect.setFrame(this);
 
     }
-    public void moveMan(int dif){
+    public void moveMan(){
         int x = man.getX();
         x = x+((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth);
         int xMax;
-        if(dif==1) xMax = (cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*8;
+        if(difficulty==1) xMax = (cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*8;
         else xMax=(cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*9;
         if(x<xMax) man.setLocation(x, man.getY());
 
@@ -2506,6 +2507,8 @@ public class GameFrame extends JFrame {
     private final Font eventFont = new Font("Arial",Font.PLAIN,20);
 
     private boolean day = true, cards = true;
+
+    private int difficulty;
 
     private int status = 0, comCards = 0, handCards = 0;
 
