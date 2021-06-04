@@ -59,7 +59,7 @@ public class Effect {
                         frame.removeNextCard();
                         break;
                     case 5:
-                        frame.textPanel("Swap add here");
+                        frame.swapCardsPanel();
                         break;
                     case 6:
                         frame.removeLastRoadCard();

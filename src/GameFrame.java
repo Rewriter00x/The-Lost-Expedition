@@ -995,6 +995,128 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    public void swapCardsPanel() {
+        if (road.size()>2) {
+            panel.remove(eventPanel);
+
+            eventPanel = new JPanel() {
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    try {
+                        g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(), panel.getHeight(), Image.SCALE_SMOOTH), 0, 0, null);
+                    } catch (IOException e) {
+                        new AnnounceDialog(GameFrame.this, true, "Error", "File \"jungle.png\" not found").setVisible(true);
+                    }
+                }
+            };
+            eventPanel.setBounds(cardsPanel.getWidth() + cardsPanel.getX(), 0, panel.getWidth() - cardsPanel.getWidth() - cardsPanel.getX(), height);
+            eventPanel.setLayout(null);
+
+            JLabel textLabel = new JLabel("Choose cards to swap") {
+                {
+                    setFont(eventFont);
+                    setBounds(0, height / 9, eventPanel.getWidth(), eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 1; i < road.size(); i++) {
+                int finalI = i;
+                buttons.add(new JRadioButton(road.get(finalI).toString()) {
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalI == 1) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(i));
+                group.add(buttons.get(i));
+            }
+
+            buttons.add(new JRadioButton("No swap"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * buttons.size(), eventPanel.getWidth() / 2, eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                }
+            });
+            eventPanel.add(buttons.get(buttons.size()-1));
+            group.add(buttons.get(buttons.size()-1));
+
+            JButton button = new JButton("OK") {
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth() / 4, height * 7 / 9, eventPanel.getWidth() / 2, height / 9);
+                }
+            };
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (buttons.get(buttons.size()-1).isSelected()) nextStep();
+                    else {
+                        int n=0;
+                        for (int i = 0; i<buttons.size()-1; i++) {
+                            if (buttons.get(i).isSelected()) {
+                                n=i;
+                                break;
+                            }
+                        }
+                        for (JRadioButton b : buttons) b.setEnabled(false);
+                        textLabel.setText("Choose second card");
+
+                        ArrayList<JRadioButton> secondButtons = new ArrayList<>();
+                        ButtonGroup group1 = new ButtonGroup();
+                        for (int i = 1; i<road.size(); i++) {
+                            int finalI = i;
+                            secondButtons.add(new JRadioButton(road.get(finalI).toString()) {
+                                {
+                                    setFont(eventFont);
+                                    setBounds(eventPanel.getWidth() / 4, height * 4 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                                    setOpaque(true);
+                                    setBackground(new Color(3, 87, 30));
+                                    setForeground(new Color(245, 205, 76));
+                                    if (finalI == 1) setSelected(true);
+                                }
+                            });
+                            eventPanel.add(buttons.get(i));
+                            group1.add(buttons.get(i));
+                        }
+                        int finalN = n;
+                        button.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                for (int i = 0; i<secondButtons.size();i++) {
+                                    if (buttons.get(i).isSelected()) {
+                                        Collections.swap(road, finalN,i);
+                                        break;
+                                    }
+                                }
+                                nextStep();
+                            }
+                        });
+                        button.removeActionListener(this);
+                    }
+                }
+            });
+            eventPanel.add(button);
+
+            panel.add(eventPanel);
+            revalidate();
+            repaint();
+        } else textPanel("Not enough cards to swap");
+    }
+
     public void putCardDayPanel() {
         panel.remove(eventPanel);
 
