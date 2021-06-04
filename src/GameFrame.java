@@ -116,7 +116,6 @@ public class GameFrame extends JFrame {
         pathCardWidth = cardsPanel.getWidth()/9;
         pathCardHeight = pathCardWidth*3/2;
 
-        //adding a man
         manWidth=50;
         manHeight = 80;
         try {
@@ -131,7 +130,6 @@ public class GameFrame extends JFrame {
             man.setBounds(((cardsPanel.getWidth()-pathCardWidth*9)/2)+(pathCardWidth/2-manWidth/2), 5+(pathCardHeight/2-manHeight/2), manWidth, manHeight);
         }
         cardsPanel.add(man);
-        //for(int i=0;i<5;i++) moveMan(difficulty);
 
         JLabel path = null;
         if (difficulty==1) {
@@ -295,17 +293,20 @@ public class GameFrame extends JFrame {
                         new Hero(Hero.COMPASS,isabelle.isSelected()?"isabelle":"candido"));
                 drawStats();
 
+                ArrayList<Card> cs = (ArrayList<Card>) allCards.clone();
+                road.add(cs.get(4));
+                road.add(cs.get(8));
+                road.add(cs.get(9));
+                road.add(cs.get(15));
+                road.add(cs.get(25));
+                road.add(cs.get(34));
+
                 nextStep();
             }
         });
 
         panel.add(eventPanel);
 
-        /*addExpCard("Cards/card1.png");
-        addExpCard("Cards/card2.png");
-        addExpCard("Cards/card3.png");
-        removeExpCard("Cards/card1.png");
-        addExpCard("Cards/card4.png");*/
         Effect.setFrame(this);
 
     }
@@ -2550,7 +2551,7 @@ public class GameFrame extends JFrame {
 
     private final Font eventFont = new Font("Arial",Font.PLAIN,20);
 
-    private boolean day = true, cards = true;
+    private boolean day = true, cards = false;
 
     private int difficulty;
 
