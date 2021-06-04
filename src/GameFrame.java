@@ -891,7 +891,7 @@ public class GameFrame extends JFrame {
             };
             eventPanel.add(text1Label);
 
-            JLabel text2Label = new JLabel("HP of the character will be wasted instead"){
+            JLabel text2Label = new JLabel("HP of the character will be wasted"){
                 {
                     setFont(eventFont);
                     setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
@@ -920,7 +920,7 @@ public class GameFrame extends JFrame {
             eventPanel.add(button);
         }
         else {
-            JLabel text1Label = new JLabel("You don't have required tokens or character"){
+            JLabel text1Label = new JLabel("No required tokens or character"){
                 {
                     setFont(eventFont);
                     setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
@@ -932,7 +932,7 @@ public class GameFrame extends JFrame {
             };
             eventPanel.add(text1Label);
 
-            JLabel text2Label = new JLabel("2 HP of the character will be wasted instead"){
+            JLabel text2Label = new JLabel("2 HPs will be wasted instead"){
                 {
                     setFont(eventFont);
                     setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
@@ -1026,12 +1026,12 @@ public class GameFrame extends JFrame {
 
             ArrayList<JRadioButton> buttons = new ArrayList<>();
             ButtonGroup group = new ButtonGroup();
-            for (int i = 1; i < road.size(); i++) {
-                int finalI = i;
+            for (int i = 0; i < road.size()-1; i++) {
+                int finalI = i+1;
                 buttons.add(new JRadioButton(road.get(finalI).toString()) {
                     {
                         setFont(eventFont);
-                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * (finalI-1), eventPanel.getWidth() / 2, eventFont.getSize());
                         setOpaque(true);
                         setBackground(new Color(3, 87, 30));
                         setForeground(new Color(245, 205, 76));
@@ -1068,7 +1068,7 @@ public class GameFrame extends JFrame {
                         int n=0;
                         for (int i = 0; i<buttons.size()-1; i++) {
                             if (buttons.get(i).isSelected()) {
-                                n=i;
+                                n=i+1;
                                 break;
                             }
                         }
@@ -1077,28 +1077,39 @@ public class GameFrame extends JFrame {
 
                         ArrayList<JRadioButton> secondButtons = new ArrayList<>();
                         ButtonGroup group1 = new ButtonGroup();
-                        for (int i = 1; i<road.size(); i++) {
-                            int finalI = i;
-                            secondButtons.add(new JRadioButton(road.get(finalI).toString()) {
-                                {
-                                    setFont(eventFont);
-                                    setBounds(eventPanel.getWidth() / 4, height * 4 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
-                                    setOpaque(true);
-                                    setBackground(new Color(3, 87, 30));
-                                    setForeground(new Color(245, 205, 76));
-                                    if (finalI == 1) setSelected(true);
+                        for (int i = 0; i<road.size()-1; i++) {
+                            int finalI = i+1;
+                            if (finalI!=n) {
+                                int finalN1 = n;
+                                secondButtons.add(new JRadioButton(road.get(finalI).toString()) {
+                                    {
+                                        setFont(eventFont);
+                                        setBounds(eventPanel.getWidth() / 4, height * 4 / 9 + eventFont.getSize() * ((finalI< finalN1)?finalI:finalI-1), eventPanel.getWidth() / 2, eventFont.getSize());
+                                        setOpaque(true);
+                                        setBackground(new Color(3, 87, 30));
+                                        setForeground(new Color(245, 205, 76));
+                                        if (finalI == 1 || (finalN1==1 && finalI==2)) setSelected(true);
+                                    }
+                                });
+                                if (i<n) {
+                                    eventPanel.add(secondButtons.get(i));
+                                    group1.add(secondButtons.get(i));
+                                } else {
+                                    eventPanel.add(secondButtons.get(i-1));
+                                    group1.add(secondButtons.get(i-1));
                                 }
-                            });
-                            eventPanel.add(buttons.get(i));
-                            group1.add(buttons.get(i));
+                            }
                         }
                         int finalN = n;
                         button.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 for (int i = 0; i<secondButtons.size();i++) {
-                                    if (buttons.get(i).isSelected()) {
-                                        Collections.swap(road, finalN,i);
+                                    if (secondButtons.get(i).isSelected()) {
+                                        if (i+1>=finalN)
+                                            Collections.swap(road, finalN,i+2);
+                                        else
+                                            Collections.swap(road,finalN,i+1);
                                         break;
                                     }
                                 }
@@ -1106,6 +1117,8 @@ public class GameFrame extends JFrame {
                             }
                         });
                         button.removeActionListener(this);
+                        revalidate();
+                        repaint();
                     }
                 }
             });
@@ -1423,6 +1436,8 @@ public class GameFrame extends JFrame {
                     currentYellow=null;
                     currentRed=null;
                     currentBlue=null;
+                    drawStats();
+                    drawExpCard();
                     foodRemovePanel();
                 }
             }
