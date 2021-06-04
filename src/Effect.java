@@ -18,7 +18,15 @@ public class Effect {
         if (token==null) {
             if (effect >= 1 && effect <= 3) {
                 if (mode) {
-                    // Add effect
+                    switch (effect) {
+                        case 1:
+                            frame.healPanel();
+                            break;
+                        case 2:
+                            frame.addFood();
+                            frame.textPanel("Food added");
+                            break;
+                    }
                 } else {
                     // Remove effect
                 }
@@ -28,10 +36,12 @@ public class Effect {
         }
         else {
             if (mode) {
-                // Give token
+                frame.addToken(token);
+                frame.addExpCard("Cards/card" + frame.getCurrentCard().getNumber() + ".png");
+                frame.textPanel("Token added");
             }
             else {
-                // Remove token
+                frame.tokenRemovePanel(token.getTokens().get(0));
             }
         }
     }

@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.*;
 
 public class Token {
@@ -22,6 +21,8 @@ public class Token {
         for (Integer i : tokens) if (i==n) return true;
         return false;
     }
+
+    public ArrayList<Integer> getTokens() {return tokens;}
 
     public String toString() {
         String res ="Token for: ";

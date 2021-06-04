@@ -826,7 +826,7 @@ public class GameFrame extends JFrame {
                     switch (token) {
                         case Token.LEAF: setText("Choose token to give for leaf"); break;
                         case Token.TENT: setText("Choose token to give for tent"); break;
-                        case Token.COMPASS: setText("Choose token to give for token"); break;
+                        case Token.COMPASS: setText("Choose token to give for compass"); break;
                     }
                     setFont(eventFont);
                     setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
@@ -1121,7 +1121,7 @@ public class GameFrame extends JFrame {
             }
         }
         if (comCards!=3) {
-            buttons.add(new JRadioButton("Random card from deck"){
+            buttons.add(new JRadioButton("Deck card"){
                 {
                     setFont(eventFont);
                     setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * buttons.size(), eventPanel.getWidth() / 2, eventFont.getSize());
@@ -1280,11 +1280,201 @@ public class GameFrame extends JFrame {
             }
         }
         else {
+            boolean flag=true;
+            if (status==0) {
+                status++;
+                currentCard=road.get(0);
+                if (currentCard.getYellowEffects()!=null)currentYellow=(ArrayList<Effect>) currentCard.getYellowEffects().clone();
+                else currentYellow=null;
+                if (currentCard.getRedEffects()!=null) initRedEffectsPanel();
+                else {
+                    currentRed=null;
+                    if (currentCard.getBlueEffects()!=null) initBlueEffectsPanel();
+                    else currentBlue=null;
+                }
 
+            }
+            else {
+                if ((currentYellow == null || currentYellow.size() == 0) && (currentRed == null || currentRed.size() == 0) && (currentBlue == null || currentBlue.size() == 0)) {
+                    road.remove(0);
+                    if (road.size() != 0) {
+                        currentCard = road.get(0);
+                        if (currentCard.getYellowEffects() != null)
+                            currentYellow = (ArrayList<Effect>) currentCard.getYellowEffects().clone();
+                        else currentYellow = null;
+                        if (currentCard.getRedEffects() != null) initRedEffectsPanel();
+                        else {
+                            currentRed = null;
+                            if (currentCard.getBlueEffects() != null) initBlueEffectsPanel();
+                            else currentBlue = null;
+                        }
+                    } else {
+                        flag = false;
+                        if (day) day = false;
+                        else day = true;
+                        cards = true;
+                    }
+                }
+                if (flag) {
+                    if (currentYellow != null && currentYellow.size() != 0) {
+                        currentYellow.remove(0).doEffect();
+                    } else if (currentRed != null && currentRed.size() != 0) {
+                        currentRed.remove(0).doEffect();
+                    } else if (currentBlue != null && currentBlue.size() != 0) {
+                        currentBlue.remove(0).doEffect();
+                    }
+                } else nextStep();
+            }
         }
 
         drawHand();
         drawRoad();
+    }
+
+    private void initRedEffectsPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose red effect line"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<currentCard.getRedEffects().size(); i++) {
+            int finalI = i;
+            buttons.add(new JRadioButton("Line " + (finalI +1)){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    if (finalI ==0) setSelected(true);
+                }
+            });
+            eventPanel.add(buttons.get(i));
+            group.add(buttons.get(i));
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< currentCard.getRedEffects().size(); i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                currentRed=(ArrayList<Effect>) currentCard.getRedEffects().get(i).clone();
+                                break;
+                            }
+                        }
+                        if (currentCard.getBlueEffects()!=null) initBlueEffectsPanel();
+                        else {
+                            currentBlue=null;
+                            nextStep();
+                        }
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void initBlueEffectsPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose blue effect lines"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JCheckBox> buttons = new ArrayList<>();
+        for (int i = 0; i<currentCard.getBlueEffects().size(); i++) {
+            int finalI = i;
+            buttons.add(new JCheckBox("Line " + (finalI +1)){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                }
+            });
+            eventPanel.add(buttons.get(i));
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< currentCard.getBlueEffects().size(); i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                currentBlue.addAll(currentCard.getBlueEffects().get(i));
+                            }
+                        }
+                        nextStep();
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void getPanelOfEffect(Effect effect) {
+
     }
 
     private void checkDead() {
@@ -1298,7 +1488,7 @@ public class GameFrame extends JFrame {
         if (flag) new WinDialog(this,true,"Defeat","You've lost!").setVisible(true);
     }
 
-    private void addExpCard(String path){
+    public void addExpCard(String path){
         expCards.add(path);
         drawExpCard();
     }
@@ -2298,23 +2488,17 @@ public class GameFrame extends JFrame {
 
         return endDeck;
     }
-    private ArrayList<Hero> makeHeroes() {
-        ArrayList<Hero> heroes =new ArrayList<>();
 
-        Hero YNES = new Hero(Hero.LEAF,"ynes");
-        heroes.add(YNES);
-        Hero ROY = new Hero(Hero.LEAF,"roy");
-        heroes.add(ROY);
-        Hero BESSIE = new Hero(Hero.TENT,"bessie");
-        heroes.add(BESSIE);
-        Hero TEDDY = new Hero(Hero.TENT,"teddy");
-        heroes.add(TEDDY);
-        Hero CANDIDO = new Hero (Hero.COMPASS,"candido");
-        heroes.add(CANDIDO);
-        Hero ISABELLE = new Hero(Hero.COMPASS,"isabelle");
-        heroes.add(ISABELLE);
+    public void addFood() {
+        team.addFood();
+    }
 
-        return heroes;
+    public void addToken(Token token) {
+        team.addToken(token);
+    }
+
+    public Card getCurrentCard() {
+        return currentCard;
     }
 
     private final Random rand = new Random();
@@ -2323,11 +2507,15 @@ public class GameFrame extends JFrame {
 
     private boolean day = true, cards = true;
 
-    private int status = 0, comCards = 0,handCards = 0;
+    private int status = 0, comCards = 0, handCards = 0;
 
     private int pathOn = 1, pathLength = 9;
 
     private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight,manWidth,manHeight;
+
+    private Card currentCard;
+
+    private ArrayList<Effect> currentYellow = new ArrayList<>(), currentRed = new ArrayList<>(), currentBlue = new ArrayList<>();
 
     private final ArrayList<Card> allCards = makeCards();
 
