@@ -114,6 +114,24 @@ public class GameFrame extends JFrame {
 
         pathCardWidth = cardsPanel.getWidth()/9;
         pathCardHeight = pathCardWidth*3/2;
+
+        //adding a man
+        manWidth=50;
+        manHeight = 80;
+        try {
+            man = new JLabel(new ImageIcon(ImageIO.read(new File("silhouette.png")).getScaledInstance(manWidth,manHeight, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            new AnnounceDialog(GameFrame.this,true,"Error","File \"silhouette.png\" not found").setVisible(true);
+        }
+        if(difficulty==1) {
+            man.setBounds(((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth)+(pathCardWidth/2-manWidth/2), 5+(pathCardHeight/2-manHeight/2), manWidth, manHeight);
+        }
+        else {
+            man.setBounds(((cardsPanel.getWidth()-pathCardWidth*9)/2)+(pathCardWidth/2-manWidth/2), 5+(pathCardHeight/2-manHeight/2), manWidth, manHeight);
+        }
+        cardsPanel.add(man);
+        //for(int i=0;i<5;i++) moveMan(difficulty);
+
         JLabel path = null;
         if (difficulty==1) {
             for (int i = 0; i < 7; i++) {
@@ -288,6 +306,16 @@ public class GameFrame extends JFrame {
         removeExpCard("Cards/card1.png");
         addExpCard("Cards/card4.png");*/
         Effect.setFrame(this);
+
+    }
+    public void moveMan(int dif){
+        int x = man.getX();
+        x = x+((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth);
+        int xMax;
+        if(dif==1) xMax = (cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*8;
+        else xMax=(cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth*9;
+        if(x<xMax) man.setLocation(x, man.getY());
+
     }
 
     public void textPanel(String text) {
@@ -2299,7 +2327,7 @@ public class GameFrame extends JFrame {
 
     private int pathOn = 1, pathLength = 9;
 
-    private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
+    private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight,manWidth,manHeight;
 
     private final ArrayList<Card> allCards = makeCards();
 
@@ -2316,7 +2344,8 @@ public class GameFrame extends JFrame {
     private Team team;
 
     private JLabel heroLeafImage,heroLeafHP,heroTentImage,heroTentHP,heroCompassImage,heroCompassHP,
-            foodImage,foodLabel,bulletImage,bulletLabel,hpImage1,hpImage2,hpImage3,leaderImage,morningImage;
+            foodImage,foodLabel,bulletImage,bulletLabel,hpImage1,hpImage2,hpImage3,leaderImage,morningImage,man;
 
     private ArrayList<JLabel> handLabels = new ArrayList<>(),roadLabels=new ArrayList<>();
+
 }
