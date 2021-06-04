@@ -1365,18 +1365,22 @@ public class GameFrame extends JFrame {
         ButtonGroup group = new ButtonGroup();
         for (int i = 0; i<currentCard.getRedEffects().size(); i++) {
             int finalI = i;
-            buttons.add(new JRadioButton("Line " + (finalI +1)){
-                {
-                    setFont(eventFont);
-                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
-                    setOpaque(true);
-                    setBackground(new Color(3, 87, 30));
-                    setForeground(new Color(245, 205, 76));
-                    if (finalI ==0) setSelected(true);
-                }
-            });
-            eventPanel.add(buttons.get(i));
-            group.add(buttons.get(i));
+            if (!(currentCard.getRedEffects().get(finalI).get(0).getEffect()==Effect.BULLET &&
+                    currentCard.getRedEffects().get(finalI).get(0).getMode()==Effect.REMOVE &&
+                        team.getBullets()==0)) {
+                buttons.add(new JRadioButton("Line " + (finalI + 1)) {
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalI == 0) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(i));
+                group.add(buttons.get(i));
+            }
         }
 
         JButton button = new JButton("OK"){
@@ -1439,16 +1443,20 @@ public class GameFrame extends JFrame {
         ArrayList<JCheckBox> buttons = new ArrayList<>();
         for (int i = 0; i<currentCard.getBlueEffects().size(); i++) {
             int finalI = i;
-            buttons.add(new JCheckBox("Line " + (finalI +1)){
-                {
-                    setFont(eventFont);
-                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
-                    setOpaque(true);
-                    setBackground(new Color(3, 87, 30));
-                    setForeground(new Color(245, 205, 76));
-                }
-            });
-            eventPanel.add(buttons.get(i));
+            if (!(currentCard.getBlueEffects().get(finalI).get(0).getEffect()==Effect.BULLET &&
+                    currentCard.getBlueEffects().get(finalI).get(0).getMode()==Effect.REMOVE &&
+                    team.getBullets()==0)) {
+                buttons.add(new JCheckBox("Line " + (finalI + 1)) {
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                    }
+                });
+                eventPanel.add(buttons.get(i));
+            }
         }
 
         JButton button = new JButton("OK"){
@@ -1501,10 +1509,15 @@ public class GameFrame extends JFrame {
         drawExpCard();
     }
 
-    private void putCard() {
+    public void putCard() {
         if (deck.size()<1) fillDeck();
         road.add(deck.remove(0));
         sortCards(road);
+    }
+
+    public void removeLastRoadCard() {
+        if (road.size()==1) textPanel("Can't remove cards");
+        else road.remove(road.size()-1);
     }
 
     private void drawStats() {

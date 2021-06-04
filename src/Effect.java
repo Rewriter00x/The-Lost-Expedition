@@ -55,8 +55,20 @@ public class Effect {
                         frame.incPathOn();
                         frame.textPanel("You moved one step");
                         break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+                        frame.removeLastRoadCard();
+                        break;
+                    case 7:
+                        frame.putCard();
+                        frame.textPanel("Card added");
+                        break;
                 }
-                // Effects with cards, move or die
             }
         }
         else {
@@ -72,6 +84,10 @@ public class Effect {
     }
 
     public static void setFrame(GameFrame frame) {Effect.frame=frame;}
+
+    public int getEffect() {return effect;}
+
+    public boolean getMode() {return mode;}
 
     private int effect=-2;
     private boolean mode;
