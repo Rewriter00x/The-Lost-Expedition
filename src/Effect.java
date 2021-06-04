@@ -14,7 +14,7 @@ public class Effect {
         this.mode=mode;
     }
 
-    public void doEffect() { //TODO doing effects
+    public void doEffect() {
         if (token==null) {
             if (effect >= 1 && effect <= 3) {
                 if (mode) {
@@ -59,7 +59,7 @@ public class Effect {
                         frame.removeNextCard();
                         break;
                     case 5:
-                        frame.textPanel("Skip add here");
+                        frame.textPanel("Swap add here");
                         break;
                     case 6:
                         frame.removeLastRoadCard();
