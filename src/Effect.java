@@ -56,16 +56,16 @@ public class Effect {
                         frame.textPanel("You moved one step");
                         break;
                     case 4:
-
+                        frame.removeNextCard();
                         break;
                     case 5:
-
+                        frame.textPanel("Skip add here");
                         break;
                     case 6:
                         frame.removeLastRoadCard();
                         break;
                     case 7:
-                        frame.putCard();
+                        frame.putCardLast();
                         frame.textPanel("Card added");
                         break;
                 }

@@ -1281,7 +1281,8 @@ public class GameFrame extends JFrame {
             }
         }
         else {
-            boolean flag=true;
+
+            /*boolean flag=true;
             if (status==0) {
                 status++;
                 currentCard=road.get(0);
@@ -1293,40 +1294,41 @@ public class GameFrame extends JFrame {
                     if (currentCard.getBlueEffects()!=null) initBlueEffectsPanel();
                     else currentBlue=null;
                 }
-
             }
-            else {
-                if ((currentYellow == null || currentYellow.size() == 0) && (currentRed == null || currentRed.size() == 0) && (currentBlue == null || currentBlue.size() == 0)) {
-                    road.remove(0);
-                    if (road.size() != 0) {
-                        currentCard = road.get(0);
-                        if (currentCard.getYellowEffects() != null)
-                            currentYellow = (ArrayList<Effect>) currentCard.getYellowEffects().clone();
-                        else currentYellow = null;
-                        if (currentCard.getRedEffects() != null) initRedEffectsPanel();
-                        else {
-                            currentRed = null;
-                            if (currentCard.getBlueEffects() != null) initBlueEffectsPanel();
-                            else currentBlue = null;
-                        }
-                        nextStep();
-                    } else {
-                        flag = false;
-                        if (day) day = false;
-                        else day = true;
-                        cards = true;
-                    }
+            if ((currentYellow == null || currentYellow.size() == 0) && (currentRed == null || currentRed.size() == 0) && (currentBlue == null || currentBlue.size() == 0)) {
+                road.remove(0);
+                if (road.size() != 0) {
+                    currentCard = road.get(0);
+                       if (currentCard.getYellowEffects() != null)
+                           currentYellow = (ArrayList<Effect>) currentCard.getYellowEffects().clone();
+                       else currentYellow = null;
+                       if (currentCard.getRedEffects() != null) initRedEffectsPanel();
+                       else {
+                           currentRed = null;
+                           if (currentCard.getBlueEffects() != null) initBlueEffectsPanel();
+                           else currentBlue = null;
+                       }
+                } else {
+                    flag = false;
+                    if (day) day = false;
+                    else day = true;
+                    cards = true;
+                    status = 0;
+                    nextStep();
                 }
-                if (flag) {
-                    if (currentYellow != null && currentYellow.size() != 0) {
-                        currentYellow.remove(0).doEffect();
-                    } else if (currentRed != null && currentRed.size() != 0) {
-                        currentRed.remove(0).doEffect();
-                    } else if (currentBlue != null && currentBlue.size() != 0) {
-                        currentBlue.remove(0).doEffect();
-                    }
-                } else nextStep();
             }
+            if (flag) {
+                if (currentYellow != null && currentYellow.size() != 0) {
+                    currentYellow.remove(0).doEffect();
+                } else if (currentRed != null && currentRed.size() != 0) {
+                    currentRed.remove(0).doEffect();
+                } else if (currentBlue != null && currentBlue.size() != 0) {
+                    currentBlue.remove(0).doEffect();
+                }
+                else {
+                    System.out.println("How TF did we end up here?");
+                }
+            }*/
         }
 
         drawHand();
@@ -1515,9 +1517,25 @@ public class GameFrame extends JFrame {
         sortCards(road);
     }
 
+    public void putCardLast() {
+        if (deck.size()<1) fillDeck();
+        road.add(deck.remove(0));
+    }
+
     public void removeLastRoadCard() {
         if (road.size()==1) textPanel("Can't remove cards");
-        else road.remove(road.size()-1);
+        else {
+            road.remove(road.size()-1);
+            textPanel("Last card removed");
+        }
+    }
+
+    public void removeNextCard() {
+        if (road.size()==1) textPanel("Can't skip card");
+        else {
+            road.remove(1);
+            textPanel("Next card removed");
+        }
     }
 
     private void drawStats() {
@@ -1934,11 +1952,11 @@ public class GameFrame extends JFrame {
         yellowEffects = null;
         redEffects = new ArrayList<>();
         redEffects.add(new ArrayList<>());
-        redEffects.get(0).add(new Effect(Effect.BULLET, Effect.REMOVE));
-        redEffects.get(0).add(new Effect(Effect.FOOD, Effect.ADD));
+        redEffects.get(0).add(new Effect(Effect.FOOD, Effect.REMOVE));
+        redEffects.get(0).add(new Effect(new Token(Token.TENT), Effect.ADD));
         redEffects.add(new ArrayList<>());
         redEffects.get(1).add(new Effect(Effect.BULLET, Effect.REMOVE));
-        redEffects.get(1).add(new Effect(new Token(Token.COMPASS), Effect.ADD));
+        redEffects.get(1).add(new Effect(Effect.SWAP_CARD));
         redEffects.add(new ArrayList<>());
         redEffects.get(2).add(new Effect(Effect.HEALTH, Effect.REMOVE));
         redEffects.get(2).add(new Effect(Effect.HEALTH, Effect.REMOVE));
