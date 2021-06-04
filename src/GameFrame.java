@@ -1093,7 +1093,7 @@ public class GameFrame extends JFrame {
             }
         }
         if (comCards!=3) {
-            buttons.add(new JRadioButton("Random card from deck"){
+            buttons.add(new JRadioButton("Deck card"){
                 {
                     setFont(eventFont);
                     setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * buttons.size(), eventPanel.getWidth() / 2, eventFont.getSize());
@@ -1252,11 +1252,132 @@ public class GameFrame extends JFrame {
             }
         }
         else {
+            boolean flag=true;
+            if (status==0) {
+                status++;
+                currentCard=road.get(0);
+                currentYellow=(ArrayList<Effect>) currentCard.getYellowEffects().clone();
+                if (currentCard.getRedEffects()!=null) initRedEffectsPanel();
+                else {
+                    currentRed=null;
+                    if (currentCard.getBlueEffects()!=null) initBlueEffectsPanel();
+                    else currentBlue=null;
+                }
 
+            }
+            if ((currentYellow==null || currentYellow.size()==0) && (currentRed==null || currentRed.size()==0) && (currentBlue==null || currentBlue.size()==0)) {
+                road.remove(0);
+                if (road.size()!=0) {
+                    currentCard = road.get(0);
+                    currentYellow = (ArrayList<Effect>) currentCard.getYellowEffects().clone();
+                    initRedEffectsPanel();
+                }
+                else {
+                    flag = false;
+                    if (day) day = false;
+                    else day = true;
+                    cards=true;
+                }
+            }
+            if (flag) {
+                if (currentYellow!=null && currentYellow.size() != 0) {
+
+                }
+                else if (currentRed!=null && currentRed.size() != 0) {
+
+                }
+                else {
+
+                }
+            }
+            else nextStep();
         }
 
         drawHand();
         drawRoad();
+    }
+
+    private void initRedEffectsPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose red effect line"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<currentCard.getRedEffects().size(); i++) {
+            int finalI = i;
+            buttons.add(new JRadioButton("Line " + (finalI +1)){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    if (finalI ==0) setSelected(true);
+                }
+            });
+            eventPanel.add(buttons.get(i));
+            group.add(buttons.get(i));
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< currentCard.getRedEffects().size(); i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                currentRed=(ArrayList<Effect>) currentCard.getRedEffects().get(i).clone();
+                                break;
+                            }
+                        }
+                        if (currentCard.getBlueEffects()!=null) initBlueEffectsPanel();
+                        else {
+                            currentBlue=null;
+                            nextStep();
+                        }
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void initBlueEffectsPanel() {
+
+    }
+
+    private void getPanelOfEffect(Effect effect) {
+
     }
 
     private void checkDead() {
@@ -2295,9 +2416,15 @@ public class GameFrame extends JFrame {
 
     private boolean day = true, cards = true;
 
-    private int status = 0, comCards = 0,handCards = 0;
+    private int status = 0, comCards = 0, handCards = 0;
 
     private int pathOn = 1, pathLength = 9;
+
+    private Card currentCard;
+
+    private ArrayList<Effect> currentYellow = new ArrayList<>(), currentRed = new ArrayList<>(), currentBlue = new ArrayList<>();
+
+    //private ArrayList<ArrayList<Effect>> currentRed, currentBlue;
 
     private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
 
