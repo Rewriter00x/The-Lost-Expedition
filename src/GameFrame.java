@@ -1045,6 +1045,102 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    private void putCardNightPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose card to put"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        if (handCards!=3) {
+            for (int i = 0; i < hand.size(); i++) {
+                int finalI = i;
+                buttons.add(new JRadioButton(hand.get(finalI).toString()) {
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalI == 0) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(i));
+                group.add(buttons.get(i));
+            }
+            handCards++;
+        }
+        if (comCards!=3) {
+            buttons.add(new JRadioButton("Random card from deck"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * buttons.size(), eventPanel.getWidth() / 2, eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                }
+            });
+            if (buttons.size()==1) buttons.get(0).setSelected(true);
+            comCards++;
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< buttons.size(); i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                if (i==buttons.size()-1) {
+                                    if (deck.size()<1) fillDeck();
+                                    putCardNightPanel2(deck.remove(0));
+                                }
+                                else {
+                                    putCardNightPanel2(hand.remove(i));
+                                }
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void putCardNightPanel2(Card card) {
+
+    }
+
     private void nextStep() {
         drawStats();
         drawExpCard();
@@ -1086,7 +1182,16 @@ public class GameFrame extends JFrame {
                 }
             }
             else {
-                // Night cards
+                if (status==0) {
+                    putCardDayPanel();
+                    handCards=1;
+                    comCards=0;
+                    status++;
+                }
+                else {
+                    putCardNightPanel();
+                    if (status==4) {status=0; cards=false;}
+                }
             }
         }
         else {
@@ -1123,12 +1228,6 @@ public class GameFrame extends JFrame {
         if (deck.size()<1) fillDeck();
         road.add(deck.remove(0));
         sortCards(road);
-    }
-
-    private void putCard(boolean left) {
-        if (deck.size()<1) fillDeck();
-        if (left) road.add(0,deck.remove(0));
-        else road.add(deck.remove(0));
     }
 
     private void drawStats() {
