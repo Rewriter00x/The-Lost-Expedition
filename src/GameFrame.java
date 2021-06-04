@@ -1091,7 +1091,6 @@ public class GameFrame extends JFrame {
                 eventPanel.add(buttons.get(i));
                 group.add(buttons.get(i));
             }
-            handCards++;
         }
         if (comCards!=3) {
             buttons.add(new JRadioButton("Random card from deck"){
@@ -1104,41 +1103,98 @@ public class GameFrame extends JFrame {
                 }
             });
             if (buttons.size()==1) buttons.get(0).setSelected(true);
-            comCards++;
+            eventPanel.add(buttons.get(buttons.size()-1));
+            group.add(buttons.get(buttons.size()-1));
         }
 
         JButton button = new JButton("OK"){
             {
                 setFont(eventFont);
                 setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
-                addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        for (int i = 0; i< buttons.size(); i++)  {
-                            if (buttons.get(i).isSelected()) {
-                                if (i==buttons.size()-1) {
-                                    if (deck.size()<1) fillDeck();
-                                    putCardNightPanel2(deck.remove(0));
-                                }
-                                else {
-                                    putCardNightPanel2(hand.remove(i));
-                                }
-                                break;
-                            }
-                        }
-                    }
-                });
             }
         };
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Card card = null;
+                for (int i = 0; i< buttons.size(); i++)  {
+                    if (buttons.get(i).isSelected()) {
+                        if (i==buttons.size()-1) {
+                            if (deck.size()<1) fillDeck();
+                            card = deck.remove(0);
+                            comCards++;
+                        }
+                        else {
+                            card = hand.remove(i);
+                            handCards++;
+                        }
+                        break;
+                    }
+                }
+                panel.remove(eventPanel);
+                textLabel.setText("Choose where to put card");
+                for (JRadioButton b : buttons) b.setEnabled(false);
+                JRadioButton left = new JRadioButton("Left"){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 3 / 9, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        setSelected(true);
+                    }
+                };
+                eventPanel.add(left);
+
+                JRadioButton right = new JRadioButton("Right"){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 3 / 9 + eventFont.getSize(), eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                    }
+                };
+                eventPanel.add(right);
+
+                new ButtonGroup(){
+                    {
+                        add(left);
+                        add(right);
+                    }
+                };
+
+                JLabel cardLabel = null;
+                try {
+                    cardLabel = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/card" + card.getNumber()+".png")).getScaledInstance(eventPanel.getWidth()/2,eventPanel.getWidth()*3/4, Image.SCALE_SMOOTH)));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                cardLabel.setBounds(eventPanel.getWidth()/4,height*4/9,eventPanel.getWidth()/2,eventPanel.getWidth()*3/4);
+                eventPanel.add(cardLabel);
+
+                Card finalCard = card;
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (left.isSelected()) road.add(0,finalCard);
+                        else road.add(finalCard);
+                        nextStep();
+                    }
+                });
+
+                button.removeActionListener(this);
+
+                panel.add(eventPanel);
+                revalidate();
+                repaint();
+            }
+        });
         eventPanel.add(button);
 
         panel.add(eventPanel);
         revalidate();
         repaint();
-    }
-
-    private void putCardNightPanel2(Card card) {
-
     }
 
     private void nextStep() {
@@ -1190,12 +1246,13 @@ public class GameFrame extends JFrame {
                 }
                 else {
                     putCardNightPanel();
-                    if (status==4) {status=0; cards=false;}
+                    status++;
+                    if (status==6) {status=0; cards=false;}
                 }
             }
         }
         else {
-            // Going the path
+
         }
 
         drawHand();
