@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 
 public class Token {
@@ -20,6 +21,18 @@ public class Token {
     public boolean checkToken(int n) {
         for (Integer i : tokens) if (i==n) return true;
         return false;
+    }
+
+    public String toString() {
+        String res ="Token for: ";
+        for (Integer i : tokens) {
+            switch (i) {
+                case LEAF: res+= "leaf "; break;
+                case TENT: res+= "tent "; break;
+                case COMPASS: res+= "compass "; break;
+            }
+        }
+        return res;
     }
 
     private ArrayList<Integer> tokens = new ArrayList<>();

@@ -276,15 +276,6 @@ public class GameFrame extends JFrame {
                         new Hero(Hero.COMPASS,isabelle.isSelected()?"isabelle":"candido"));
                 drawStats();
 
-                fillHand();
-                drawHand();
-
-                road = new ArrayList<>();
-                road.add(deck.remove(0));
-                road.add(deck.remove(0));
-                sortCards(road);
-                drawRoad();
-
                 nextStep();
             }
         });
@@ -405,7 +396,114 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
-    public void hpPanel() {
+    public void healPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        if (!team.allOnMaxHPorDead()) {
+
+            JLabel textLabel = new JLabel("Choose who gains hp") {
+                {
+                    setFont(eventFont);
+                    setBounds(0, height / 9, eventPanel.getWidth(), eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i < 3; i++) {
+                if (team.getHero(i).isAlive() && !team.getHero(i).hpIsMax()) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getHero(i).getNAME()) {
+                        {
+                            setFont(eventFont);
+                            setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalN, eventPanel.getWidth() / 2, eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN == 0) setSelected(true);
+                        }
+                    });
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK") {
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth() / 4, height * 7 / 9, eventPanel.getWidth() / 2, height / 9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i < finalN1; i++) {
+                                if (buttons.get(i).isSelected()) {
+                                    team.getHero(buttons.get(i).getText()).heal();
+                                    break;
+                                }
+                            }
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else {
+            JLabel textLabel = new JLabel("Can't heal anyone"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    public void damegePanel() {
         panel.remove(eventPanel);
 
         eventPanel = new JPanel() {
@@ -433,8 +531,29 @@ public class GameFrame extends JFrame {
         };
         eventPanel.add(textLabel);
 
+        int n = 0;
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<3; i++) {
+            if (team.getHero(i).isAlive()) {
+                int finalN = n;
+                buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalN ==0) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(n));
+                group.add(buttons.get(n));
+                n++;
+            }
+        }
 
-
+        int finalN1 = n;
         JButton button = new JButton("OK"){
             {
                 setFont(eventFont);
@@ -442,6 +561,13 @@ public class GameFrame extends JFrame {
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< finalN1; i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                team.getHero(buttons.get(i).getText()).damage();
+                                break;
+                            }
+                        }
+                        checkDead();
                         nextStep();
                     }
                 });
@@ -454,26 +580,694 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
-    private void nextStep() { // TODO finish this
-        if (day) {
-            if (cards) {
+    public void killPanel() {
+        panel.remove(eventPanel);
 
-                if(road.size()==6) cards=false;
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose who dies"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        int n = 0;
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<3; i++) {
+            if (team.getHero(i).isAlive()) {
+                int finalN = n;
+                buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalN ==0) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(n));
+                group.add(buttons.get(n));
+                n++;
+            }
+        }
+
+        int finalN1 = n;
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< finalN1; i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                team.getHero(buttons.get(i).getText()).die();
+                                break;
+                            }
+                        }
+                        checkDead();
+                        nextStep();
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    public void foodRemovePanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        if (team.getFood()!=0) {
+            JLabel textLabel = new JLabel("Food will be removed"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            team.giveFood();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else {
+            JLabel text1Label = new JLabel("Missing food"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text1Label);
+
+            JLabel text2Label = new JLabel("Choose who looses hp"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text2Label);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i<3; i++) {
+                if (team.getHero(i).isAlive()) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                        {
+                            setFont(eventFont);
+                            setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN ==0) setSelected(true);
+                        }
+                    });
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i< finalN1; i++)  {
+                                if (buttons.get(i).isSelected()) {
+                                    team.getHero(buttons.get(i).getText()).damage();
+                                    break;
+                                }
+                            }
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    public void tokenRemovePanel(int token) {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        if (team.findToken(token)) {
+            JLabel textLabel = new JLabel("Choose token to give"){
+                {
+                    switch (token) {
+                        case Token.LEAF: setText("Choose token to give for leaf"); break;
+                        case Token.TENT: setText("Choose token to give for tent"); break;
+                        case Token.COMPASS: setText("Choose token to give for token"); break;
+                    }
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(textLabel);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ArrayList<Token> ts = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i<team.getTokens().size(); i++) {
+                if (team.getToken(i).checkToken(token)) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getToken(i).toString()){
+                        {
+                            setFont(eventFont);
+                            setBounds(0,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth(),eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN ==0) setSelected(true);
+                        }
+                    });
+                    ts.add(team.getToken(i));
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i< finalN1; i++)  {
+                                if (buttons.get(i).isSelected()) {
+                                    removeExpCard(expCards.get(team.getTokens().indexOf(ts.get(i))));
+                                    team.removeToken(ts.get(i));
+                                    break;
+                                }
+                            }
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else if (team.getHeroByToken(token).isAlive()) {
+            JLabel text1Label = new JLabel("You don't have required tokens"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text1Label);
+
+            JLabel text2Label = new JLabel("HP of the character will be wasted instead"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text2Label);
+
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            team.getHeroByToken(token).damage();
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+        else {
+            JLabel text1Label = new JLabel("You don't have required tokens or character"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text1Label);
+
+            JLabel text2Label = new JLabel("2 HP of the character will be wasted instead"){
+                {
+                    setFont(eventFont);
+                    setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                }
+            };
+            eventPanel.add(text2Label);
+
+            int n = 0;
+            ArrayList<JRadioButton> buttons = new ArrayList<>();
+            ButtonGroup group = new ButtonGroup();
+            for (int i = 0; i<3; i++) {
+                if (team.getHero(i).isAlive()) {
+                    int finalN = n;
+                    buttons.add(new JRadioButton(team.getHero(i).getNAME()){
+                        {
+                            setFont(eventFont);
+                            setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()*finalN,eventPanel.getWidth()/2,eventFont.getSize());
+                            setOpaque(true);
+                            setBackground(new Color(3, 87, 30));
+                            setForeground(new Color(245, 205, 76));
+                            if (finalN ==0) setSelected(true);
+                        }
+                    });
+                    eventPanel.add(buttons.get(n));
+                    group.add(buttons.get(n));
+                    n++;
+                }
+            }
+
+            int finalN1 = n;
+            JButton button = new JButton("OK"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                    addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i< finalN1; i++)  {
+                                if (buttons.get(i).isSelected()) {
+                                    team.getHero(buttons.get(i).getText()).damage();
+                                    team.getHero(buttons.get(i).getText()).damage();
+                                    break;
+                                }
+                            }
+                            checkDead();
+                            nextStep();
+                        }
+                    });
+                }
+            };
+            eventPanel.add(button);
+        }
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    public void putCardDayPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose card to put"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        for (int i = 0; i<hand.size(); i++) {
+            int finalI = i;
+            buttons.add(new JRadioButton(hand.get(finalI).toString()) {
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth()/4,height*2/9+eventFont.getSize()* finalI,eventPanel.getWidth()/2,eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                    if (finalI == 0) setSelected(true);
+                }
+            });
+            eventPanel.add(buttons.get(i));
+            group.add(buttons.get(i));
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+                addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for (int i = 0; i< buttons.size(); i++)  {
+                            if (buttons.get(i).isSelected()) {
+                                road.add(hand.remove(i));
+                                sortCards(road);
+                                break;
+                            }
+                        }
+                        nextStep();
+                    }
+                });
+            }
+        };
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void putCardNightPanel() {
+        panel.remove(eventPanel);
+
+        eventPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
+                } catch (IOException e) {
+                    new AnnounceDialog(GameFrame.this,true,"Error","File \"jungle.png\" not found").setVisible(true);
+                }
+            }
+        };
+        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
+        eventPanel.setLayout(null);
+
+        JLabel textLabel = new JLabel("Choose card to put"){
+            {
+                setFont(eventFont);
+                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
+                setOpaque(true);
+                setBackground(new Color(3, 87, 30));
+                setForeground(new Color(245, 205, 76));
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        };
+        eventPanel.add(textLabel);
+
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+        ButtonGroup group = new ButtonGroup();
+        if (handCards!=3) {
+            for (int i = 0; i < hand.size(); i++) {
+                int finalI = i;
+                buttons.add(new JRadioButton(hand.get(finalI).toString()) {
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * finalI, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        if (finalI == 0) setSelected(true);
+                    }
+                });
+                eventPanel.add(buttons.get(i));
+                group.add(buttons.get(i));
+            }
+        }
+        if (comCards!=3) {
+            buttons.add(new JRadioButton("Random card from deck"){
+                {
+                    setFont(eventFont);
+                    setBounds(eventPanel.getWidth() / 4, height * 2 / 9 + eventFont.getSize() * buttons.size(), eventPanel.getWidth() / 2, eventFont.getSize());
+                    setOpaque(true);
+                    setBackground(new Color(3, 87, 30));
+                    setForeground(new Color(245, 205, 76));
+                }
+            });
+            if (buttons.size()==1) buttons.get(0).setSelected(true);
+            eventPanel.add(buttons.get(buttons.size()-1));
+            group.add(buttons.get(buttons.size()-1));
+        }
+
+        JButton button = new JButton("OK"){
+            {
+                setFont(eventFont);
+                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
+            }
+        };
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Card card = null;
+                for (int i = 0; i< buttons.size(); i++)  {
+                    if (buttons.get(i).isSelected()) {
+                        if (i==buttons.size()-1) {
+                            if (deck.size()<1) fillDeck();
+                            card = deck.remove(0);
+                            comCards++;
+                        }
+                        else {
+                            card = hand.remove(i);
+                            handCards++;
+                        }
+                        break;
+                    }
+                }
+                panel.remove(eventPanel);
+                textLabel.setText("Choose where to put card");
+                for (JRadioButton b : buttons) b.setEnabled(false);
+                JRadioButton left = new JRadioButton("Left"){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 3 / 9, eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                        setSelected(true);
+                    }
+                };
+                eventPanel.add(left);
+
+                JRadioButton right = new JRadioButton("Right"){
+                    {
+                        setFont(eventFont);
+                        setBounds(eventPanel.getWidth() / 4, height * 3 / 9 + eventFont.getSize(), eventPanel.getWidth() / 2, eventFont.getSize());
+                        setOpaque(true);
+                        setBackground(new Color(3, 87, 30));
+                        setForeground(new Color(245, 205, 76));
+                    }
+                };
+                eventPanel.add(right);
+
+                new ButtonGroup(){
+                    {
+                        add(left);
+                        add(right);
+                    }
+                };
+
+                JLabel cardLabel = null;
+                try {
+                    cardLabel = new JLabel(new ImageIcon(ImageIO.read(new File("Cards/card" + card.getNumber()+".png")).getScaledInstance(eventPanel.getWidth()/2,eventPanel.getWidth()*3/4, Image.SCALE_SMOOTH)));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                cardLabel.setBounds(eventPanel.getWidth()/4,height*4/9,eventPanel.getWidth()/2,eventPanel.getWidth()*3/4);
+                eventPanel.add(cardLabel);
+
+                Card finalCard = card;
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (left.isSelected()) road.add(0,finalCard);
+                        else road.add(finalCard);
+                        nextStep();
+                    }
+                });
+
+                button.removeActionListener(this);
+
+                panel.add(eventPanel);
+                revalidate();
+                repaint();
+            }
+        });
+        eventPanel.add(button);
+
+        panel.add(eventPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void nextStep() {
+        drawStats();
+        drawExpCard();
+        checkEnd();
+        if (cards) {
+            if (day) {
+                switch (status) {
+                    case 0:
+                        status++;
+
+                        fillHand();
+                        drawHand();
+
+                        putCard();
+                        putCard();
+                        drawRoad();
+
+                        textPanel("Two cards were put on deck");
+                        break;
+                    case 1:
+                    case 2:
+                        status++;
+
+                        putCardDayPanel();
+                        break;
+
+                    case 3:
+                        status++;
+
+                        putCard();
+
+                        textPanel("One card was put on desk");
+                        break;
+                    case 4:
+                        status=0;
+                        putCardDayPanel();
+                        cards=false;
+                        break;
+                }
             }
             else {
-
-                if (road.size()==0) {cards=true; day = false;}
+                if (status==0) {
+                    putCardDayPanel();
+                    handCards=1;
+                    comCards=0;
+                    status++;
+                }
+                else {
+                    putCardNightPanel();
+                    status++;
+                    if (status==6) {status=0; cards=false;}
+                }
             }
         }
         else {
-            if (cards) {
 
-                if(road.size()==6) cards=false;
-            }
-            else {
-                if (road.size()==0) {cards=true; day = true;}
-            }
         }
+
+        drawHand();
+        drawRoad();
+    }
+
+    private void checkDead() {
+        for (int i = 0; i<3; i++) if (!team.getHero(i).isAlive() && team.getHero(i).getNAME().charAt(team.getHero(i).getNAME().length()-1)!='d') team.getHero(i).setNAME(team.getHero(i).getNAME()+"_dead");
+    }
+
+    private void checkEnd() {
+        boolean flag = true;
+        if (pathOn==pathLength) new WinDialog(this,true,"Victory","You've won!").setVisible(true);
+        for (int i = 0; i<3; i++) if (team.getHero(i).isAlive()) {flag = false; break;}
+        if (flag) new WinDialog(this,true,"Defeat","You've lost!").setVisible(true);
     }
 
     private void addExpCard(String path){
@@ -485,6 +1279,12 @@ public class GameFrame extends JFrame {
             if(expCards.get(i).equals(path)) expCards.remove(i);
         }
         drawExpCard();
+    }
+
+    private void putCard() {
+        if (deck.size()<1) fillDeck();
+        road.add(deck.remove(0));
+        sortCards(road);
     }
 
     private void drawStats() {
@@ -700,23 +1500,27 @@ public class GameFrame extends JFrame {
 
     }
     private void drawExpCard(){
-        expPanel.removeAll();
-        int expWidth = (this.getWidth()- cardsPanel.getWidth())/(2*expCards.size());
-        int expHeight=expWidth*3/2;
-        if(expHeight>this.getHeight()-(height/2+210)){ expHeight=this.getHeight()-(height/2+210);expWidth=expHeight*2/3;}
-        for(int i=0;i<expCards.size();i++){
-            String path=expCards.get(i);
-            try {
-                JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth, expHeight, Image.SCALE_SMOOTH)));
-               card.setBounds(expWidth * i, 0, expWidth, expHeight);
-                expPanel.add(card);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (expCards.size()>0) {
+            expPanel.removeAll();
+            int expWidth = (this.getWidth() - cardsPanel.getWidth()) / (2 * expCards.size());
+            int expHeight = expWidth * 3 / 2;
+            if (expHeight > this.getHeight() - (height / 2 + 210)) {
+                expHeight = this.getHeight() - (height / 2 + 210);
+                expWidth = expHeight * 2 / 3;
             }
+            for (int i = 0; i < expCards.size(); i++) {
+                String path = expCards.get(i);
+                try {
+                    JLabel card = new JLabel(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(expWidth, expHeight, Image.SCALE_SMOOTH)));
+                    card.setBounds(expWidth * i, 0, expWidth, expHeight);
+                    expPanel.add(card);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            expPanel.revalidate();
+            expPanel.repaint();
         }
-        expPanel.revalidate();
-        expPanel.repaint();
-
     }
     private void fillCards() {
         deck = fillDeck();
@@ -728,7 +1532,7 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        // TODO playable init
+        if (playable.size()==0) ;// TODO playable init
         ArrayList<Card> endDeck = new ArrayList<>();
         while (playable.size()>0) {
             int n = rand.nextInt(playable.size());
@@ -1491,9 +2295,9 @@ public class GameFrame extends JFrame {
 
     private boolean day = true, cards = true;
 
-    private int status = 0;
+    private int status = 0, comCards = 0,handCards = 0;
 
-    private int pathLength = 9;
+    private int pathOn = 1, pathLength = 9;
 
     private int heroCardWidth, heroCardHeight, smallTokenSize, bigTokenSize, pathCardWidth, pathCardHeight, handCardWidth, handCardHeight, roadCardWidth, roadCardHeight;
 
@@ -1501,7 +2305,7 @@ public class GameFrame extends JFrame {
 
     private ArrayList<String> expCards= new ArrayList<>();
 
-    private ArrayList<Card> playable=(ArrayList<Card>)allCards.clone(), deck = fillDeck(),hand,road;
+    private ArrayList<Card> playable=(ArrayList<Card>)allCards.clone(), deck = fillDeck(),hand,road = new ArrayList<>();
 
     private final int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
