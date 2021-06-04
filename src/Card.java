@@ -19,6 +19,10 @@ public class Card {
         }
     }
 
+    public ArrayList<Effect> getYellowEffects() {return yellowEffects;}
+    public ArrayList<ArrayList<Effect>> getRedEffects() {return redEffects;}
+    public ArrayList<ArrayList<Effect>> getBlueEffects() {return blueEffects;}
+
     public int getNumber() { return number; }
 
     public String toString() {
