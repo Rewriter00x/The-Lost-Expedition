@@ -26,11 +26,36 @@ public class Effect {
                             frame.addFood();
                             frame.textPanel("Food added");
                             break;
+                        case 3:
+                            frame.addBullet();
+                            frame.textPanel("Bullet added");
+                            break;
                     }
                 } else {
-                    // Remove effect
+                    switch (effect) {
+                        case 1:
+                            frame.damegePanel();
+                            break;
+                        case 2:
+                            frame.foodRemovePanel();
+                            break;
+                        case 3:
+                            frame.removeBullet();
+                            frame.textPanel("Bullet removed");
+                            break;
+                    }
                 }
             } else {
+                switch (effect) {
+                    case -1:
+                        frame.killPanel();
+                        break;
+                    case 0:
+                        frame.moveMan();
+                        frame.incPathOn();
+                        frame.textPanel("You moved one step");
+                        break;
+                }
                 // Effects with cards, move or die
             }
         }

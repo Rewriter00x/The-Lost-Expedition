@@ -1309,6 +1309,7 @@ public class GameFrame extends JFrame {
                             if (currentCard.getBlueEffects() != null) initBlueEffectsPanel();
                             else currentBlue = null;
                         }
+                        nextStep();
                     } else {
                         flag = false;
                         if (day) day = false;
@@ -1482,7 +1483,7 @@ public class GameFrame extends JFrame {
         for (int i = 0; i<3; i++) if (!team.getHero(i).isAlive() && team.getHero(i).getNAME().charAt(team.getHero(i).getNAME().length()-1)!='d') team.getHero(i).setNAME(team.getHero(i).getNAME()+"_dead");
     }
 
-    private void checkEnd() {
+    public void checkEnd() {
         boolean flag = true;
         if (pathOn==pathLength) new WinDialog(this,true,"Victory","You've won!").setVisible(true);
         for (int i = 0; i<3; i++) if (team.getHero(i).isAlive()) {flag = false; break;}
@@ -2500,6 +2501,18 @@ public class GameFrame extends JFrame {
 
     public Card getCurrentCard() {
         return currentCard;
+    }
+
+    public void incPathOn() {
+        pathOn++;
+    }
+
+    public void addBullet() {
+        team.addBullet();
+    }
+
+    public void removeBullet() {
+        team.giveBullets();
     }
 
     private final Random rand = new Random();
