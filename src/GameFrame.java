@@ -1289,11 +1289,11 @@ public class GameFrame extends JFrame {
                 }
                 if (flag) {
                     if (currentYellow != null && currentYellow.size() != 0) {
-                        getPanelOfEffect(currentYellow.get(0));
+                        currentYellow.remove(0).doEffect();
                     } else if (currentRed != null && currentRed.size() != 0) {
-                        getPanelOfEffect(currentRed.get(0));
+                        currentRed.remove(0).doEffect();
                     } else if (currentBlue != null && currentBlue.size() != 0) {
-                        getPanelOfEffect(currentBlue.get(0));
+                        currentBlue.remove(0).doEffect();
                     }
                 } else nextStep();
             }
