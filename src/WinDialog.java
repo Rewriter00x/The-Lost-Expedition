@@ -44,6 +44,7 @@ public class WinDialog extends JDialog {
         button.setFont(new Font("OCR A Extended", Font.PLAIN, 20));
         button.setBackground(new Color(130, 204, 217));
         button.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        button.setOpaque(true);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,6 +56,7 @@ public class WinDialog extends JDialog {
         button1.setFont(new Font("OCR A Extended", Font.PLAIN, 20));
         button1.setBackground(new Color(130, 204, 217));
         button1.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        button1.setOpaque(true);
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

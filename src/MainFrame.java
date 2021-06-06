@@ -65,6 +65,7 @@ public class MainFrame extends JFrame{
         SINGLE.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         SINGLE.setBackground(new Color(130, 204, 217));
         SINGLE.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        SINGLE.setOpaque(true);
         PANEL.add(SINGLE);
 
         MULTI.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
@@ -72,6 +73,7 @@ public class MainFrame extends JFrame{
         MULTI.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         MULTI.setBackground(new Color(130, 204, 217));
         MULTI.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        MULTI.setOpaque(true);
         PANEL.add(MULTI);
 
         HELP.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+20,WIDTH/4,HEIGHT/8);
@@ -79,6 +81,7 @@ public class MainFrame extends JFrame{
         HELP.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         HELP.setBackground(new Color(130, 204, 217));
         HELP.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        HELP.setOpaque(true);
         PANEL.add(HELP);
 
         EXIT.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/4-20,WIDTH/4,HEIGHT/8);
@@ -86,6 +89,7 @@ public class MainFrame extends JFrame{
         EXIT.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         EXIT.setBackground(new Color(130, 204, 217));
         EXIT.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        EXIT.setOpaque(true);
         PANEL.add(EXIT);
 
         SINGLE.addActionListener( new ActionListener(){
@@ -151,6 +155,7 @@ public class MainFrame extends JFrame{
         EASY.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         EASY.setBackground(new Color(130, 204, 217));
         EASY.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        EASY.setOpaque(true);
         PANEL.add(EASY);
 
         MEDIUM.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2-(HEIGHT/8),WIDTH/4,HEIGHT/8);
@@ -158,6 +163,7 @@ public class MainFrame extends JFrame{
         MEDIUM.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         MEDIUM.setBackground(new Color(130, 204, 217));
         MEDIUM.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        MEDIUM.setOpaque(true);
         PANEL.add(MEDIUM);
 
         HARD.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+20,WIDTH/4,HEIGHT/8);
@@ -165,6 +171,7 @@ public class MainFrame extends JFrame{
         HARD.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         HARD.setBackground(new Color(130, 204, 217));
         HARD.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        HARD.setOpaque(true);
         PANEL.add(HARD);
 
         BACK.setBounds(WIDTH/2-WIDTH/4/2,HEIGHT/2+HEIGHT/4-20,WIDTH/4,HEIGHT/8);
@@ -172,6 +179,7 @@ public class MainFrame extends JFrame{
         BACK.setFont(new Font("OCR A Extended", Font.PLAIN, 15));
         BACK.setBackground(new Color(130, 204, 217));
         BACK.setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+        BACK.setOpaque(true);
         PANEL.add(BACK);
 
         EASY.addActionListener( new ActionListener(){

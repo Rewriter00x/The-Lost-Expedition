@@ -207,6 +207,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
             }
         };
         eventPanel.add(button);
@@ -371,6 +372,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -449,6 +451,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -486,6 +489,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -563,6 +567,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -646,6 +651,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -707,6 +713,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -773,6 +780,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -866,6 +874,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -915,6 +924,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -982,6 +992,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -1075,6 +1086,7 @@ public class GameFrame extends JFrame {
                     setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                     setBackground(new Color(130, 204, 217));
                     setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                    setOpaque(true);
                 }
             };
             button.addActionListener(new ActionListener() {
@@ -1203,6 +1215,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -1297,6 +1310,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
             }
         };
         button.addActionListener(new ActionListener() {
@@ -1551,6 +1565,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -1634,6 +1649,7 @@ public class GameFrame extends JFrame {
                 setFont(new Font("OCR A Extended", Font.PLAIN, 30));
                 setBackground(new Color(130, 204, 217));
                 setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
+                setOpaque(true);
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
