@@ -2732,7 +2732,7 @@ public class GameFrame extends JFrame {
 
     private final Random rand = new Random();
 
-    private final Font eventFont = new Font("OCR A Extended",Font.PLAIN,15);
+    private final Font eventFont = new Font("OCR A Extended",Font.PLAIN,18);
 
     private boolean day = true, cards = true;
 
