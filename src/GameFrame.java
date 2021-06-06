@@ -2,7 +2,7 @@ import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 
@@ -1892,6 +1892,10 @@ public class GameFrame extends JFrame {
             for (JLabel card : roadLabels) cardsPanel.remove(card);
             roadLabels = new ArrayList<>();
         }
+        if (road.size()*roadCardWidth>cardsPanel.getWidth()) {
+            roadCardWidth=cardsPanel.getWidth()/road.size();
+            roadCardHeight=roadCardWidth*3/2;
+        }
         for (int i = 0; i< road.size(); i++) {
             JLabel card = null;
             try {
@@ -1903,6 +1907,9 @@ public class GameFrame extends JFrame {
             cardsPanel.add(card);
             roadLabels.add(card);
         }
+        roadCardWidth=cardsPanel.getWidth()/7;
+        roadCardHeight=roadCardWidth*3/2;
+
         revalidate();
         repaint();
     }
@@ -1967,13 +1974,27 @@ public class GameFrame extends JFrame {
     }
 
     private ArrayList<Card> fillDeck() {
-        if (playable.size()==0) ;// TODO playable init
+        if (playable.size()==0) {
+            playable=(ArrayList<Card>) allCards.clone();
+            playable.removeAll(road);
+            playable.removeAll(hand);
+            playable.removeAll(expCards());
+        }
         ArrayList<Card> endDeck = new ArrayList<>();
         while (playable.size()>0) {
             int n = rand.nextInt(playable.size());
             endDeck.add(playable.remove(n));
         }
         return endDeck;
+    }
+
+    private ArrayList<Card> expCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        for (String s : expCards) {
+            int n = Integer.valueOf(s.substring(0,s.length()-4).substring(10));
+            cards.add(allCards.get(n-1));
+        }
+        return cards;
     }
 
     private ArrayList<Card> makeCards() {
