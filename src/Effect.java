@@ -42,7 +42,7 @@ public class Effect {
                 } else {
                     switch (effect) {
                         case 1:
-                            frame.damegePanel();
+                            frame.damagePanel();
                             break;
                         case 2:
                             frame.foodRemovePanel();

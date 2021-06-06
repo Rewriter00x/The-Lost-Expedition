@@ -6,6 +6,12 @@ import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Class GameFrame
+ * @author Burliai Danylo
+ * @author Khoroshun Oleksandra
+ * This class represents main frame on a single player game
+ */
 public class GameFrame extends JFrame {
     public GameFrame(int difficulty) {
         super();
@@ -312,6 +318,10 @@ public class GameFrame extends JFrame {
         Effect.setFrame(this);
 
     }
+
+    /**
+     * This method moves man one step
+     */
     public void moveMan(){
         int x = man.getX();
         x = x+((cardsPanel.getWidth()-pathCardWidth*9)/2+pathCardWidth);
@@ -322,6 +332,10 @@ public class GameFrame extends JFrame {
 
     }
 
+    /**
+     * This turns event panel to panel with text
+     * @param text text on panel
+     */
     public void textPanel(String text) {
         panel.remove(eventPanel);
 
@@ -372,68 +386,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
-    public void textPanel (String text1, String text2) {
-        panel.remove(eventPanel);
-
-        eventPanel = new JPanel() {
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                try {
-                    g.drawImage(ImageIO.read(new File("jungle.png")).getScaledInstance(panel.getWidth(),panel.getHeight(), Image.SCALE_SMOOTH),0,0,null);
-                } catch (IOException e) {
-                    new AnnounceDialog(GameFrame.this,true,"Error","File \"table.png\" not found").setVisible(true);
-                }
-            }
-        };
-        eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
-        eventPanel.setLayout(null);
-
-        JLabel text1Label = new JLabel(text1){
-            {
-                setFont(eventFont);
-                setBounds(0,height/9,eventPanel.getWidth(),eventFont.getSize());
-                setOpaque(true);
-                setBackground(new Color(3, 87, 30));
-                setForeground(new Color(245, 205, 76));
-                setHorizontalAlignment(SwingConstants.CENTER);
-            }
-        };
-        eventPanel.add(text1Label);
-
-        JLabel text2Label = new JLabel(text2){
-            {
-                setFont(eventFont);
-                setBounds(0,height/9+eventFont.getSize(),eventPanel.getWidth(),eventFont.getSize());
-                setOpaque(true);
-                setBackground(new Color(3, 87, 30));
-                setForeground(new Color(245, 205, 76));
-                setHorizontalAlignment(SwingConstants.CENTER);
-            }
-        };
-        eventPanel.add(text2Label);
-
-        JButton button = new JButton("OK"){
-            {
-                setFont(eventFont);
-                setBounds(eventPanel.getWidth()/4,height*7/9,eventPanel.getWidth()/2,height/9);
-                setFont(new Font("OCR A Extended", Font.PLAIN, 30));
-                setBackground(new Color(130, 204, 217));
-                setBorder(BorderFactory.createLineBorder(new Color(6, 63, 94)));
-                addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        nextStep();
-                    }
-                });
-            }
-        };
-        eventPanel.add(button);
-
-        panel.add(eventPanel);
-        revalidate();
-        repaint();
-    }
-
+    /**
+     * This turns event panel to panel to heal character
+     */
     public void healPanel() {
         panel.remove(eventPanel);
 
@@ -547,7 +502,10 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
-    public void damegePanel() {
+    /**
+     * This turns event panel to panel to damage character
+     */
+    public void damagePanel() {
         panel.remove(eventPanel);
 
         eventPanel = new JPanel() {
@@ -627,6 +585,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This turns event panel to panel to kill character
+     */
     public void killPanel() {
         panel.remove(eventPanel);
 
@@ -707,6 +668,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This turns event panel to panel taking food
+     */
     public void foodRemovePanel() {
         panel.remove(eventPanel);
 
@@ -832,6 +796,10 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This turns event panel to panel removing token
+     * @param token token to remove
+     */
     public void tokenRemovePanel(int token) {
         panel.remove(eventPanel);
 
@@ -1038,6 +1006,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This turns event panel to panel which can swap cards
+     */
     public void swapCardsPanel() {
         if (road.size()>2) {
             panel.remove(eventPanel);
@@ -1176,6 +1147,9 @@ public class GameFrame extends JFrame {
         } else textPanel("Not enough cards to swap");
     }
 
+    /**
+     * This turns event panel to panel for putting cards on day
+     */
     public void putCardDayPanel() {
         panel.remove(eventPanel);
 
@@ -1251,6 +1225,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This turns event panel to panel for putting cards on night
+     */
     private void putCardNightPanel() {
         panel.remove(eventPanel);
 
@@ -1329,7 +1306,7 @@ public class GameFrame extends JFrame {
                 for (int i = 0; i< buttons.size(); i++)  {
                     if (buttons.get(i).isSelected()) {
                         if (i==buttons.size()-1 && comCards<3) {
-                            if (deck.size()<1) fillDeck();
+                            if (deck.size()<1) deck = fillDeck();
                             card = deck.remove(0);
                             comCards++;
                         }
@@ -1406,6 +1383,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * Method that turns event panel into panel of next effect
+     */
     private void nextStep() {
         drawStats();
         drawExpCard();
@@ -1511,6 +1491,9 @@ public class GameFrame extends JFrame {
         drawRoad();
     }
 
+    /**
+     * This turns event panel to panel to choose red effects
+     */
     private void initRedEffectsPanel() {
         panel.remove(eventPanel);
 
@@ -1594,6 +1577,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This turns event panel to panel to choose blue effects
+     */
     private void initBlueEffectsPanel() {
         panel.remove(eventPanel);
 
@@ -1669,14 +1655,16 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
-    private void getPanelOfEffect(Effect effect) {
-
-    }
-
+    /**
+     * This checks if some of characters died and marks them
+     */
     private void checkDead() {
         for (int i = 0; i<3; i++) if (!team.getHero(i).isAlive() && team.getHero(i).getNAME().charAt(team.getHero(i).getNAME().length()-1)!='d') team.getHero(i).setNAME(team.getHero(i).getNAME()+"_dead");
     }
 
+    /**
+     * This checks if game ended with win or loss
+     */
     public void checkEnd() {
         boolean flag = true;
         if (pathOn==pathLength) new WinDialog(this,true,"Victory","You've won!").setVisible(true);
@@ -1684,10 +1672,19 @@ public class GameFrame extends JFrame {
         if (flag) new WinDialog(this,true,"Defeat","You've lost!").setVisible(true);
     }
 
+    /**
+     * This adds experience cards on special panel
+     * @param path path to card (image)
+     */
     public void addExpCard(String path){
         expCards.add(path);
         drawExpCard();
     }
+
+    /**
+     * This adds experience cards on special panel
+     * @param path path to card (image)
+     */
     private void removeExpCard(String path){
         for(int i=0;i<expCards.size();i++){
             if(expCards.get(i).equals(path)) expCards.remove(i);
@@ -1695,17 +1692,26 @@ public class GameFrame extends JFrame {
         drawExpCard();
     }
 
+    /**
+     * This puts random card on road and sorts road
+     */
     public void putCard() {
-        if (deck.size()<1) fillDeck();
+        if (deck.size()<1) deck = fillDeck();
         road.add(deck.remove(0));
         sortCards(road);
     }
 
+    /**
+     * This puts random card on road and does not sort
+     */
     public void putCardLast() {
-        if (deck.size()<1) fillDeck();
+        if (deck.size()<1) deck = fillDeck();
         road.add(deck.remove(0));
     }
 
+    /**
+     * This removes last card from road and calls textPanel
+     */
     public void removeLastRoadCard() {
         if (road.size()==1) textPanel("Can't remove cards");
         else {
@@ -1714,6 +1720,9 @@ public class GameFrame extends JFrame {
         }
     }
 
+    /**
+     * This removes next card on road
+     */
     public void removeNextCard() {
         if (road.size()==1) textPanel("Can't skip card");
         else {
@@ -1722,6 +1731,9 @@ public class GameFrame extends JFrame {
         }
     }
 
+    /**
+     * This draws stats panel
+     */
     private void drawStats() {
         panel.remove(statsPanel);
 
@@ -1887,6 +1899,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This draws road of cards
+     */
     private void drawRoad() {
         if (roadLabels.size()>0) {
             for (JLabel card : roadLabels) cardsPanel.remove(card);
@@ -1914,6 +1929,9 @@ public class GameFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * This draws cards in hand
+     */
     private void drawHand() {
          if (handLabels.size()>0) {
              for (JLabel card : handLabels) cardsPanel.remove(card);
@@ -1934,13 +1952,20 @@ public class GameFrame extends JFrame {
          repaint();
     }
 
+    /**
+     * This fills hand with cards
+     */
     private void fillHand() {
         hand = new ArrayList<>();
-        if (deck.size()<6) fillDeck();
+        if (deck.size()<6) deck = fillDeck();
         for (int i = 0; i<6; i++) hand.add(deck.remove(0));
         sortCards(hand);
 
     }
+
+    /**
+     * This draws experience cards
+     */
     private void drawExpCard(){
         if (expCards.size()>0) {
             expPanel.removeAll();
@@ -1964,15 +1989,20 @@ public class GameFrame extends JFrame {
             expPanel.repaint();
         }
     }
-    private void fillCards() {
-        deck = fillDeck();
-    }
 
+    /**
+     * This sorts array of cards
+     * @param cards array of cards
+     */
     private void sortCards(ArrayList<Card> cards) {
         int n = cards.size();
         for (int i = 0; i<n-1;i++) for (int j = 0; j < n-i-1; j++) if (cards.get(j).getNumber() > cards.get(j+1).getNumber()) Collections.swap(cards,j,j+1);
     }
 
+    /**
+     * This fills deck with cards
+     * @return filled deck
+     */
     private ArrayList<Card> fillDeck() {
         if (playable.size()==0) {
             playable=(ArrayList<Card>) allCards.clone();
@@ -1988,6 +2018,10 @@ public class GameFrame extends JFrame {
         return endDeck;
     }
 
+    /**
+     * Return arraylist of cards from arraylist of expCards
+     * @return
+     */
     private ArrayList<Card> expCards() {
         ArrayList<Card> cards = new ArrayList<>();
         for (String s : expCards) {
@@ -1997,6 +2031,10 @@ public class GameFrame extends JFrame {
         return cards;
     }
 
+    /**
+     * This makes all cards
+     * @return all cards
+     */
     private ArrayList<Card> makeCards() {
         // Making cards here
         ArrayList<Card> endDeck = new ArrayList<>();
