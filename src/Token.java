@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * Class token
+ * @author Burliai Danylo
+ * This class represents experience token
+ */
 public class Token {
 
     public Token(int token) {
@@ -17,11 +22,20 @@ public class Token {
         tokens.add(token3);
     }
 
-    public boolean checkToken(int n) {
-        for (Integer i : tokens) if (i==n) return true;
+    /**
+     * Checks of this token contains specifies experience
+     * @param token experience
+     * @return true if contains, else false
+     */
+    public boolean checkToken(int token) {
+        for (Integer i : tokens) if (i==token) return true;
         return false;
     }
 
+    /**
+     * Returns all tokens
+     * @return all tokens
+     */
     public ArrayList<Integer> getTokens() {return tokens;}
 
     public String toString() {

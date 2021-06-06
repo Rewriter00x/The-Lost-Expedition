@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * Class Card
+ * @author Burliai Danylo
+ * This class Represents card with number and effects
+ */
 public class Card {
 
     public Card(int number, ArrayList<Effect> yellowEffects, ArrayList<ArrayList<Effect>> redEffects, ArrayList<ArrayList<Effect>> blueEffects) {
@@ -9,20 +14,28 @@ public class Card {
         this.blueEffects=blueEffects;
     }
 
-    public void playCard() {
-        if (yellowEffects!=null) for (Effect e : yellowEffects) e.doEffect();
-        int n=0;// get number of red line
-        if (redEffects!=null) for (Effect e: redEffects.get(0)) e.doEffect();
-        if (blueEffects!=null) {
-            n=0; // get number of blue line (n==-1 is no blue effect)
-            if (n!=-1) for (Effect e: blueEffects.get(0)) e.doEffect();
-        }
-    }
-
+    /**
+     * Returns yellow effects
+     * @return yellow effects
+     */
     public ArrayList<Effect> getYellowEffects() {return yellowEffects;}
+
+    /**
+     * Returns red effects
+     * @return red effects
+     */
     public ArrayList<ArrayList<Effect>> getRedEffects() {return redEffects;}
+
+    /**
+     * Returns blue effects
+     * @return blue effects
+     */
     public ArrayList<ArrayList<Effect>> getBlueEffects() {return blueEffects;}
 
+    /**
+     * Returns card number
+     * @return card number
+     */
     public int getNumber() { return number; }
 
     public String toString() {

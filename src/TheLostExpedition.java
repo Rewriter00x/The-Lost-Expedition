@@ -1,5 +1,11 @@
 import java.awt.*;
 
+/**
+ * Game The Lost Expedition
+ * @author Burliai Danylo
+ * @author Khoroshun Oleksandra
+ * This is an acurate simulation of tabletop "The Lost Expedition"
+ */
 public class TheLostExpedition {
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();

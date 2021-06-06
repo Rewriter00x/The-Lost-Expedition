@@ -1,11 +1,16 @@
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.*;
+import java.io.*;
 
+/**
+ * Class WinDialog
+ * @author Burliai Danylo
+ * @author Khoroshun Oleksandra
+ * This class is a dialog window telling about win or loss
+ */
 public class WinDialog extends JDialog {
     public WinDialog(Frame frame, boolean modal, String title, String labelText) {
         super(frame, modal);

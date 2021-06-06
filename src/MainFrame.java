@@ -5,7 +5,11 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 
-
+/**
+ * Class MainFrame
+ * @author Khoroshun Oleksandra
+ * This class is a main menu
+ */
 public class MainFrame extends JFrame{
     public MainFrame(){
         super();

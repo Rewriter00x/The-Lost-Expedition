@@ -1,3 +1,8 @@
+/**
+ * Class effect
+ * @author Burliai Danylo
+ * This class represents card effect and does something according to it
+ */
 public class Effect {
 
     public Effect(int effect) {
@@ -14,6 +19,9 @@ public class Effect {
         this.mode=mode;
     }
 
+    /**
+     * Does this effect
+     */
     public void doEffect() {
         if (token==null) {
             if (effect >= 1 && effect <= 3) {
@@ -83,10 +91,22 @@ public class Effect {
         }
     }
 
+    /**
+     * Sets frame to cooperate with
+     * @param frame frame to cooperate with
+     */
     public static void setFrame(GameFrame frame) {Effect.frame=frame;}
 
+    /**
+     * Returns effect number
+     * @return effect number
+     */
     public int getEffect() {return effect;}
 
+    /**
+     * Returns mode
+     * @return mode
+     */
     public boolean getMode() {return mode;}
 
     private int effect=-2;

@@ -450,7 +450,7 @@ public class GameFrame extends JFrame {
         eventPanel.setBounds(cardsPanel.getWidth()+cardsPanel.getX(),0,panel.getWidth()-cardsPanel.getWidth()-cardsPanel.getX(),height);
         eventPanel.setLayout(null);
 
-        if (!team.allOnMaxHPorDead()) {
+        if (!team.allAliveOnMaxHP()) {
 
             JLabel textLabel = new JLabel("Choose who gains hp") {
                 {
