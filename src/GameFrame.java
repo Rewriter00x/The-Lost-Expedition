@@ -1538,6 +1538,7 @@ public class GameFrame extends JFrame {
 
         ArrayList<JRadioButton> buttons = new ArrayList<>();
         ButtonGroup group = new ButtonGroup();
+        int n = 0;
         for (int i = 0; i<currentCard.getRedEffects().size(); i++) {
             int finalI = i;
             if (!(currentCard.getRedEffects().get(finalI).get(0).getEffect()==Effect.BULLET &&
@@ -1550,11 +1551,12 @@ public class GameFrame extends JFrame {
                         setOpaque(true);
                         setBackground(new Color(3, 87, 30));
                         setForeground(new Color(245, 205, 76));
-                        if (finalI == 0) setSelected(true);
+                        if (buttons.size()==0) setSelected(true);
                     }
                 });
-                eventPanel.add(buttons.get(i));
-                group.add(buttons.get(i));
+                eventPanel.add(buttons.get(n));
+                group.add(buttons.get(n));
+                n++;
             }
         }
 
@@ -1571,8 +1573,7 @@ public class GameFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         for (int i = 0; i< currentCard.getRedEffects().size(); i++)  {
                             if (buttons.get(i).isSelected()) {
-                                currentRed = new ArrayList<>();
-                                currentRed=(ArrayList<Effect>) currentCard.getRedEffects().get(i).clone();
+                                currentRed=(ArrayList<Effect>) currentCard.getRedEffects().get(Integer.valueOf(buttons.get(i).getText().substring(5))-1).clone();
                                 break;
                             }
                         }
@@ -1624,6 +1625,7 @@ public class GameFrame extends JFrame {
         eventPanel.add(textLabel);
 
         ArrayList<JCheckBox> buttons = new ArrayList<>();
+        int n = 0;
         for (int i = 0; i<currentCard.getBlueEffects().size(); i++) {
             int finalI = i;
             if (!(currentCard.getBlueEffects().get(finalI).get(0).getEffect()==Effect.BULLET &&
@@ -1638,7 +1640,8 @@ public class GameFrame extends JFrame {
                         setForeground(new Color(245, 205, 76));
                     }
                 });
-                eventPanel.add(buttons.get(i));
+                eventPanel.add(buttons.get(n));
+                n++;
             }
         }
 
@@ -1656,7 +1659,7 @@ public class GameFrame extends JFrame {
                         for (int i = 0; i< currentCard.getBlueEffects().size(); i++)  {
                             if (buttons.get(i).isSelected()) {
                                 currentBlue = new ArrayList<>();
-                                currentBlue.addAll(currentCard.getBlueEffects().get(i));
+                                currentBlue.addAll(currentCard.getBlueEffects().get(Integer.valueOf(buttons.get(i).getText().substring(5))-1));
                             }
                         }
                         nextStep();
